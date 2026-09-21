@@ -83,6 +83,19 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
   background: linear-gradient(90deg, transparent, rgba(255,255,255,.8), transparent); }
 .hero h1 { margin: 0 0 8px; font-size: 1.65rem; }
 .hero p { margin: 0; color: var(--muted); font-style: italic; }
+.plan { background: var(--surface); border: 1px solid var(--card-border); border-radius: 20px;
+  box-shadow: var(--shadow-md), var(--inner-light); padding: 18px 20px 10px; margin: 18px 0; position: relative; overflow: hidden; }
+.plan::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--progress-grad); }
+.plan-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+.plan-title { font-size: 1.18rem; font-weight: 800; }
+.plan-week { color: var(--muted); font-size: .85rem; }
+.plan-item { display: flex; align-items: baseline; gap: 10px; padding: 9px 0; border-top: 1px solid var(--card-border); flex-wrap: wrap; }
+.plan-day { font-weight: 800; color: var(--acc); min-width: 120px; }
+.plan-task { flex: 1; min-width: 160px; }
+.plan-item.later .plan-day { color: var(--muted); }
+.plan-item.later { opacity: .8; }
+.plan-item.past { color: var(--past-ink); }
+.plan-item.past .plan-task { text-decoration: line-through; }
 .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin: 18px 0; }
 .kpi { background: var(--surface-kpi); border: 1px solid var(--card-border); border-radius: 18px;
   box-shadow: var(--shadow-md), var(--inner-light); padding: 16px 18px; text-align: center;
@@ -164,7 +177,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v3.4 · 2026</span>
+<span class="bb-ver">v3.5 · 2026</span>
 <a class="bb-link" href="recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
 </div></footer>
 <script>
@@ -223,6 +236,14 @@ var MOIS_FR = ["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept
 var MONTHS_EN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 var JOURS_FR = ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
 var DAYS_EN = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+var PLAN = [
+  { date:"2026-09-15", type:"Live", fr:"Live Studi — Terminal & navigateur", en:"Studi live — Terminal & browser" },
+  { date:"2026-09-16", type:"Cours", fr:"Cours — Réussir ma formation DWWM", en:"Course — Succeeding in my DWWM training" },
+  { date:"2026-09-17", type:"Cours", fr:"Cours — Les fondamentaux du développement", en:"Course — Development fundamentals" },
+  { date:"2026-09-18", type:"Révision", fr:"Révision — Bilan de semaine", en:"Review — Weekly recap" },
+  { date:"2026-09-22", type:"Live", fr:"Live Studi — Projet & gestionnaires de paquets", en:"Studi live — Project & package managers" }
+];
+var TYPE_ICONS = { "Cours":"📘", "Live":"🔴", "Révision":"🔄", "Dossier":"📁", "Exercice":"✏️", "Autre":"📌" };
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 function parse(d){ return new Date(d); }
 function dayDiff(d){ var t = new Date(); t.setHours(0,0,0,0); var x = new Date(d); x.setHours(0,0,0,0); return Math.round((x - t) / 86400000); }
@@ -234,6 +255,45 @@ function render(){
   var h = "";
   h += '<div class="hero"><h1>' + (fr ? "🗓️ Mon agenda des rendez-vous" : "🗓️ My appointment diary") + '</h1>';
   h += '<p>' + (fr ? "Les rendez-vous importants, rien d'autre." : "Important appointments, nothing else.") + '</p></div>';
+  var monday = new Date(); monday.setHours(0,0,0,0);
+  monday.setDate(monday.getDate() - (monday.getDay() + 6) % 7);
+  var today = new Date(); today.setHours(0,0,0,0);
+  var week = [], later = [];
+  PLAN.forEach(function(p){
+    var d = new Date(p.date + "T00:00");
+    var endOfWeek = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + 7);
+    if (d >= monday && d < endOfWeek) week.push(p);
+    else if (d > today) later.push(p);
+  });
+  week.sort(function(a,b){ return new Date(a.date) - new Date(b.date); });
+  later.sort(function(a,b){ return new Date(a.date) - new Date(b.date); });
+  h += '<div class="plan">';
+  h += '<div class="plan-head"><div class="plan-title">🎓 ' + (fr ? "Planning de cours" : "Course schedule") + '</div>';
+  h += '<div class="plan-week">' + (fr ? "Semaine du " : "Week of ") + monday.getDate() + " " + (fr ? MOIS_FR[monday.getMonth()] : MONTHS_EN[monday.getMonth()]) + '</div></div>';
+  if (week.length) {
+    week.forEach(function(p){
+      var d = new Date(p.date + "T00:00");
+      var diff = dayDiff(p.date);
+      h += '<div class="plan-item' + (diff < 0 ? " past" : "") + '">';
+      h += '<span class="plan-day">' + (fr ? JOURS_FR[d.getDay()] : DAYS_EN[d.getDay()]) + " " + d.getDate() + '</span>';
+      h += '<span class="plan-type">' + (TYPE_ICONS[p.type] || "📌") + '</span>';
+      h += '<span class="plan-task">' + esc(fr ? p.fr : p.en) + '</span>';
+      if (diff < 0) h += '<span class="badge done">✓ ' + (fr ? "Fait" : "Done") + '</span>';
+      else if (diff === 0) h += '<span class="badge soon">🔥 ' + (fr ? "Aujourd'hui !" : "Today!") + '</span>';
+      else if (diff === 1) h += '<span class="badge soon">⏳ ' + (fr ? "Demain" : "Tomorrow") + '</span>';
+      else h += '<span class="badge">⏳ ' + (fr ? "Dans " + diff + " jours" : "In " + diff + " days") + '</span>';
+      h += '</div>';
+    });
+  } else {
+    h += '<div class="plan-item"><span class="plan-task">' + (fr ? "Rien de prévu cette semaine pour l'instant." : "Nothing scheduled this week yet.") + '</span></div>';
+  }
+  later.slice(0, 3).forEach(function(p){
+    var d = new Date(p.date + "T00:00");
+    h += '<div class="plan-item later"><span class="plan-day">' + (fr ? JOURS_FR[d.getDay()] : DAYS_EN[d.getDay()]) + " " + d.getDate() + " " + (fr ? MOIS_FR[d.getMonth()] : MONTHS_EN[d.getMonth()]) + '</span>';
+    h += '<span class="plan-type">' + (TYPE_ICONS[p.type] || "📌") + '</span>';
+    h += '<span class="plan-task">' + esc(fr ? p.fr : p.en) + '</span></div>';
+  });
+  h += '</div>';
   h += '<div class="kpis">';
   h += '<div class="kpi"><div class="label">' + (fr ? "À venir" : "Upcoming") + '</div><div class="value">' + upcoming + '</div><div class="sub">' + (fr ? "rendez-vous planifiés" : "scheduled appointments") + '</div></div>';
   h += '<div class="kpi"><div class="label">' + (fr ? "Prochain dans" : "Next in") + '</div><div class="value">' + (next === null ? "—" : next + " j") + '</div><div class="sub">' + (next === 0 ? (fr ? "aujourd'hui !" : "today!") : (fr ? "jours" : "days")) + '</div></div>';
