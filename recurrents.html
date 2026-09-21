@@ -1,104 +1,260 @@
-<!DOCTYPE html>
-<html lang="fr" data-theme="day">
+<!doctype html>
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RDV récurrents</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mes récurrents</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Inter','Segoe UI',system-ui,sans-serif;min-height:100svh;color:var(--txt);background:var(--bg1);background-image:var(--bgimg);background-attachment:scroll;transition:color .3s}
-:root,[data-theme="day"]{
---txt:#2e1065;--sub:#6d5b9e;--bg1:#eef2ff;--card:rgba(255,255,255,.62);--bord:rgba(255,255,255,.85);--shad:0 8px 32px rgba(109,76,162,.18);--acc:#7c3aed;--accsoft:rgba(124,58,237,.12);--badge:rgba(124,58,237,.14);
---bgimg:radial-gradient(60rem 40rem at 10% -10%,rgba(244,114,182,.28),transparent 60%),radial-gradient(50rem 35rem at 90% 0%,rgba(56,189,248,.25),transparent 60%),radial-gradient(55rem 40rem at 50% 110%,rgba(167,139,250,.30),transparent 60%),linear-gradient(180deg,#eef2ff,#f5f3ff 50%,#ede9fe)}
-[data-theme="night"]{
---txt:#ede9fe;--sub:#b9aed6;--bg1:#171129;--card:rgba(255,255,255,.08);--bord:rgba(255,255,255,.16);--shad:0 10px 36px rgba(0,0,0,.45);--acc:#a78bfa;--accsoft:rgba(167,139,250,.16);--badge:rgba(167,139,250,.18);
---bgimg:radial-gradient(60rem 40rem at 15% -10%,rgba(244,114,182,.20),transparent 60%),radial-gradient(50rem 35rem at 85% 5%,rgba(56,189,248,.16),transparent 60%),radial-gradient(60rem 45rem at 50% 115%,rgba(167,139,250,.22),transparent 60%),linear-gradient(180deg,#171129,#241a3e 55%,#1a1240)}
-.filament{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#f06192,#fbbf24,#4ade80,#38bdf8,#a78bfa);box-shadow:0 0 14px 3px rgba(167,139,250,.75);z-index:999;border-radius:0 3px 3px 0}
-header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:var(--card);border-bottom:1px solid var(--bord);padding:.8rem 1.2rem;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between}
-h1{font-size:1.15rem;font-weight:800;letter-spacing:.02em}
-.controls{display:flex;gap:.5rem;flex-wrap:wrap}
-button{font:inherit;cursor:pointer;border:1px solid var(--bord);background:var(--card);color:var(--txt);padding:.35rem .7rem;border-radius:999px;backdrop-filter:blur(8px);box-shadow:var(--shad);transition:transform .15s}
-button:hover{transform:translateY(-2px)}
-.flag{font-size:1.15rem;padding:.3rem .5rem}
-main{max-width:880px;margin:0 auto;padding:1.2rem 1rem 2.5rem}
-.stats{display:flex;gap:.7rem;flex-wrap:wrap;margin:1rem 0 1.6rem}
-.stat{flex:1;min-width:130px;background:var(--card);border:1px solid var(--bord);border-radius:16px;padding:.8rem 1rem;box-shadow:var(--shad);backdrop-filter:blur(10px)}
-.stat b{display:block;font-size:1.5rem;background:linear-gradient(90deg,#f06192,#fbbf24,#4ade80,#38bdf8,#a78bfa);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.stat span{font-size:.78rem;color:var(--sub);text-transform:uppercase;letter-spacing:.06em}
-h2{margin:1.6rem 0 .8rem;font-size:1.02rem;text-transform:uppercase;letter-spacing:.09em;color:var(--sub);display:flex;align-items:center;gap:.5rem}
-h2::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--bord),transparent)}
-.cards{display:grid;gap:.9rem;perspective:1100px}
-.card{position:relative;overflow:hidden;background:var(--card);border:1px solid var(--bord);border-radius:18px;padding:1rem 1.1rem;box-shadow:var(--shad);backdrop-filter:blur(12px);transition:transform .2s,box-shadow .2s}
-.card:hover{transform:translateY(-5px) rotateX(2deg);box-shadow:0 16px 42px rgba(109,76,162,.28)}
-.card::after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.30) 50%,transparent 70%);pointer-events:none}
-[data-theme="night"] .card::after{background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.10) 50%,transparent 70%)}
-.card .top{display:flex;justify-content:space-between;gap:.6rem;align-items:baseline;flex-wrap:wrap}
-.card .ttl{font-weight:700;font-size:1.02rem}
-.card .date{font-weight:800;color:var(--acc);font-size:.92rem;white-space:nowrap}
-.card .meta{margin-top:.35rem;font-size:.85rem;color:var(--sub)}
-.badge{display:inline-block;margin-top:.5rem;font-size:.72rem;font-weight:700;padding:.2rem .6rem;border-radius:999px;background:var(--badge);color:var(--acc)}
-.cd{margin-top:.5rem;font-weight:800;font-size:.9rem}
-.card.past{opacity:.55}
-.card.past .ttl{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:var(--acc)}
-footer{position:sticky;bottom:0;z-index:50;display:flex;justify-content:space-between;gap:.6rem;flex-wrap:wrap;align-items:center;padding:.6rem 1.2rem;background:var(--card);border-top:1px solid var(--bord);backdrop-filter:blur(14px);font-size:.8rem;color:var(--sub)}
-footer a{color:var(--acc);text-decoration:none;font-weight:700}
-.ver{font-weight:800}
-@media(max-width:560px){h1{font-size:1rem}main{padding:1rem .7rem 2rem}}
+@property --surface-alpha { syntax: "<number>"; inherits: true; initial-value: 0.72; }
+* { box-sizing: border-box; }
+:root { font-family: Inter, "Segoe UI", system-ui, sans-serif; }
+body.day, body.night {
+  --progress-grad: linear-gradient(90deg, #f06192, #fbbf24, #4ade80, #38bdf8, #a78bfa);
+  --progress-glow: rgba(240, 97, 146, .6);
+  --acc: #7c3aed; --acc-2: #a78bfa; --acc-soft: rgba(147, 90, 255, .14);
+  --date-bg: linear-gradient(150deg, #8b5cf6, #6d28d9); --date-ink: #f5f2ff;
+  --date-glow: 0 6px 18px rgba(124, 58, 237, .35);
+}
+body.night {
+  --bg-base: #2e2650; --ink: #f0ecfa; --muted: #b6a8d8;
+  --bg-image:
+    radial-gradient(ellipse 60% 42% at 20% 10%, rgba(178,128,255,.55), transparent 62%),
+    radial-gradient(ellipse 50% 36% at 85% 20%, rgba(125,155,255,.5), transparent 62%),
+    radial-gradient(ellipse 55% 40% at 78% 92%, rgba(240,140,255,.4), transparent 62%),
+    radial-gradient(ellipse 45% 32% at 12% 88%, rgba(100,130,255,.38), transparent 60%),
+    linear-gradient(160deg, #35295e 0%, #3d2f6b 50%, #312654 100%);
+  --surface: rgba(46,36,74,.66); --surface-kpi: rgba(52,42,84,.6);
+  --card-border: rgba(230,220,255,.22); --border-strong: rgba(230,220,255,.5);
+  --inner-light: inset 0 1px 0 rgba(255,255,255,.12);
+  --btn-bg: rgba(230,220,255,.12); --btn-hover: rgba(230,220,255,.24); --btn-ink: #f0ecfa; --btn-border: rgba(230,220,255,.4);
+  --shadow-md: 0 2px 6px rgba(15,8,40,.25), 0 16px 40px rgba(15,8,40,.4);
+  --halo: 0 0 0 1px rgba(230,220,255,.24), 0 14px 44px rgba(15,8,40,.5), 0 0 30px rgba(147,90,255,.28);
+  --topbar-bg: rgba(41,32,72,.6); --topbar-border: rgba(230,220,255,.16);
+  --badge-bg: rgba(230,220,255,.10); --badge-border: rgba(230,220,255,.28);
+  --past-ink: rgba(240,236,250,.4); --spot: rgba(200,180,255,.16);
+  --win-bar-grad: linear-gradient(90deg, #8b5cf6, #38bdf8);
+}
+body.day {
+  --bg-base: #ece7fb; --ink: #2b2340; --muted: #7d729c;
+  --bg-image:
+    radial-gradient(ellipse 55% 38% at 15% 10%, rgba(167,120,255,.5), transparent 62%),
+    radial-gradient(ellipse 45% 32% at 88% 15%, rgba(96,165,250,.42), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 80% 90%, rgba(232,121,249,.38), transparent 62%),
+    radial-gradient(ellipse 40% 28% at 10% 85%, rgba(129,140,248,.35), transparent 60%),
+    linear-gradient(160deg, #f7f4ff 0%, #ebe5fa 100%);
+  --surface: rgba(255,253,255,.78); --surface-kpi: rgba(255,253,255,.7);
+  --card-border: rgba(255,255,255,.95); --border-strong: rgba(43,35,64,.28);
+  --inner-light: inset 0 1px 0 rgba(255,255,255,.9);
+  --btn-bg: rgba(255,255,255,.65); --btn-hover: #ffffff; --btn-ink: #2b2340; --btn-border: rgba(43,35,64,.22);
+  --shadow-md: 0 2px 6px rgba(70,50,140,.06), 0 16px 40px rgba(70,50,140,.14);
+  --halo: 0 0 0 1px rgba(255,255,255,.95), 0 14px 44px rgba(70,50,140,.18), 0 0 28px rgba(147,90,255,.2);
+  --topbar-bg: rgba(247,244,255,.68); --topbar-border: rgba(43,35,64,.1);
+  --badge-bg: rgba(124,58,237,.07); --badge-border: rgba(124,58,237,.22);
+  --past-ink: rgba(43,35,64,.38); --spot: rgba(147,90,255,.1);
+  --win-bar-grad: linear-gradient(90deg, #7c3aed, #38bdf8);
+}
+body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; overscroll-behavior-y: none;
+  color: var(--ink); background-color: var(--bg-base); background-image: var(--bg-image);
+  transition: background-color .45s ease, color .45s ease; }
+@media (hover: hover) and (pointer: fine) { body { background-attachment: fixed; } }
+.orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.orbs i { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .55; }
+.orbs .o1 { width: 380px; height: 380px; left: -100px; top: 6%; background: var(--acc-soft); }
+.orbs .o2 { width: 300px; height: 300px; right: -80px; top: 36%; background: var(--spot); }
+.orbs .o3 { width: 340px; height: 340px; left: 28%; bottom: -100px; background: var(--acc-soft); }
+.topbar { position: sticky; top: 0; z-index: 20; background: var(--topbar-bg);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--topbar-border); }
+.topbar-inner { max-width: 980px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 18px; gap: 12px; flex-wrap: wrap; }
+.tb-brand { font-size: 1.05rem; letter-spacing: .3px; font-weight: 700; }
+.tb-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.lang-btn { display: inline-flex; align-items: center; gap: 7px; padding: 7px 13px; border-radius: 999px;
+  border: 1px solid var(--btn-border); background: var(--btn-bg); color: var(--btn-ink); cursor: pointer;
+  font-family: inherit; font-size: .92rem; transition: background .18s, transform .18s, box-shadow .18s; }
+.lang-btn:hover { background: var(--btn-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.lang-btn.active { outline: 2px solid var(--acc-2); outline-offset: 1px; font-weight: 700; }
+.flag { width: 21px; height: 14px; border-radius: 2px; display: block; box-shadow: 0 0 0 1px rgba(0,0,0,.15); }
+.page { position: relative; z-index: 1; max-width: 980px; margin: 0 auto; padding: 22px 18px 10px; }
+.hero { background: var(--surface); border: 1px solid var(--card-border); border-radius: 20px;
+  box-shadow: var(--shadow-md), var(--inner-light);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  padding: 26px 26px 22px; margin-top: 18px; position: relative; overflow: hidden; }
+.hero::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.8), transparent); }
+.hero h1 { margin: 0 0 8px; font-size: 1.65rem; }
+.hero p { margin: 0; color: var(--muted); font-style: italic; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin: 18px 0; }
+.kpi { background: var(--surface-kpi); border: 1px solid var(--card-border); border-radius: 18px;
+  box-shadow: var(--shadow-md), var(--inner-light); padding: 16px 18px; text-align: center;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  transition: transform .18s, box-shadow .18s; }
+.kpi:hover { transform: translateY(-3px); box-shadow: var(--halo); }
+.kpi .label { font-size: .78rem; text-transform: uppercase; letter-spacing: 1.4px; color: var(--muted); font-weight: 600; }
+.kpi .value { font-size: 2rem; font-weight: 800; margin: 4px 0 2px;
+  background: linear-gradient(135deg, #a78bfa, #7c3aed, #38bdf8);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.kpi .sub { font-size: .85rem; color: var(--muted); }
+.section { margin: 26px 0; }
+.section-title { display: flex; align-items: center; gap: 10px; font-size: 1.2rem; margin: 0 0 14px; font-weight: 700; }
+.section-title::after { content: ""; flex: 1; height: 1px;
+  background: linear-gradient(90deg, var(--badge-border), transparent); }
+.rdv { display: flex; gap: 16px; background: var(--surface); border: 1px solid var(--card-border);
+  border-radius: 18px; box-shadow: var(--shadow-md), var(--inner-light); padding: 16px 18px; margin-bottom: 12px;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  transition: transform .2s, box-shadow .2s; align-items: stretch; position: relative; overflow: hidden; }
+.rdv::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent); }
+.rdv:hover { transform: translateY(-3px) scale(1.005); box-shadow: var(--halo); }
+.rdv.past { opacity: .55; filter: saturate(.4); }
+.rdv-date { flex: 0 0 74px; background: var(--date-bg); color: var(--date-ink); border-radius: 14px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 4px;
+  box-shadow: var(--date-glow), inset 0 1px 0 rgba(255,255,255,.35); }
+.rdv-date .d { font-size: 1.75rem; font-weight: 800; line-height: 1; }
+.rdv-date .m { font-size: .74rem; text-transform: uppercase; letter-spacing: 1.6px; margin-top: 3px; font-weight: 600; }
+.rdv-body { flex: 1; min-width: 0; }
+.rdv-title { font-size: 1.06rem; font-weight: 700; margin-bottom: 3px; }
+.rdv.past .rdv-title, .rdv.past .rdv-where { color: var(--past-ink); }
+.rdv-where { color: var(--muted); font-size: .9rem; margin-bottom: 9px; }
+.rdv-meta { display: flex; flex-wrap: wrap; gap: 7px; }
+.badge { display: inline-flex; align-items: center; gap: 5px; font-size: .78rem; padding: 4px 11px; font-weight: 600;
+  border-radius: 999px; background: var(--badge-bg); border: 1px solid var(--badge-border);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.badge.soon { border-color: var(--acc-2); color: var(--acc-2); font-weight: 700;
+  box-shadow: 0 0 12px rgba(147,90,255,.25); }
+.badge.done { opacity: .8; }
+.win { background: var(--surface); border: 1px solid var(--card-border); border-radius: 18px;
+  box-shadow: var(--shadow-md), var(--inner-light); padding: 18px 20px; margin-bottom: 14px;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  transition: transform .2s, box-shadow .2s; }
+.win:hover { transform: translateY(-3px); box-shadow: var(--halo); }
+.win-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+.win-title { font-size: 1.06rem; font-weight: 700; }
+.win-sub { color: var(--muted); font-size: .9rem; margin: 6px 0 10px; }
+.win-bar { height: 9px; border-radius: 999px; background: var(--badge-bg); border: 1px solid var(--badge-border); overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.12); }
+.win-bar i { display: block; height: 100%; background: var(--win-bar-grad); border-radius: 999px;
+  box-shadow: 0 0 10px rgba(124,58,237,.4); }
+.botbar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 20; background: var(--topbar-bg);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-top: 1px solid var(--topbar-border); }
+.botbar-inner { max-width: 980px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 18px; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bb-link { color: var(--ink); text-decoration: none; padding: 5px 12px; border-radius: 999px; font-weight: 600;
+  border: 1px solid var(--btn-border); background: var(--btn-bg); transition: background .18s, transform .18s; }
+.bb-link:hover { background: var(--btn-hover); transform: translateY(-1px); }
+.bb-ver { color: var(--muted); }
+#progress { position: absolute; left: 0; bottom: -1px; height: 3px; width: 0%; background: var(--progress-grad);
+  border-radius: 999px; transition: width .18s linear; box-shadow: var(--progress-glow);
+  filter: saturate(1.3) brightness(1.12); will-change: width; }
+@media (max-width: 520px) { .rdv { flex-direction: column; } .rdv-date { flex-direction: row; gap: 8px; }
+  .hero h1 { font-size: 1.3rem; } }
 </style>
-<script>try{var t=localStorage.getItem("THEMEKEY")||"day";document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 </head>
-<body>
-<div class="filament" id="fil"></div>
-<header>
-<h1 id="htitle" data-fr="🔄 RDV récurrents" data-en="🔄 Recurring dates">🔄 RDV récurrents</h1>
-<div class="controls">
-<button class="flag" id="btn-fr" title="Français">🇫🇷 FR</button>
-<button class="flag" id="btn-en" title="English">🇬🇧 EN</button>
-<button id="btn-theme">🌙 Nuit</button>
-</div>
-</header>
-<main>
-<div id="list"></div>
+<body class="night">
+<script>try{if(localStorage.getItem("rec-theme")==="day")document.body.className="day";}catch(e){}</script>
+<div class="orbs" aria-hidden="true"><i class="o1"></i><i class="o2"></i><i class="o3"></i></div>
+<header class="topbar"><div class="topbar-inner">
+<span class="tb-brand" data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
+<div class="tb-actions">
+<button class="lang-btn active" id="btn-fr" onclick="switchLang('fr')"><svg class="flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#0055A4"/><rect x="1" width="1" height="2" fill="#ffffff"/><rect x="2" width="1" height="2" fill="#EF4135"/></svg>FR</button>
+<button class="lang-btn" id="btn-en" onclick="switchLang('en')"><svg class="flag" viewBox="0 0 60 30" aria-hidden="true"><rect width="60" height="30" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#ffffff" stroke-width="6"/><path d="M30,0 V30 M0,15 H60" stroke="#ffffff" stroke-width="10"/><path d="M30,0 V30 M0,15 H60" stroke="#C8102E" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="3.5"/></svg>EN</button>
+<button class="lang-btn" id="btn-theme" onclick="toggleTheme()"><span id="btn-theme-ico">☀️</span> <span data-fr="Thème" data-en="Theme">Thème</span></button>
+</div></div><i id="progress" aria-hidden="true"></i></header>
+<main class="page">
+<div id="app"></div>
 </main>
-<footer>
-<a href="index.html" data-fr="→ RDV importants" data-en="→ Important appointments">→ RDV importants</a>
-<span class="ver">v3.2 · 2026</span>
-</footer>
+<footer class="botbar"><div class="botbar-inner">
+<span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
+<span class="bb-ver">v3.3 · 2026</span>
+<a class="bb-link" href="index.html" data-fr="🗓️ RDV importants" data-en="🗓️ Appointments">🗓️ RDV importants</a>
+</div></footer>
+<script>
+(function(){
+"use strict";
+var THEME_KEY = "rec-theme"; var LANG_KEY = "rec-lang";
+var lang = "fr"; try { lang = localStorage.getItem(LANG_KEY) || "fr"; } catch(e) {}
+window.switchLang = function(l){ lang = l; try { localStorage.setItem(LANG_KEY, l); } catch(e) {} syncLang(); render(); };
+function syncLang(){
+  document.getElementById("btn-fr").classList.toggle("active", lang === "fr");
+  document.getElementById("btn-en").classList.toggle("active", lang === "en");
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-fr]").forEach(function(s){ s.textContent = lang === "fr" ? s.getAttribute("data-fr") : s.getAttribute("data-en"); });
+}
+window.setTheme = function(t){
+  document.body.classList.toggle("night", t === "night");
+  document.body.classList.toggle("day", t === "day");
+  document.getElementById("btn-theme-ico").textContent = t === "day" ? "🌙" : "☀️";
+  try { localStorage.setItem(THEME_KEY, t); } catch(e) {}
+};
+window.toggleTheme = function(){ setTheme(document.body.classList.contains("day") ? "night" : "day"); };
+window.addEventListener("scroll", function(){
+  var h = document.documentElement;
+  var p = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById("progress").style.width = p + "%";
+}, { passive: true });
+var BIRTHDAYS = [
+  { name:"Sébastien", month:9, day:26 },
+  { name:"Niva", month:10, day:12 },
+  { name:"Kon", month:11, day:5 },
+  { name:"Kiana", month:11, day:12 },
+  { name:"Nat & Mika", month:12, day:25 },
+  { name:"Nicre", month:1, day:23 },
+  { name:"Julien", month:2, day:23 }
+];
+var WINDOWS = [
+  { label:"septembre", labelEn:"September", open:"2026-09-28", close:"2026-10-15" },
+  { label:"octobre", labelEn:"October", open:"2026-10-28", close:"2026-11-15" },
+  { label:"novembre", labelEn:"November", open:"2026-11-28", close:"2026-12-15" },
+  { label:"décembre", labelEn:"December", open:"2026-12-28", close:"2027-01-15" }
+];
+var MOIS_FR = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+var MONTHS_EN = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function dayDiff(d){ var t = new Date(); t.setHours(0,0,0,0); var x = new Date(d); x.setHours(0,0,0,0); return Math.round((x - t) / 86400000); }
+function fmt(d){ return d.getDate() + " " + (lang === "fr" ? MOIS_FR[d.getMonth()] : MONTHS_EN[d.getMonth()]) + " " + d.getFullYear(); }
+function render(){
+  var fr = lang === "fr";
+  var now = new Date();
+  var h = "";
+  h += '<div class="hero"><h1>🎂 ' + (fr ? "Ce qui revient chaque année" : "What comes back every year") + '</h1>';
+  h += '<p>' + (fr ? "Anniversaires et échéances récurrentes — pas des rendez-vous." : "Birthdays and recurring deadlines — not appointments.") + '</p></div>';
+  h += '<section class="section"><h2 class="section-title">🎂 ' + (fr ? "Anniversaires" : "Birthdays") + '</h2>';
+  BIRTHDAYS.forEach(function(b){
+    var next = new Date(now.getFullYear(), b.month - 1, b.day);
+    if (dayDiff(next) < 0) next = new Date(now.getFullYear() + 1, b.month - 1, b.day);
+    var diff = dayDiff(next);
+    var count = "";
+    if (diff === 0) count = '<span class="badge soon">🎉 ' + (fr ? "Aujourd'hui !" : "Today!") + '</span>';
+    else if (diff === 1) count = '<span class="badge soon">⏳ ' + (fr ? "Demain" : "Tomorrow") + '</span>';
+    else count = '<span class="badge">⏳ ' + (fr ? "Dans " + diff + " jours" : "In " + diff + " days") + '</span>';
+    h += '<article class="rdv">';
+    h += '<div class="rdv-date"><div class="d">' + b.day + '</div><div class="m">' + (fr ? MOIS_FR[b.month - 1].slice(0, 4) : MONTHS_EN[b.month - 1].slice(0, 3)) + '</div></div>';
+    h += '<div class="rdv-body"><div class="rdv-title">🎂 ' + esc(b.name) + '</div>';
+    h += '<div class="rdv-where">📅 ' + fmt(next) + '</div>';
+    h += '<div class="rdv-meta">' + count + '</div>';
+    h += '</div></article>';
+  });
+  h += '</section>';
+  h += '<section class="section"><h2 class="section-title">🔓 ' + (fr ? "Fenêtres d'actualisation" : "Renewal windows") + '</h2>';
+  WINDOWS.forEach(function(w){
+    var dOpen = new Date(w.open + "T00:00");
+    var dClose = new Date(w.close + "T00:00");
+    var dO = dayDiff(dOpen), dC = dayDiff(dClose);
+    var state, bar = 0;
+    if (dO > 0) { state = fr ? "Ouvre bientôt" : "Opens soon"; }
+    else if (dC >= 0) { state = fr ? "🔓 Ouverte" : "🔓 Open"; bar = 50; }
+    else { state = fr ? "✓ Terminée" : "✓ Done"; bar = 100; }
+    var openBadge = dO > 0 ? '<span class="badge">⏳ ' + (fr ? "ouvre dans " + dO + " jours" : "opens in " + dO + " days") + '</span>' : '<span class="badge">🔓 ' + fmt(dOpen) + '</span>';
+    var closeBadge = dC < 0 ? '<span class="badge done">✓ ' + (fr ? "Terminée" : "Done") + '</span>' : '<span class="badge">🔒 ' + fmt(dClose) + '</span>';
+    h += '<div class="win"><div class="win-head"><span class="win-title">📆 ' + esc(fr ? ("Actualisation de " + w.label) : (w.labelEn + " renewal")) + '</span><span class="badge">' + state + '</span></div>';
+    h += '<div class="win-sub">' + (fr ? "Démarches en ligne — pas un rendez-vous" : "Online procedure — not an appointment") + '</div>';
+    h += '<div class="win-bar"><i style="width:' + bar + '%"></i></div>';
+    h += '<div class="rdv-meta" style="margin-top:10px">' + openBadge + closeBadge + '</div></div>';
+  });
+  h += '</section>';
+  document.getElementById("app").innerHTML = h;
+}
+syncLang(); render();
+})();
+</script>
 </body>
 </html>
-<script>
-window.addEventListener("scroll",function(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;document.getElementById("fil").style.width=p+"%"},{passive:true});
-var LK="rec-lang",TK="rec-theme";
-function lang(){try{return localStorage.getItem(LK)||"fr"}catch(e){return"fr"}}
-function setLang(l){try{localStorage.setItem(LK,l)}catch(e){}applyLang(l)}
-function applyLang(l){document.documentElement.lang=l;document.querySelectorAll("[data-fr]").forEach(function(el){el.textContent=l==="fr"?el.dataset.fr:el.dataset.en});var t=document.getElementById("btn-theme");if(t)t.textContent=l==="fr"?"🌙 Nuit":"🌙 Night";var d=document.getElementById("btn-en"),f=document.getElementById("btn-fr");if(d)d.style.opacity=l==="en"?"1":".55";if(f)f.style.opacity=l==="fr"?"1":".55"}
-document.getElementById("btn-fr").onclick=function(){setLang("fr")};
-document.getElementById("btn-en").onclick=function(){setLang("en")};
-document.getElementById("btn-theme").onclick=function(){var cur=document.documentElement.getAttribute("data-theme")==="night"?"day":"night";document.documentElement.setAttribute("data-theme",cur);try{localStorage.setItem(TK,cur)}catch(e){}};
-applyLang(lang());
-var BIRTHDAYS=[{"n":"Sébastien","m":9,"d":26},{"n":"Niva","m":10,"d":12},{"n":"Kon","m":11,"d":5},{"n":"Kiana","m":11,"d":12},{"n":"Nat & Mika","m":12,"d":25},{"n":"Nicre","m":1,"d":23},{"n":"Julien","m":2,"d":23}];
-var WINDOWS=[{"fr":"Actualisation de septembre","en":"September renewal","o":[9,28],"c":[10,15]},{"fr":"Actualisation d’octobre","en":"October renewal","o":[10,28],"c":[11,15]},{"fr":"Actualisation de novembre","en":"November renewal","o":[11,28],"c":[12,15]},{"fr":"Actualisation de décembre","en":"December renewal","o":[12,28],"c":[1,15]}];
-function fmtD(iso,l){var d=new Date(iso);var M=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];var Me=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];var J=['dim.','lun.','mar.','mer.','jeu.','ven.','sam.'];var Je=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];var mo=l==='fr'?M:Me,js=l==='fr'?J:Je;return js[d.getDay()]+' '+d.getDate()+' '+mo[d.getMonth()]}
-function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
-function nextOcc(m,d){var now=new Date(),y=now.getFullYear();var t=new Date(y,m-1,d);if(t<new Date(y,now.getMonth(),now.getDate()))t=new Date(y+1,m-1,d);return t}
-function winDate(ymd){var y=ymd[0]===1?2027:2026;return new Date(y,ymd[0]-1,ymd[1])}
-var MO={fr:["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"],en:["January","February","March","April","May","June","July","August","September","October","November","December"]};
-function render(){var l=lang(),now=new Date(),html="";
-  html+='<h2>🎂 '+(l==="fr"?"Anniversaires":"Birthdays")+'</h2><div class="cards">';
-  BIRTHDAYS.slice().sort(function(a,b){return nextOcc(a.m,a.d)-nextOcc(b.m,b.d)}).forEach(function(b){var t=nextOcc(b.m,b.d),days=Math.ceil((t-now)/864e5);
-    var cd=days===0?"C’est aujourd’hui ! 🎉":(days===1?"Demain !":"Dans "+days+" jours");
-    if(l!=="fr"){cd=days===0?"It’s today! 🎉":(days===1?"Tomorrow!":"In "+days+" days")}
-    html+='<div class="card"><div class="top"><span class="ttl">🎂 '+esc(b.n)+'</span><span class="date">'+b.d+" "+MO[l][b.m-1]+'</span></div><div class="cd">⏳ '+cd+'</div></div>'});
-  html+='</div><h2>🔄 '+(l==="fr"?"Fenêtres d’actualisation":"Renewal windows")+'</h2><div class="cards">';
-  WINDOWS.forEach(function(w){var o=winDate(w.o),c=winDate(w.c);
-    var state=now<o?"soon":(now<=c?"open":"over");
-    var lbl=state==="soon"?(l==="fr"?"Ouvre le":"Opens on"):state==="open"?(l==="fr"?"Ouverte jusqu’au":"Open until"):(l==="fr"?"Terminée":"Closed");
-    var oTxt=(w.o[0]===1?2027:2026)+"-"+("0"+w.o[0]).slice(-2)+"-"+("0"+w.o[1]).slice(-2)+"T00:00:00";
-    var cTxt=(w.c[0]===1?2027:2026)+"-"+("0"+w.c[0]).slice(-2)+"-"+("0"+w.c[1]).slice(-2)+"T00:00:00";
-    html+='<div class="card'+(state==="over"?" past":"")+'"><div class="top"><span class="ttl">'+esc(l==="fr"?w.fr:w.en)+'</span></div><div class="meta">'+lbl+" "+fmtD(oTxt,l)+" → "+fmtD(cTxt,l)+'</div>'+(state==="open"?'<span class="badge">🟢 Ouverte</span>':state==="over"?'<span class="badge">✓ Terminée</span>':"")+'</div>'});
-  html+='</div>';document.getElementById("list").innerHTML=html;applyLang(lang())}
-render();setInterval(render,60000);
-</script>
