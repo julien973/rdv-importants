@@ -7,14 +7,16 @@
 <style>
 * { box-sizing: border-box; }
 :root { font-family: Georgia, "Times New Roman", serif; }
-body.day, body.night { --acc: #b4552d; --acc-soft: rgba(180,85,45,.12); }
+body.day, body.night { --acc: #b4552d; --acc-soft: rgba(180,85,45,.12);
+  --progress-grad: linear-gradient(90deg, #f5d489, #d9a441, #b4552d, #f5d489);
+  --progress-glow: rgba(217,164,65,.55); }
 body.night {
   --bg-base: #161009; --ink: #f3e9d8; --muted: #b8a88e;
   --bg-image: radial-gradient(ellipse 80% 60% at 12% 6%, rgba(180,85,45,.22), transparent 60%),
     radial-gradient(ellipse 70% 55% at 90% 14%, rgba(120,80,30,.20), transparent 60%),
     radial-gradient(ellipse 85% 70% at 85% 95%, rgba(90,60,25,.18), transparent 62%),
     linear-gradient(160deg, #17110a 0%, #241a10 50%, #191009 100%);
-  --surface: rgba(255,248,235,.9); --card-border: rgba(255,240,215,.5); --border-strong: rgba(255,240,215,.85);
+  --surface: rgba(38,26,15,.78); --card-border: rgba(255,240,215,.22); --border-strong: rgba(255,240,215,.45);
   --date-bg: linear-gradient(150deg, #b4552d, #8a3c1c); --date-ink: #fff6e8;
   --btn-bg: rgba(255,240,215,.12); --btn-hover: rgba(255,240,215,.24); --btn-ink: #f3e9d8; --btn-border: rgba(255,240,215,.4);
   --shadow-md: 0 8px 32px rgba(0,0,0,.45);
@@ -39,7 +41,8 @@ body.day {
   --past-ink: rgba(45,32,19,.35); --spot: rgba(180,85,45,.08);
 }
 body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; overscroll-behavior-y: none;
-  color: var(--ink); background-color: var(--bg-base); background-image: var(--bg-image); }
+  color: var(--ink); background-color: var(--bg-base); background-image: var(--bg-image);
+  transition: background-color .45s ease, color .45s ease; }
 @media (hover: hover) and (pointer: fine) { body { background-attachment: fixed; } }
 .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
 .orbs i { position: absolute; border-radius: 50%; filter: blur(60px); opacity: .5; }
@@ -106,6 +109,8 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
   border: 1px solid var(--btn-border); background: var(--btn-bg); transition: background .18s; }
 .bb-link:hover { background: var(--btn-hover); }
 .bb-ver { color: var(--muted); }
+#progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0%; background: var(--progress-grad);
+  border-radius: 999px; transition: width .18s linear; box-shadow: var(--progress-glow); }
 @media (max-width: 520px) { .rdv { flex-direction: column; } .rdv-date { flex-direction: row; gap: 8px; }
   .hero h1 { font-size: 1.3rem; } }
 </style>
@@ -119,13 +124,13 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 <button class="lang-btn active" id="btn-fr" onclick="switchLang('fr')"><svg class="flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#0055A4"/><rect x="1" width="1" height="2" fill="#ffffff"/><rect x="2" width="1" height="2" fill="#EF4135"/></svg>FR</button>
 <button class="lang-btn" id="btn-en" onclick="switchLang('en')"><svg class="flag" viewBox="0 0 60 30" aria-hidden="true"><rect width="60" height="30" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#ffffff" stroke-width="6"/><path d="M30,0 V30 M0,15 H60" stroke="#ffffff" stroke-width="10"/><path d="M30,0 V30 M0,15 H60" stroke="#C8102E" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="3.5"/></svg>EN</button>
 <button class="lang-btn" id="btn-theme" onclick="toggleTheme()"><span id="btn-theme-ico">☀️</span> <span data-fr="Thème" data-en="Theme">Thème</span></button>
-</div></div></header>
+</div></div><i id="progress" aria-hidden="true"></i></header>
 <main class="page">
 <div id="app"></div>
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="📓 Mes RDV importants" data-en="📓 My Appointments">📓 Mes RDV importants</span>
-<span class="bb-ver">v2.0 · 2026</span>
+<span class="bb-ver">v2.1 · 2026</span>
 <a class="bb-link" href="recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
 </div></footer>
 <script>
@@ -147,6 +152,11 @@ window.setTheme = function(t){
   try { localStorage.setItem(THEME_KEY, t); } catch(e) {}
 };
 window.toggleTheme = function(){ setTheme(document.body.classList.contains("day") ? "night" : "day"); };
+window.addEventListener("scroll", function(){
+  var h = document.documentElement;
+  var p = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById("progress").style.width = p + "%";
+}, { passive: true });
 var EVENTS = [
   { cat:"sante", start:"2026-09-22T10:00", end:null,
     fr:"Appeler le cabinet du Dr Poulaliou (dermatologue)", en:"Call Dr Poulaliou's office (dermatologist)",
