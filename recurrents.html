@@ -79,15 +79,17 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
   box-shadow: var(--shadow-md), var(--inner-light);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   padding: 26px 26px 22px; margin-top: 18px; position: relative; overflow: hidden; }
-.hero::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.8), transparent); }
+.hero::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
+  background: var(--progress-grad); filter: saturate(1.3) brightness(1.12); }
 .hero h1 { margin: 0 0 8px; font-size: 1.65rem; }
 .hero p { margin: 0; color: var(--muted); font-style: italic; }
 .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin: 18px 0; }
-.kpi { background: var(--surface-kpi); border: 1px solid var(--card-border); border-radius: 18px;
+.kpi { position: relative; overflow: hidden; background: var(--surface-kpi); border: 1px solid var(--card-border); border-radius: 18px;
   box-shadow: var(--shadow-md), var(--inner-light); padding: 16px 18px; text-align: center;
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   transition: transform .18s, box-shadow .18s; }
+.kpi::after { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--progress-grad); filter: saturate(1.3) brightness(1.12); }
+.win::after { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--progress-grad); filter: saturate(1.3) brightness(1.12); }
 .kpi:hover { transform: translateY(-3px); box-shadow: var(--halo); }
 .kpi .label { font-size: .78rem; text-transform: uppercase; letter-spacing: 1.4px; color: var(--muted); font-weight: 600; }
 .kpi .value { font-size: 2rem; font-weight: 800; margin: 4px 0 2px;
@@ -102,8 +104,8 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
   border-radius: 18px; box-shadow: var(--shadow-md), var(--inner-light); padding: 16px 18px; margin-bottom: 12px;
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   transition: transform .2s, box-shadow .2s; align-items: stretch; position: relative; overflow: hidden; }
-.rdv::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent); }
+.rdv::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
+  background: var(--progress-grad); filter: saturate(1.3) brightness(1.12); }
 .rdv:hover { transform: translateY(-3px) scale(1.005); box-shadow: var(--halo); }
 .rdv.past { opacity: .55; filter: saturate(.4); }
 .rdv-date { flex: 0 0 74px; background: var(--date-bg); color: var(--date-ink); border-radius: 14px;
@@ -122,7 +124,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 .badge.soon { border-color: var(--acc-2); color: var(--acc-2); font-weight: 700;
   box-shadow: 0 0 12px rgba(147,90,255,.25); }
 .badge.done { opacity: .8; }
-.win { background: var(--surface); border: 1px solid var(--card-border); border-radius: 18px;
+.win { position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--card-border); border-radius: 18px;
   box-shadow: var(--shadow-md), var(--inner-light); padding: 18px 20px; margin-bottom: 14px;
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   transition: transform .2s, box-shadow .2s; }
@@ -164,7 +166,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v3.7 · 2026</span>
+<span class="bb-ver">v3.8 · 2026</span>
 <a class="bb-link" href="index.html" data-fr="🗓️ RDV importants" data-en="🗓️ Appointments">🗓️ RDV importants</a>
 </div></footer>
 <script>

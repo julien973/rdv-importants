@@ -79,8 +79,8 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
   box-shadow: var(--shadow-md), var(--inner-light);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   padding: 26px 26px 22px; margin-top: 18px; position: relative; overflow: hidden; }
-.hero::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.8), transparent); }
+.hero::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
+  background: var(--progress-grad); filter: saturate(1.3) brightness(1.12); }
 .hero h1 { margin: 0 0 8px; font-size: 1.65rem; }
 .hero p { margin: 0; color: var(--muted); font-style: italic; }
 .plan { background: var(--surface); border: 1px solid var(--card-border); border-radius: 20px;
@@ -97,15 +97,26 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 .plan-fill { height: 100%; border-radius: 3px; background: var(--win-bar-grad); }
 .plan-mods { display: grid; grid-template-columns: repeat(auto-fill, minmax(235px, 1fr)); gap: 1px 16px; }
 .plan-mod { display: flex; align-items: center; gap: 8px; font-size: .85rem; padding: 3px 0; color: var(--muted); }
+.plan-mod.clk { cursor: pointer; border-radius: 8px; padding: 3px 6px; margin: 0 -6px; transition: background .15s; }
+.plan-mod.clk:hover { background: var(--badge-bg); }
+.plan-chev { display: inline-block; transition: transform .2s; font-size: .7rem; }
+.plan-mod.open .plan-chev { transform: rotate(90deg); }
+.plan-lessons { display: none; grid-column: 1 / -1; margin: 2px 0 8px 17px; padding: 8px 14px;
+  border-left: 2px solid var(--acc-2); background: var(--badge-bg); border-radius: 0 10px 10px 0; }
+.plan-mod.open + .plan-lessons { display: block; }
+.plan-les { font-size: .8rem; color: var(--muted); padding: 2px 0; display: flex; gap: 8px; align-items: baseline; }
+.plan-les-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--acc-2); flex: none; transform: translateY(-2px); }
 .plan-dot { width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--acc-2); flex: none; }
 .plan-mod.done { color: var(--past-ink); }
 .plan-mod.done .plan-dot { background: var(--acc-2); border-color: var(--acc-2); }
 .plan-mod .n { margin-left: auto; font-size: .72rem; opacity: .7; white-space: nowrap; }
 .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin: 18px 0; }
-.kpi { background: var(--surface-kpi); border: 1px solid var(--card-border); border-radius: 18px;
+.kpi { position: relative; overflow: hidden; background: var(--surface-kpi); border: 1px solid var(--card-border); border-radius: 18px;
   box-shadow: var(--shadow-md), var(--inner-light); padding: 16px 18px; text-align: center;
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   transition: transform .18s, box-shadow .18s; }
+.kpi::after { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--progress-grad); filter: saturate(1.3) brightness(1.12); }
+.win::after { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--progress-grad); filter: saturate(1.3) brightness(1.12); }
 .kpi:hover { transform: translateY(-3px); box-shadow: var(--halo); }
 .kpi .label { font-size: .78rem; text-transform: uppercase; letter-spacing: 1.4px; color: var(--muted); font-weight: 600; }
 .kpi .value { font-size: 2rem; font-weight: 800; margin: 4px 0 2px;
@@ -120,8 +131,8 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
   border-radius: 18px; box-shadow: var(--shadow-md), var(--inner-light); padding: 16px 18px; margin-bottom: 12px;
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   transition: transform .2s, box-shadow .2s; align-items: stretch; position: relative; overflow: hidden; }
-.rdv::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent); }
+.rdv::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
+  background: var(--progress-grad); filter: saturate(1.3) brightness(1.12); }
 .rdv:hover { transform: translateY(-3px) scale(1.005); box-shadow: var(--halo); }
 .rdv.past { opacity: .55; filter: saturate(.4); }
 .rdv-date { flex: 0 0 74px; background: var(--date-bg); color: var(--date-ink); border-radius: 14px;
@@ -141,7 +152,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 .badge.soon { border-color: var(--acc-2); color: var(--acc-2); font-weight: 700;
   box-shadow: 0 0 12px rgba(147,90,255,.25); }
 .badge.done { opacity: .8; }
-.win { background: var(--surface); border: 1px solid var(--card-border); border-radius: 18px;
+.win { position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--card-border); border-radius: 18px;
   box-shadow: var(--shadow-md), var(--inner-light); padding: 18px 20px; margin-bottom: 14px;
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   transition: transform .2s, box-shadow .2s; }
@@ -183,7 +194,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v3.7 · 2026</span>
+<span class="bb-ver">v3.8 · 2026</span>
 <a class="bb-link" href="recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
 </div></footer>
 <script>
@@ -250,36 +261,179 @@ var MONTHS_EN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","No
 var JOURS_FR = ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
 var DAYS_EN = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 var TRACKS = [
-  { fr:"Réussir ma formation", mods:[
-    { fr:"Votre expérience chez Studi", r:1, done:true },
-    { fr:"Vous organiser dans votre formation", r:3, done:true },
-    { fr:"S'immerger professionnellement", r:1, done:true },
-    { fr:"Se préparer aux examens", r:3, done:true } ] },
-  { fr:"Les fondamentaux du développement", mods:[
-    { fr:"Écosystème et outils du développeur", r:13, done:false },
-    { fr:"Introduction à la programmation", r:13, done:false },
-    { fr:"Introduction à l'algorithme", r:11, done:false } ] },
-  { fr:"Développer la partie front-end", mods:[
-    { fr:"Participer à des projets web", r:5, done:false },
-    { fr:"Réaliser une maquette avec Figma", r:12, done:false },
-    { fr:"Créer un site web avec HTML & CSS", r:20, done:false },
-    { fr:"Créer un site web avec WordPress", r:4, done:false },
-    { fr:"Débuter avec JavaScript", r:15, done:false },
-    { fr:"Programmer avec JavaScript", r:16, done:false },
-    { fr:"Utiliser Git et GitHub", r:9, done:false },
-    { fr:"Déployer son application web", r:2, done:false },
-    { fr:"Sécuriser ses applications web", r:4, done:false },
-    { fr:"Gérer des conteneurs", r:7, done:false },
-    { fr:"Projet fil rouge — front-end", r:7, done:false } ] },
-  { fr:"Développer la partie back-end", mods:[
-    { fr:"Introduction aux bases de données", r:10, done:false },
-    { fr:"Développer des sites web dynamiques avec PHP", r:19, done:false },
-    { fr:"Créer et administrer une base de données en SQL", r:12, done:false },
-    { fr:"Créer une application web avec Symfony", r:18, done:false },
-    { fr:"Sécuriser ses bases de données", r:6, done:false },
-    { fr:"Sécuriser son infrastructure", r:13, done:false },
-    { fr:"Préparer un environnement de test", r:6, done:false },
-    { fr:"Projet fil rouge — back-end", r:9, done:false } ] }
+  { fr:"Réussir ma formation", en:"Succeeding in your training", mods:[
+    { fr:"Votre expérience chez Studi", en:"Your experience at Studi", r:1, done:true, les:[
+      { fr:"Guide de présentation de l'équipe pédagogique et des services en ligne avec votre formation", en:"Guide to the teaching team and online services for your training" } ] },
+    { fr:"Vous organiser dans votre formation", en:"Organising yourself in your training", r:3, done:true, les:[
+      { fr:"Les conseils de votre formateur référent", en:"Tips from your referent trainer" },
+      { fr:"Gestion du temps et du stress", en:"Time and stress management" },
+      { fr:"Me motiver au quotidien", en:"Staying motivated day to day" } ] },
+    { fr:"S'immerger professionnellement pendant la formation", en:"Gaining professional experience during the training", r:1, done:true, les:[
+      { fr:"Stage, bénévolat, expérience professionnelle", en:"Internship, volunteering, professional experience" } ] },
+    { fr:"Se préparer aux examens", en:"Preparing for exams", r:3, done:true, les:[
+      { fr:"Méthodologie du dossier professionnel", en:"Professional portfolio methodology" },
+      { fr:"Méthodologie du dossier projet - TP Développeur Web et Web Mobile", en:"Project dossier methodology - Web Developer assignment" },
+      { fr:"Entraînement au questionnaire professionnel", en:"Professional questionnaire practice" } ] } ] },
+  { fr:"Les fondamentaux du développement", en:"Development fundamentals", mods:[
+    { fr:"Écosystème et outils du développeur", en:"Developer ecosystem and tools", r:13, done:false, les:[
+      { fr:"L'histoire de l'informatique et d'Internet, culture générale numérique", en:"History of computing and the Internet, digital general knowledge" },
+      { fr:"Le fonctionnement d'Internet", en:"How the Internet works" },
+      { fr:"Sensibilisation à la cybersécurité", en:"Cybersecurity awareness" },
+      { fr:"Les droits d'auteur et licences libres", en:"Copyright and free licenses" },
+      { fr:"La sensibilisation au RGPD", en:"GDPR awareness" },
+      { fr:"Github Student Developer Pack", en:"Github Student Developer Pack" },
+      { fr:"La suite Jetbrains", en:"The JetBrains suite" },
+      { fr:"VSCode", en:"VSCode" },
+      { fr:"La préparation de l'environnement de travail", en:"Setting up your work environment" },
+      { fr:"Installer Linux sur Windows et MacOS", en:"Installing Linux on Windows and MacOS" },
+      { fr:"Jeux de logique", en:"Logic games" },
+      { fr:"Assurer une veille technologique en développement", en:"Keeping up a technology watch in development" },
+      { fr:"Application : Connaître l'écosystème et installer les outils du développeur", en:"Practical work: knowing the ecosystem and installing the developer tools" } ] },
+    { fr:"Introduction à la programmation", en:"Introduction to programming", r:13, done:false, les:[
+      { fr:"On-boarding - Introduction à la programmation", en:"On-boarding - Introduction to programming" },
+      { fr:"Introduction à la programmation", en:"Introduction to programming" },
+      { fr:"Les variables", en:"Variables" },
+      { fr:"Les opérateurs et opérateurs logiques", en:"Operators and logical operators" },
+      { fr:"Les structures de contrôle", en:"Control structures" },
+      { fr:"En bref : les bonnes pratiques de codage", en:"In short: coding best practices" },
+      { fr:"Les chaînes de caractère", en:"Character strings" },
+      { fr:"Les structures de données", en:"Data structures" },
+      { fr:"Le type de données Date", en:"The Date data type" },
+      { fr:"Les fonctions", en:"Functions" },
+      { fr:"Off-boarding - Introduction à la programmation", en:"Off-boarding - Introduction to programming" },
+      { fr:"Auto-évaluation - Introduction à la programmation", en:"Self-assessment - Introduction to programming" },
+      { fr:"Application - Introduction à la programmation", en:"Practical work - Introduction to programming" } ] },
+    { fr:"Introduction à l'algorithme", en:"Introduction to algorithms", r:11, done:false, les:[
+      { fr:"On-boarding - Introduction à l'algorithme", en:"On-boarding - Introduction to algorithms" },
+      { fr:"La représentation graphique d'un algorithme : flowchart", en:"Graphical representation of an algorithm: flowchart" },
+      { fr:"L'écriture en pseudo-code : introduction", en:"Writing pseudo-code: introduction" },
+      { fr:"L'écriture d'un algorithme en pseudo-code : approfondissement", en:"Writing an algorithm in pseudo-code: going further" },
+      { fr:"Mon premier algorithme", en:"My first algorithm" },
+      { fr:"Les fonctions", en:"Functions" },
+      { fr:"Les objets et les classes", en:"Objects and classes" },
+      { fr:"La récursivité", en:"Recursion" },
+      { fr:"Off-boarding - Introduction à l'algorithme", en:"Off-boarding - Introduction to algorithms" },
+      { fr:"Auto-évaluation - Introduction à l'algorithme", en:"Self-assessment - Introduction to algorithms" },
+      { fr:"Application - Introduction à l'algorithme", en:"Practical work - Introduction to algorithms" } ] } ] },
+  { fr:"Développer la partie front-end", en:"Front-end development", mods:[
+    { fr:"Participer à des projets web", en:"Taking part in web projects", r:5, done:false, les:[
+      { fr:"L'environnement du développeur web", en:"The web developer environment" },
+      { fr:"Les modèles de gestion de projet", en:"Project management models" },
+      { fr:"Les outils collaboratifs de partage de ressources", en:"Collaborative resource-sharing tools" },
+      { fr:"Récit utilisateur (user stories)", en:"User stories" },
+      { fr:"Bien rédiger ses user stories", en:"Writing good user stories" } ] },
+    { fr:"Réaliser une maquette avec Figma", en:"Designing a mock-up with Figma", r:12, done:false, les:[
+      { fr:"Introduction aux concepts UX (versus UI)", en:"Introduction to UX concepts (versus UI)" },
+      { fr:"Planifier et suivre les tâches du maquettage", en:"Planning and tracking mock-up tasks" },
+      { fr:"Prendre en main Figma et son interface", en:"Getting started with Figma and its interface" },
+      { fr:"Importer et exporter des fichiers sur Figma", en:"Importing and exporting files in Figma" },
+      { fr:"Créer des composants sur Figma", en:"Creating components in Figma" },
+      { fr:"Utiliser les composants animés sur Figma", en:"Using animated components in Figma" },
+      { fr:"Créer un design responsive sur Figma", en:"Creating a responsive design in Figma" },
+      { fr:"Créer un prototype, le partager et l'exporter avec Figma", en:"Creating, sharing and exporting a prototype with Figma" },
+      { fr:"Prendre en compte l'accessibilité visuelle sur Figma", en:"Accounting for visual accessibility in Figma" },
+      { fr:"Collaborer avec Figma", en:"Collaborating with Figma" },
+      { fr:"Projet : Réaliser la maquette d'une application web responsive", en:"Project: designing the mock-up of a responsive web application" },
+      { fr:"Figma - Maîtriser les nouveautés de 2025", en:"Figma - Mastering the 2025 features" } ] },
+    { fr:"Créer un site web avec HTML & CSS", en:"Building a website with HTML & CSS", r:20, done:false, les:[
+      { fr:"Introduction au HTML", en:"Introduction to HTML" },
+      { fr:"Syntaxe générale de HTML", en:"General HTML syntax" },
+      { fr:"L'organisation du texte", en:"Organising text" },
+      { fr:"Un langage hypertexte", en:"A hypertext language" },
+      { fr:"Le multimédia en HTML", en:"Multimedia in HTML" },
+      { fr:"Introduction au CSS", en:"Introduction to CSS" },
+      { fr:"CSS3 : Le style du texte", en:"CSS3: text styling" },
+      { fr:"La structuration logique en HTML5 et le modèle de boites en CSS3", en:"Logical structure in HTML5 and the CSS3 box model" },
+      { fr:"Les sélecteurs CSS", en:"CSS selectors" },
+      { fr:"La mise en page avec CSS", en:"CSS layout" },
+      { fr:"La création de tableaux", en:"Creating tables" },
+      { fr:"La création de formulaires", en:"Creating forms" },
+      { fr:"Layout avec CSS Grid", en:"Layout with CSS Grid" },
+      { fr:"Les effets avancés de CSS", en:"Advanced CSS effects" },
+      { fr:"Le responsive design", en:"Responsive design" },
+      { fr:"Introduction à Bootstrap", en:"Introduction to Bootstrap" },
+      { fr:"Ouverture vers d'autres framework CSS", en:"An opening to other CSS frameworks" },
+      { fr:"Le référencement des sites Web", en:"Website SEO" },
+      { fr:"Valider la qualité de son site", en:"Validating your site's quality" },
+      { fr:"Déployer son site sur le Web", en:"Deploying your site on the Web" } ] },
+    { fr:"Créer un site web avec WordPress", en:"Building a website with WordPress", r:4, done:false, les:[
+      { fr:"Installer et configurer WordPress sur son serveur : Hello world", en:"Installing and configuring WordPress on your server: Hello world" },
+      { fr:"L'administration de son site wordpress", en:"Administering your WordPress site" },
+      { fr:"Les paramètres d'un site WordPress", en:"WordPress site settings" },
+      { fr:"Les solutions de paiement en ligne", en:"Online payment solutions" } ] },
+    { fr:"Débuter avec JavaScript", en:"Getting started with JavaScript", r:15, done:false, les:[
+      { fr:"Introduction à javascript", en:"Introduction to JavaScript" },
+      { fr:"Syntaxe et intégration de JS", en:"JS syntax and integration" },
+      { fr:"Les variables en JS", en:"Variables in JS" },
+      { fr:"Les opérateurs", en:"Operators" },
+      { fr:"Structures de contrôle en JS", en:"Control structures in JS" },
+      { fr:"Les boucles", en:"Loops" },
+      { fr:"Les fonctions en JS", en:"Functions in JS" },
+      { fr:"Les types de données", en:"Data types" },
+      { fr:"L'objet JavaScript Number", en:"The JavaScript Number object" },
+      { fr:"Les objets JavaScript String et Array", en:"The JavaScript String and Array objects" },
+      { fr:"Les objets JS", en:"JS objects" },
+      { fr:"Les classes et l'instanciation d'objet", en:"Classes and object instantiation" },
+      { fr:"L'objet Date", en:"The Date object" },
+      { fr:"Introduction au Document Object Model", en:"Introduction to the Document Object Model" },
+      { fr:"Projet d'application : formulaire dynamique avec JS", en:"Application project: dynamic form with JS" } ] },
+    { fr:"Programmer avec JavaScript", en:"Programming with JavaScript", r:16, done:false, les:[
+      { fr:"JS Browser BOM (window - screen - Location - History, etc)", en:"JS Browser BOM (window - screen - Location - History, etc.)" },
+      { fr:"Fonction asynchrone et callback", en:"Asynchronous functions and callbacks" },
+      { fr:"Le format JSON et AJAX", en:"The JSON format and AJAX" },
+      { fr:"Les promesses", en:"Promises" },
+      { fr:"Découverte des patrons de conception", en:"Discovering design patterns" },
+      { fr:"JavaScript Events", en:"JavaScript events" },
+      { fr:"Introduction et installation de TypeScript", en:"Introduction to and installation of TypeScript" },
+      { fr:"JavaScript Graphics", en:"JavaScript graphics" },
+      { fr:"JavaScript Canvas", en:"JavaScript canvas" },
+      { fr:"La Gestion d'erreur", en:"Error handling" },
+      { fr:"Debug", en:"Debugging" },
+      { fr:"Les bonnes pratiques de la programmation avec JS", en:"JS programming best practices" },
+      { fr:"Projet : Memory game", en:"Project: memory game" } ] },
+    { fr:"Utiliser Git et GitHub pour gérer son code source", en:"Using Git and GitHub to manage your source code", r:9, done:false, les:[
+      { fr:"Introduction à la ligne de commande", en:"Introduction to the command line" },
+      { fr:"Introduction à Git et Github", en:"Introduction to Git and GitHub" },
+      { fr:"Les bases", en:"The basics" },
+      { fr:"Les interactions avec le dépôt distant", en:"Interacting with the remote repository" },
+      { fr:"Naviguer dans l'historique", en:"Navigating the history" },
+      { fr:"La gestion des branches", en:"Branch management" },
+      { fr:"Les branches avec Git - Rebaser", en:"Branches with Git - rebasing" },
+      { fr:"Les bonnes pratiques", en:"Best practices" },
+      { fr:"Projet - Utiliser Git et Github pour gérer son code source", en:"Project - using Git and GitHub to manage your source code" } ] },
+    { fr:"Déployer son application web", en:"Deploying your web application", r:2, done:false, les:[
+      { fr:"La mise en ligne d'applications web avec Heroku", en:"Putting web applications online with Heroku" },
+      { fr:"Présentation et utilisation de Fly.io", en:"Introduction to and use of Fly.io" } ] },
+    { fr:"Sécuriser ses applications web", en:"Securing your web applications", r:4, done:false, les:[
+      { fr:"Les principales failles de sécurité", en:"The main security flaws" },
+      { fr:"Les guides de tests", en:"Testing guides" },
+      { fr:"Analyser la sécurité pour évaluer la vulnérabilité d'une application web", en:"Analysing security to assess a web application's vulnerability" },
+      { fr:"Sécuriser la publication d'une application web", en:"Securing the release of a web application" } ] },
+    { fr:"Gérer des conteneurs", en:"Managing containers", r:7, done:false, les:[
+      { fr:"L'architecture applicative de microservices", en:"Microservice application architecture" },
+      { fr:"L'outil docker : principes, objectifs et solutions", en:"Docker: principles, goals and solutions" },
+      { fr:"Le Dockerfile et ses instructions", en:"The Dockerfile and its instructions" },
+      { fr:"Docker Compose : Introduction", en:"Docker Compose: introduction" },
+      { fr:"Docker Compose : Etude de cas", en:"Docker Compose: case study" },
+      { fr:"L'automatisation de la création des containers avec un outil de type Docker", en:"Automating container creation with a Docker-type tool" },
+      { fr:"L'utilisation des conteneurs pour gérer les mises à jour applicatives", en:"Using containers to manage application updates" } ] },
+    { fr:"Projet fil rouge - Développement front-end", en:"Guiding project - front-end development", r:7, done:false, les:[
+      { fr:"Modéliser la partie front d'un site à partir d'un brief client", en:"Modelling the front end of a site from a client brief" },
+      { fr:"Réaliser la partie front responsive", en:"Building the responsive front end" },
+      { fr:"Réaliser l'interface utilisateur", en:"Building the user interface" },
+      { fr:"Dynamiser la partie front", en:"Bringing the front end to life" },
+      { fr:"Appeler une API depuis le front", en:"Calling an API from the front end" },
+      { fr:"Mettre en place les recommandations de sécurité de la partie front", en:"Applying the front-end security recommendations" },
+      { fr:"Mettre en ligne la partie front d'une application", en:"Putting an application's front end online" } ] } ] },
+  { fr:"Développer la partie back-end", en:"Back-end development", mods:[
+    { fr:"Introduction aux bases de données", en:"Introduction to databases", r:10, done:false, les:[] },
+    { fr:"Développer des sites web dynamiques avec PHP", en:"Building dynamic websites with PHP", r:19, done:false, les:[] },
+    { fr:"Créer et administrer une base de données en SQL", en:"Creating and administering a SQL database", r:12, done:false, les:[] },
+    { fr:"Créer une application web avec Symfony", en:"Building a web application with Symfony", r:18, done:false, les:[] },
+    { fr:"Sécuriser ses bases de données", en:"Securing your databases", r:6, done:false, les:[] },
+    { fr:"Sécuriser son infrastructure", en:"Securing your infrastructure", r:13, done:false, les:[] },
+    { fr:"Préparer un environnement de test", en:"Setting up a test environment", r:6, done:false, les:[] },
+    { fr:"Projet fil rouge - Développement back-end", en:"Guiding project - back-end development", r:9, done:false, les:[] } ] }
 ];
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 function parse(d){ return new Date(d); }
@@ -300,11 +454,19 @@ function render(){
     var doneN = 0; t.mods.forEach(function(m){ if (m.done) doneN++; });
     var pct = Math.round(doneN / t.mods.length * 100);
     h += '<div class="plan-track">';
-    h += '<div class="plan-track-head"><span class="plan-track-title">' + esc(t.fr) + '</span><span class="plan-track-count">' + doneN + '/' + t.mods.length + '</span></div>';
+    h += '<div class="plan-track-head"><span class="plan-track-title">' + esc(fr ? t.fr : t.en) + '</span><span class="plan-track-count">' + doneN + '/' + t.mods.length + '</span></div>';
     h += '<div class="plan-bar"><div class="plan-fill" style="width:' + pct + '%"></div></div>';
     h += '<div class="plan-mods">';
     t.mods.forEach(function(m){
-      h += '<div class="plan-mod' + (m.done ? ' done' : '') + '"><span class="plan-dot"></span><span>' + esc(m.fr) + '</span><span class="n">' + m.r + (fr ? ' ress.' : ' res.') + '</span></div>';
+      var hasLes = m.les && m.les.length;
+      h += '<div class="plan-mod' + (m.done ? ' done' : '') + (hasLes ? ' clk' : '') + '"' + (hasLes ? ' onclick="this.classList.toggle(\'open\')"' : '') + '><span class="plan-dot"></span><span class="plan-mod-name">' + esc(fr ? m.fr : m.en) + '</span><span class="n">' + m.r + (fr ? ' ress.' : ' res.') + (hasLes ? ' <span class="plan-chev">▸</span>' : '') + '</span></div>';
+      if (hasLes) {
+        h += '<div class="plan-lessons">';
+        m.les.forEach(function(l){
+          h += '<div class="plan-les"><span class="plan-les-dot"></span><span>' + esc(fr ? l.fr : l.en) + '</span></div>';
+        });
+        h += '</div>';
+      }
     });
     h += '</div></div>';
   });
