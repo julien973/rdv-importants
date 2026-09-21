@@ -124,6 +124,13 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 .badge.soon { border-color: var(--acc-2); color: var(--acc-2); font-weight: 700;
   box-shadow: 0 0 12px rgba(147,90,255,.25); }
 .badge.done { opacity: .8; }
+.bday-divider { display: flex; align-items: center; gap: 12px; margin: 18px 0 12px; color: var(--muted);
+  font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; }
+.bday-divider::before, .bday-divider::after { content: ""; flex: 1; height: 2px; border-radius: 1px;
+  background: linear-gradient(90deg, transparent, var(--acc-2), transparent); }
+.rdv-top { border-color: var(--acc-2); box-shadow: var(--shadow-md), var(--inner-light), 0 0 16px rgba(147,90,255,.18); }
+.rdv-rank { font-size: .72rem; font-weight: 800; padding: 2px 9px; border-radius: 999px; margin-right: 6px;
+  background: var(--date-bg); color: var(--date-ink); }
 .win { position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--card-border); border-radius: 18px;
   box-shadow: var(--shadow-md), var(--inner-light); padding: 18px 20px; margin-bottom: 14px;
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
@@ -166,7 +173,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v3.10 · 2026</span>
+<span class="bb-ver">v3.11 · 2026</span>
 <a class="bb-link" href="index.html" data-fr="🗓️ RDV importants" data-en="🗓️ Appointments">🗓️ RDV importants</a>
 </div></footer>
 <script>
@@ -193,11 +200,14 @@ window.addEventListener("scroll", function(){
   var p = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
   document.getElementById("progress").style.width = p + "%";
 }, { passive: true });
+var TOP = ["Kiana", "Leeloo", "Toriko"];
 var BIRTHDAYS = [
+  { name:"Kiana", month:11, day:12 },
+  { name:"Leeloo", month:12, day:16 },
+  { name:"Toriko", month:8, day:19 },
   { name:"Sébastien", month:9, day:26 },
   { name:"Niva", month:10, day:12 },
   { name:"Kon", month:11, day:5 },
-  { name:"Kiana", month:11, day:12 },
   { name:"Nat & Mika", month:12, day:25 },
   { name:"Nicre", month:1, day:23 },
   { name:"Julien", month:2, day:23 }
@@ -220,7 +230,14 @@ function render(){
   h += '<div class="hero"><h1>🎂 ' + (fr ? "Ce qui revient chaque année" : "What comes back every year") + '</h1>';
   h += '<p>' + (fr ? "Anniversaires et échéances récurrentes — pas des rendez-vous." : "Birthdays and recurring deadlines — not appointments.") + '</p></div>';
   h += '<section class="section"><h2 class="section-title">🎂 ' + (fr ? "Anniversaires" : "Birthdays") + '</h2>';
-  BIRTHDAYS.forEach(function(b){
+  var topList = TOP.map(function(n){ return BIRTHDAYS.filter(function(b){ return b.name === n; })[0]; });
+  var restList = BIRTHDAYS.filter(function(b){ return TOP.indexOf(b.name) < 0; })
+    .sort(function(a,b){
+      function nextD(x){ var d = new Date(now.getFullYear(), x.month - 1, x.day); if (dayDiff(d) < 0) d = new Date(now.getFullYear() + 1, x.month - 1, x.day); return d; }
+      return nextD(a) - nextD(b);
+    });
+  function renderB(b, rank){
+
     var next = new Date(now.getFullYear(), b.month - 1, b.day);
     if (dayDiff(next) < 0) next = new Date(now.getFullYear() + 1, b.month - 1, b.day);
     var diff = dayDiff(next);
@@ -228,14 +245,20 @@ function render(){
     if (diff === 0) count = '<span class="badge soon">🎉 ' + (fr ? "Aujourd'hui !" : "Today!") + '</span>';
     else if (diff === 1) count = '<span class="badge soon">⏳ ' + (fr ? "Demain" : "Tomorrow") + '</span>';
     else count = '<span class="badge">⏳ ' + (fr ? "Dans " + diff + " jours" : "In " + diff + " days") + '</span>';
-    h += '<article class="rdv">';
+    h += '<article class="rdv' + (rank ? ' rdv-top' : '') + '">';
     h += '<div class="rdv-date"><div class="d">' + b.day + '</div><div class="m">' + (fr ? MOIS_FR[b.month - 1].slice(0, 4) : MONTHS_EN[b.month - 1].slice(0, 3)) + '</div></div>';
-    h += '<div class="rdv-body"><div class="rdv-title">🎂 ' + esc(b.name) + '</div>';
+    h += '<div class="rdv-body"><div class="rdv-title">' + (rank ? '<span class="rdv-rank">#' + rank + '</span>' : '') + '🎂 ' + esc(b.name) + '</div>';
     h += '<div class="rdv-where">📅 ' + fmt(next) + '</div>';
     h += '<div class="rdv-meta">' + count + '</div>';
     h += '</div></article>';
-  });
+
+  }
+  h += '<div class="bday-divider">' + (fr ? "⭐ Les plus importants" : "⭐ Most important") + '</div>';
+  topList.forEach(function(b, i){ renderB(b, i + 1); });
+  h += '<div class="bday-divider">' + (fr ? "Autres anniversaires" : "Other birthdays") + '</div>';
+  restList.forEach(function(b){ renderB(b, 0); });
   h += '</section>';
+
   h += '<section class="section"><h2 class="section-title">🔓 ' + (fr ? "Fenêtres d'actualisation" : "Renewal windows") + '</h2>';
   WINDOWS.forEach(function(w){
     var dOpen = new Date(w.open + "T00:00");
