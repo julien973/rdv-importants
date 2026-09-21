@@ -68,6 +68,7 @@
   /* ---- Layout ---- */
   main{max-width:760px;margin:0 auto;padding:24px 16px}
   .p
+
 age-title{
     text-align:center;font-size:1.6rem;margin-bottom:6px;
   }
@@ -121,7 +122,8 @@ age-title{
   }
   .badge{
     border:1px solid var(--line);border-radius:20px;
-    padding:3px 10px;color:var(-
+    padding:3px 10px;color:var(
+-
 -ink-soft);
   }
   .badge.time b{color:var(--accent)}
@@ -167,7 +169,8 @@ age-title{
   <div class="stats">
     <div class="stat"><b id="stat-upcoming">0</b><span data-fr="à venir" data-en="upcoming">à venir</span></div>
     <div class="stat"><b id="stat-next">—</b><span data-fr="prochain dans" data-en="next in">prochain dans</span></div>
-    <div class="stat"><b id="stat-past">0</b><s
+    <div class="stat"><b id="stat-past">0</b>
+<s
 pan data-fr="passés" data-en="past">passés</span></div>
   </div>
 
@@ -205,8 +208,7 @@ pan data-fr="passés" data-en="past">passés</span></div>
 
   var CATS = [
     { id:"sante",   icon:"📞", fr:"Santé",        en:"Health" },
-    { id:"travail", icon:"🏢", 
-fr:"Travail",      en:"Work" },
+    { id:"travail", icon:"🏢", fr:"Travail",      en:"Work" },
     { id:"admin",   icon:"🏛️", fr:"Administratif", en:"Admin" }
   ];
 
@@ -255,8 +257,7 @@ fr:"Travail",      en:"Work" },
       html += '<h2 class="section-title">' + cat.icon + " " + esc(fr ? cat.fr : cat.en) + "</h2>";
 
       list.forEach(function(e){
-        var d = parse(e.s
-tart);
+        var d = parse(e.start);
         var diff = dayDiff(e.start);
         var isPast = diff < 0;
 
@@ -300,7 +301,8 @@ tart);
       html += "</section>";
     });
 
-    app.innerHTML = html;
+    app.innerHTML = htm
+l;
   
   document.getElementById("stat-upcoming").textContent = upcoming;
     document.getElementById("stat-past").textContent = past;
