@@ -128,6 +128,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 .rdv-title { font-size: 1.06rem; font-weight: 700; margin-bottom: 3px; }
 .rdv.past .rdv-title, .rdv.past .rdv-where { color: var(--past-ink); }
 .rdv-where { color: var(--muted); font-size: .9rem; margin-bottom: 9px; }
+.rdv-desc { color: var(--muted); font-size: .84rem; margin: -5px 0 9px; font-style: italic; }
 .rdv-meta { display: flex; flex-wrap: wrap; gap: 7px; }
 .badge { display: inline-flex; align-items: center; gap: 5px; font-size: .78rem; padding: 4px 11px; font-weight: 600;
   border-radius: 999px; background: var(--badge-bg); border: 1px solid var(--badge-border);
@@ -177,7 +178,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v3.5 · 2026</span>
+<span class="bb-ver">v3.6 · 2026</span>
 <a class="bb-link" href="recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
 </div></footer>
 <script>
@@ -207,25 +208,32 @@ window.addEventListener("scroll", function(){
 var EVENTS = [
   { cat:"sante", start:"2026-09-22T10:00", end:null,
     fr:"Appeler le cabinet du Dr Poulaliou (dermatologue)", en:"Call Dr Poulaliou's office (dermatologist)",
+    descFr:"Appel rapide au cabinet pour confirmer l’adresse exacte avant la consultation de novembre.", descEn:"Quick call to confirm the exact address before the November consultation.",
     whereFr:"Appel téléphonique", whereEn:"Phone call" },
   { cat:"sante", start:"2026-10-13T14:30", end:"2026-10-13T15:30",
     fr:"Rendez-vous psychiatre — CMP", en:"Psychiatrist appointment — CMP",
-    whereFr:"1 Rue de Saint-Brieuc, Brest", whereEn:"1 Rue de Saint-Brieuc, Brest" },
+    whereFr:"1 Rue de Saint-Brieuc, Brest", whereEn:"1 Rue de Saint-Brieuc, Brest",
+    descFr:"Suivi psychiatrique régulier au CMP (Centre Médico-Psychologique).", descEn:"Regular psychiatric follow-up at the CMP (Centre Médico-Psychologique)." },
   { cat:"sante", start:"2026-11-02T11:00", end:"2026-11-02T12:00",
     fr:"Rendez-vous dermatologue — Dr Adèle Poulaliou", en:"Dermatologist appointment — Dr Adèle Poulaliou",
-    whereFr:"Cabinet de Dermatologie, 22 Rue Jules Michelet, Brest", whereEn:"Dermatology Office, 22 Rue Jules Michelet, Brest" },
+    whereFr:"Cabinet de Dermatologie, 22 Rue Jules Michelet, Brest", whereEn:"Dermatology Office, 22 Rue Jules Michelet, Brest",
+    descFr:"Consultation dermatologique chez la spécialiste (peau, grains de beauté, etc.).", descEn:"Dermatology consultation with the specialist (skin, moles, etc.)." },
   { cat:"travail", start:"2026-09-22T17:50", end:"2026-09-22T23:00",
     fr:"Mission inventaire — Carrefour Paimpol", en:"Inventory mission — Carrefour Paimpol",
-    whereFr:"B2 Parking Agence, 11 Rue Alexis Clairaut, Brest", whereEn:"B2 Parking Agence, 11 Rue Alexis Clairaut, Brest" },
+    whereFr:"B2 Parking Agence, 11 Rue Alexis Clairaut, Brest", whereEn:"B2 Parking Agence, 11 Rue Alexis Clairaut, Brest",
+    descFr:"Mission d’inventaire rémunérée de nuit : comptage des rayons du magasin. Rendez-vous d’abord au point de rassemblement B2 à Brest avant de partir en covoiturage vers Paimpol.", descEn:"Paid overnight inventory mission: shelf counting. Meet first at the B2 gathering point in Brest before carpooling to Paimpol." },
   { cat:"admin", start:"2026-09-23T15:00", end:"2026-09-23T16:00",
     fr:"Entretien RSA — bilan fin CEU", en:"RSA interview — end-of-CEU review",
-    whereFr:"CDAS Bellevue, 13 Napoléon III, Brest", whereEn:"CDAS Bellevue, 13 Napoléon III, Brest" },
+    whereFr:"CDAS Bellevue, 13 Napoléon III, Brest", whereEn:"CDAS Bellevue, 13 Napoléon III, Brest",
+    descFr:"Rendez-vous obligatoire avec le CDAS : bilan de fin de parcours CEU dans le cadre du dossier RSA.", descEn:"Mandatory meeting with the CDAS: end-of-CEU review as part of the RSA file." },
   { cat:"travail", start:"2026-09-28T20:00", end:"2026-09-29T01:00",
     fr:"Mission inventaire — Leclerc Infomil", en:"Inventory mission — Leclerc Infomil",
-    whereFr:"Route du Leck, Landerneau", whereEn:"Route du Leck, Landerneau" },
+    whereFr:"Route du Leck, Landerneau", whereEn:"Route du Leck, Landerneau",
+    descFr:"Mission d’inventaire rémunérée de nuit : comptage des produits du Leclerc de Landerneau, magasin fermé au public.", descEn:"Paid overnight inventory mission: product counting at the Landerneau Leclerc, store closed to the public." },
   { cat:"travail", start:"2026-10-09T20:30", end:"2026-10-10T01:30",
     fr:"Mission inventaire — Carrefour Plouzané", en:"Inventory mission — Carrefour Plouzané",
-    whereFr:"12 Rue des Myosotis, Plouzané", whereEn:"12 Rue des Myosotis, Plouzané" }
+    whereFr:"12 Rue des Myosotis, Plouzané", whereEn:"12 Rue des Myosotis, Plouzané",
+    descFr:"Mission d’inventaire rémunérée de nuit : comptage des produits du Carrefour de Plouzané, magasin fermé au public.", descEn:"Paid overnight inventory mission: product counting at the Plouzané Carrefour, store closed to the public." }
 ];
 var CATS = [
   { id:"sante", icon:"📞", fr:"Santé", en:"Health" },
@@ -320,6 +328,7 @@ function render(){
       h += '<article class="rdv' + (isPast ? " past" : "") + '">';
       h += '<div class="rdv-date"><div class="d">' + day + '</div><div class="m">' + month + '</div></div>';
       h += '<div class="rdv-body"><div class="rdv-title">' + esc(fr ? e.fr : e.en) + '</div>';
+      if (e.descFr) h += '<div class="rdv-desc">' + esc(fr ? e.descFr : e.descEn) + '</div>';
       h += '<div class="rdv-where">📍 ' + esc(fr ? e.whereFr : e.whereEn) + '</div>';
       h += '<div class="rdv-meta"><span class="badge">🕐 <b>' + t + '</b></span>' + count + '<span class="badge">📅 ' + fullDate + '</span></div>';
       h += '</div></article>';
