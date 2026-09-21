@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="fr">
 <head>
@@ -6,345 +5,220 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mes RDV importants</title>
 <style>
-  :root{
-    --paper:#f6efe2;
-    --paper2:#efe5d2;
-    --card:#fffaf0;
-    --ink:#3a2f26;
-    --ink-soft:#7a6a58;
-    --line:#d9c9ae;
-    --accent:#c05a2e;
-    --accent-soft:#e8cbb8;
-    --ok:#5a7d4a;
-    --past:#b3a48e;
-    --shadow:0 2px 10px rgba(90,60,30,.12);
-  }
-  body.night{
-    --paper:#171310;
-    --paper2:#211b15;
-    --card:#28211a;
-    --ink:#f0e4d0;
-    --ink-soft:#b8a68c;
-    --line:#4a3c2c;
-    --accent:#e8a44c;
-    --accent-soft:#5c4326;
-    --ok:#a8c088;
-    --past:#6e6050;
-    --shadow:0 2px 12px rgba(0,0,0,.45);
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{min-height:100svh}
-  body{
-    font-family:Georgia,'Times New Roman',serif;
-    background:var(--paper);
-    background-image:linear-gradient(var(--paper),var(--paper2));
-    color:var(--ink);
-    padding-bottom:96px;
-    transition:background .3s,color .3s;
-  }
-  /* ---- Topbar ---- */
-  .topbar{
-    position:sticky;top:0;z-index:50;
-    background:var(--card);
-    border-bottom:1px solid var(--line);
-    box-shadow:var(--shadow);
-    padding:12px 16px;
-    display:flex;align-items:center;justify-content:space-between;gap:12px;
-    flex-wrap:wrap;
-  }
-  .brand{font-size:1.15rem;font-weight:bold;letter-spacing:.03em}
-  .brand .dot{color:var(--accent)}
-  .top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .btn{
-    font-family:inherit;font-size:.9rem;
-    background:var(--card);color:var(--ink);
-    border:1px solid var(--line);border-radius:8px;
-    padding:7px 12px;cursor:pointer;
-    display:inline-flex;align-items:center;gap:6px;
-    transition:border-color .2s,background .2s;
-  }
-  .btn:hover{border-color:var(--accent)}
-  .btn.active{border-color:var(--accent);color:var(--accent);font-weight:bold}
-  /* ---- Layout ---- */
-  main{max-width:760px;margin:0 auto;padding:24px 16px}
-  .p
-
-age-title{
-    text-align:center;font-size:1.6rem;margin-bottom:6px;
-  }
-  .page-sub{
-    text-align:center;color:var(--ink-soft);
-    font-style:italic;margin-bottom:26px;font-size:.95rem;
-  }
-  .stats{
-    display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:28px;
-  }
-  .stat{
-    background:var(--card);border:1px solid var(--line);border-radius:10px;
-    padding:10px 18px;text-align:center;box-shadow:var(--shadow);min-width:110px;
-  }
-  .stat b{display:block;font-size:1.35rem;color:var(--accent)}
-  .stat span{font-size:.8rem;color:var(--ink-soft)}
-  /* ---- Section ---- */
-  .section{margin-bottom:30px}
-  .section-title{
-    display:flex;align-items:center;gap:10px;
-    font-size:1.05rem;letter-spacing:.05em;text-transform:uppercase;
-    color:var(--ink-soft);margin-bottom:12px;
-  }
-  .section-title::after{content:"";flex:1;height:1px;background:var(--line)}
-  /* ---- Carte RDV ---- */
-  .rdv{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-left:4px solid var(--accent);
-    border-radius:8px;
-    padding:14px 16px;
-    margin-bottom:12px;
-    box-shadow:var(--shadow);
-    display:flex;gap:14px;align-items:flex-start;
-    position:relative;
-  }
-  .rdv.past{opacity:.45;border-left-color:var(--past)}
-  .rdv-date{
-    flex-shrink:0;text-align:center;
-    background:var(--paper2);border:1px solid var(--line);border-radius:8px;
-    padding:8px 10px;min-width:64px;
-  }
-  .rdv-date .d{font-size:1.4rem;font-weight:bold;line-height:1.1;color:var(--accent)}
-  .rdv-date .m{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft)}
-  .rdv-body{flex:1;min-width:0}
-  .rdv-title{font-size:1.05rem;font-weight:bold;margin-bottom:3px}
-  .rdv-where{font-size:.85rem;color:var(--ink-soft);font-style:italic}
-  .rdv-meta{
-    display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;
-    font-size:.8rem;align-items:center;
-  }
-  .badge{
-    border:1px solid var(--line);border-radius:20px;
-    padding:3px 10px;color:var(
--
--ink-soft);
-  }
-  .badge.time b{color:var(--accent)}
-  .badge.soon{border-color:var(--accent);color:var(--accent);font-weight:bold;background:var(--accent-soft)}
-  .badge.done{color:var(--past)}
-  /* ---- Botbar ---- */
-  .botbar{
-    position:fixed;left:0;right:0;bottom:0;z-index:50;
-    background:var(--card);
-    border-top:1px solid var(--line);
-    box-shadow:0 -2px 10px rgba(90,60,30,.10);
-    padding:10px 16px;
-    display:flex;align-items:center;justify-content:space-between;gap:10px;
-  }
-  .botbar .brand{font-size:.85rem}
-  .botbar .ver{font-size:.8rem;color:var(--ink-soft)}
-  .botbar a{color:var(--accent);text-decoration:none;font-size:.8rem;font-weight:bold}
-  @media print{
-    .topbar,.botbar,.top-actions{display:none!important}
-    body{padding-bottom:0;background:#fff;color:#000}
-  }
-  @media (max-width:480px){
-    .rdv{flex-direction:column}
-    .rdv-date{align-self:flex-start}
-  }
+* { box-sizing: border-box; }
+:root { font-family: Georgia, "Times New Roman", serif; }
+body.day, body.night { --acc: #b4552d; --acc-soft: rgba(180,85,45,.12); }
+body.night {
+  --bg-base: #161009; --ink: #f3e9d8; --muted: #b8a88e;
+  --bg-image: radial-gradient(ellipse 80% 60% at 12% 6%, rgba(180,85,45,.22), transparent 60%),
+    radial-gradient(ellipse 70% 55% at 90% 14%, rgba(120,80,30,.20), transparent 60%),
+    radial-gradient(ellipse 85% 70% at 85% 95%, rgba(90,60,25,.18), transparent 62%),
+    linear-gradient(160deg, #17110a 0%, #241a10 50%, #191009 100%);
+  --surface: rgba(255,248,235,.9); --card-border: rgba(255,240,215,.5); --border-strong: rgba(255,240,215,.85);
+  --date-bg: linear-gradient(150deg, #b4552d, #8a3c1c); --date-ink: #fff6e8;
+  --btn-bg: rgba(255,240,215,.12); --btn-hover: rgba(255,240,215,.24); --btn-ink: #f3e9d8; --btn-border: rgba(255,240,215,.4);
+  --shadow-md: 0 8px 32px rgba(0,0,0,.45);
+  --halo: 0 0 0 1px rgba(255,240,215,.22), 0 14px 44px rgba(0,0,0,.55), 0 0 30px rgba(180,85,45,.18);
+  --topbar-bg: rgba(26,18,10,.66); --topbar-border: rgba(255,240,215,.16);
+  --badge-bg: rgba(255,240,215,.10); --badge-border: rgba(255,240,215,.28);
+  --past-ink: rgba(243,233,216,.38); --spot: rgba(255,235,200,.14);
+}
+body.day {
+  --bg-base: #f4ecdd; --ink: #2d2013; --muted: #8a7a63;
+  --bg-image: radial-gradient(ellipse 80% 60% at 12% 6%, rgba(180,85,45,.10), transparent 60%),
+    radial-gradient(ellipse 70% 55% at 90% 14%, rgba(120,80,30,.08), transparent 60%),
+    radial-gradient(ellipse 85% 70% at 85% 95%, rgba(150,110,60,.10), transparent 62%),
+    linear-gradient(160deg, #f8f1e3 0%, #f1e7d3 55%, #efe5cd 100%);
+  --surface: rgba(255,252,245,.92); --card-border: rgba(255,255,255,.9); --border-strong: rgba(45,32,19,.35);
+  --date-bg: linear-gradient(150deg, #c2653a, #9c4a22); --date-ink: #fff8ec;
+  --btn-bg: rgba(255,252,245,.7); --btn-hover: rgba(255,255,255,1); --btn-ink: #2d2013; --btn-border: rgba(45,32,19,.3);
+  --shadow-md: 0 8px 32px rgba(90,60,30,.14);
+  --halo: 0 0 0 1px rgba(255,255,255,.9), 0 14px 40px rgba(90,60,30,.18), 0 0 26px rgba(180,85,45,.14);
+  --topbar-bg: rgba(250,244,231,.7); --topbar-border: rgba(45,32,19,.12);
+  --badge-bg: rgba(180,85,45,.08); --badge-border: rgba(180,85,45,.25);
+  --past-ink: rgba(45,32,19,.35); --spot: rgba(180,85,45,.08);
+}
+body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; overscroll-behavior-y: none;
+  color: var(--ink); background-color: var(--bg-base); background-image: var(--bg-image); }
+@media (hover: hover) and (pointer: fine) { body { background-attachment: fixed; } }
+.orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.orbs i { position: absolute; border-radius: 50%; filter: blur(60px); opacity: .5; }
+.orbs .o1 { width: 340px; height: 340px; left: -80px; top: 8%; background: var(--acc-soft); }
+.orbs .o2 { width: 260px; height: 260px; right: -60px; top: 34%; background: var(--acc-soft); }
+.orbs .o3 { width: 300px; height: 300px; left: 30%; bottom: -90px; background: var(--spot); }
+.topbar { position: sticky; top: 0; z-index: 20; background: var(--topbar-bg);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--topbar-border); }
+.topbar-inner { max-width: 980px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 18px; gap: 12px; flex-wrap: wrap; }
+.tb-brand { font-size: 1.05rem; letter-spacing: .3px; font-weight: bold; }
+.tb-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.lang-btn { display: inline-flex; align-items: center; gap: 7px; padding: 7px 13px; border-radius: 999px;
+  border: 1px solid var(--btn-border); background: var(--btn-bg); color: var(--btn-ink); cursor: pointer;
+  font-family: inherit; font-size: .92rem; transition: background .18s, transform .18s; }
+.lang-btn:hover { background: var(--btn-hover); transform: translateY(-1px); }
+.lang-btn.active { outline: 2px solid var(--acc); outline-offset: 1px; font-weight: bold; }
+.flag { width: 21px; height: 14px; border-radius: 2px; display: block; box-shadow: 0 0 0 1px rgba(0,0,0,.15); }
+.page { position: relative; z-index: 1; max-width: 980px; margin: 0 auto; padding: 22px 18px 10px; }
+.hero { background: var(--surface); border: 1px solid var(--card-border); border-radius: 18px;
+  box-shadow: var(--shadow-md); padding: 26px 26px 22px; margin-top: 18px; }
+.hero h1 { margin: 0 0 8px; font-size: 1.65rem; }
+.hero p { margin: 0; color: var(--muted); font-style: italic; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin: 18px 0; }
+.kpi { background: var(--surface); border: 1px solid var(--card-border); border-radius: 16px;
+  box-shadow: var(--shadow-md); padding: 16px 18px; text-align: center; }
+.kpi .label { font-size: .82rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted); }
+.kpi .value { font-size: 1.9rem; font-weight: bold; margin: 4px 0 2px; color: var(--acc); }
+.kpi .sub { font-size: .85rem; color: var(--muted); }
+.section { margin: 26px 0; }
+.section-title { display: flex; align-items: center; gap: 10px; font-size: 1.25rem; margin: 0 0 14px; }
+.section-title::after { content: ""; flex: 1; height: 1px; background: var(--badge-border); }
+.rdv { display: flex; gap: 16px; background: var(--surface); border: 1px solid var(--card-border);
+  border-radius: 16px; box-shadow: var(--shadow-md); padding: 16px 18px; margin-bottom: 12px;
+  transition: transform .18s, box-shadow .18s; align-items: stretch; }
+.rdv:hover { transform: translateY(-2px); box-shadow: var(--halo); }
+.rdv.past { opacity: .55; filter: saturate(.4); }
+.rdv-date { flex: 0 0 74px; background: var(--date-bg); color: var(--date-ink); border-radius: 12px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 4px; }
+.rdv-date .d { font-size: 1.7rem; font-weight: bold; line-height: 1; }
+.rdv-date .m { font-size: .8rem; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 3px; }
+.rdv-body { flex: 1; min-width: 0; }
+.rdv-title { font-size: 1.08rem; font-weight: bold; margin-bottom: 3px; }
+.rdv.past .rdv-title, .rdv.past .rdv-where { color: var(--past-ink); }
+.rdv-where { color: var(--muted); font-size: .92rem; margin-bottom: 8px; }
+.rdv-meta { display: flex; flex-wrap: wrap; gap: 7px; }
+.badge { display: inline-flex; align-items: center; gap: 5px; font-size: .8rem; padding: 4px 10px;
+  border-radius: 999px; background: var(--badge-bg); border: 1px solid var(--badge-border);
+  font-family: Georgia, serif; }
+.badge.soon { border-color: var(--acc); color: var(--acc); font-weight: bold; }
+.badge.done { opacity: .8; }
+.win { background: var(--surface); border: 1px solid var(--card-border); border-radius: 16px;
+  box-shadow: var(--shadow-md); padding: 18px 20px; margin-bottom: 14px; }
+.win-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+.win-title { font-size: 1.08rem; font-weight: bold; }
+.win-sub { color: var(--muted); font-size: .92rem; margin: 6px 0 10px; }
+.win-bar { height: 8px; border-radius: 999px; background: var(--badge-bg); border: 1px solid var(--badge-border); overflow: hidden; }
+.win-bar i { display: block; height: 100%; background: linear-gradient(90deg, #6b7d3f, #8a9a55); }
+.botbar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 20; background: var(--topbar-bg);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-top: 1px solid var(--topbar-border); }
+.botbar-inner { max-width: 980px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 18px; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
+.bb-link { color: var(--ink); text-decoration: none; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--btn-border); background: var(--btn-bg); transition: background .18s; }
+.bb-link:hover { background: var(--btn-hover); }
+.bb-ver { color: var(--muted); }
+@media (max-width: 520px) { .rdv { flex-direction: column; } .rdv-date { flex-direction: row; gap: 8px; }
+  .hero h1 { font-size: 1.3rem; } }
 </style>
 </head>
-<body class="day">
-
-<header class="topbar">
-  <div class="brand" data-fr="📘 Mes RDV importants" data-en="📘 My Important Appointments">📘 Mes RDV importants</div>
-  <div class="top-actions">
-    <button class="btn" id="lang-fr">🇫🇷 <span>Français</span></button>
-    <button class="btn" id="lang-en">🇬🇧 <span>English</span></button>
-    <button class="btn" id="theme-btn">☀️ <span data-fr="Thème jour" data-en="Day theme">Thème jour</span></button>
-  </div>
-</header>
-
-<main>
-  <h1 class="page-title" data-fr="Mon agenda des rendez-vous" data-en="My appointment diary">Mon agenda des rendez-vous</h1>
-  <p class="page-sub" data-fr="Les rendez-vous importants, rien d'autre." data-en="The important appointments, nothing else.">Les rendez-vous importants, rien d'autre.</p>
-
-  <div class="stats">
-    <div class="stat"><b id="stat-upcoming">0</b><span data-fr="à venir" data-en="upcoming">à venir</span></div>
-    <div class="stat"><b id="stat-next">—</b><span data-fr="prochain dans" data-en="next in">prochain dans</span></div>
-    <div class="stat"><b id="stat-past">0</b>
-<s
-pan data-fr="passés" data-en="past">passés</span></div>
-  </div>
-
-  <div id="app"></div>
+<body class="night">
+<script>try{var t=localStorage.getItem(THEME_KEY);if(t==="day")document.body.className="day";}catch(e){}</script>
+<div class="orbs" aria-hidden="true"><i class="o1"></i><i class="o2"></i><i class="o3"></i></div>
+<header class="topbar"><div class="topbar-inner">
+<span class="tb-brand" data-fr="📓 Mes RDV importants" data-en="📓 My Appointments">📓 Mes RDV importants</span>
+<div class="tb-actions">
+<button class="lang-btn active" id="btn-fr" onclick="switchLang('fr')"><svg class="flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#0055A4"/><rect x="1" width="1" height="2" fill="#ffffff"/><rect x="2" width="1" height="2" fill="#EF4135"/></svg>FR</button>
+<button class="lang-btn" id="btn-en" onclick="switchLang('en')"><svg class="flag" viewBox="0 0 60 30" aria-hidden="true"><rect width="60" height="30" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#ffffff" stroke-width="6"/><path d="M30,0 V30 M0,15 H60" stroke="#ffffff" stroke-width="10"/><path d="M30,0 V30 M0,15 H60" stroke="#C8102E" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="3.5"/></svg>EN</button>
+<button class="lang-btn" id="btn-theme" onclick="toggleTheme()"><span id="btn-theme-ico">☀️</span> <span data-fr="Thème" data-en="Theme">Thème</span></button>
+</div></div></header>
+<main class="page">
+<div id="app"></div>
 </main>
-
-<footer class="botbar">
-  <span class="brand" data-fr="📘 Agenda de Julien" data-en="📘 Julien's Diary">📘 Agenda de Julien</span>
-  <a href="recurrents.html" data-fr="→ Mes récurrents (anniversaires, actualisation)" data-en="→ My recurring events">→ Mes récurrents (anniversaires, actualisation)</a>
-  <span class="ver">v1.1 · 2026</span>
-</footer>
-
+<footer class="botbar"><div class="botbar-inner">
+<span data-fr="📓 Mes RDV importants" data-en="📓 My Appointments">📓 Mes RDV importants</span>
+<span class="bb-ver">v2.0 · 2026</span>
+<a class="bb-link" href="recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
+</div></footer>
+<script>var THEME_KEY="rdv-theme";var LANG_KEY="rdv-lang";</script>
 <script>
 (function(){
-  "use strict";
-
-  /* ===== Données : RDV importants (extrait du calendrier Google, 21/09/2026 → 01/06/2027) ===== */
-  var EVENTS = [
-    { cat:"sante",   start:"2026-09-22T10:00", end:null,
-      fr:"Appeler le cabinet du Dr Poulaliou (dermatologue)", en:"Call Dr Poulaliou's office (dermatologist)",
-      whereFr:"Appel téléphonique", whereEn:"Phone call" },
-    { cat:"travail", start:"2026-09-22T17:50", end:"2026-09-22T23:00",
-      fr:"Mission inventaire — Carrefour Paimpol", en:"Inventory mission — Carrefour Paimpol",
-      whereFr:"B2 Parking Agence, 11 Rue Alexis Clairaut, Brest", whereEn:"B2 Parking Agence, 11 Rue Alexis Clairaut, Brest" },
-    { cat:"admin",   start:"2026-09-23T15:00", end:"2026-09-23T16:00",
-      fr:"Entretien RSA — bilan fin CEU", en:"RSA interview — end-of-CEU review",
-      whereFr:"CDAS Bellevue, 13 Napoléon III, Brest", whereEn:"CDAS Bellevue, 13 Napoléon III, Brest" },
-    { cat:"travail", start:"2026-09-28T20:00", end:"2026-09-29T01:00",
-      fr:"Mission inventaire — Leclerc Infomil", en:"Inventory mission — Leclerc Infomil",
-      whereFr:"Route du Leck, Landerneau", whereEn:"Route du Leck, Landerneau" },
-    { cat:"travail", start:"2026-10-09T20:30", end:"2026-10-10T01:30",
-      fr:"Mission inventaire — Carrefour Plouzané", en:"Inventory mission — Carrefour Plouzané",
-      whereFr:"12 Rue des Myosotis, Plouzané", whereEn:"12 Rue des Myosotis, Plouzané" }
-  ];
-
-  var CATS = [
-    { id:"sante",   icon:"📞", fr:"Santé",        en:"Health" },
-    { id:"travail", icon:"🏢", fr:"Travail",      en:"Work" },
-    { id:"admin",   icon:"🏛️", fr:"Administratif", en:"Admin" }
-  ];
-
-  var MOIS_FR = ["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."];
-  var MONTHS_EN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-  var JOURS_FR = ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
-  var DAYS_EN = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-
-  /* ===== État ===== */
-  var lang = localStorage.getItem("rdv-lang") || "fr";
-  var theme = localStorage.getItem("rdv-theme") || "day";
-  var app = document.getElementById("app");
-
-  /* ===== Utilitaires ===== */
-  function parse(d){ return new Date(d + (d.length === 10 ? "T00:00" : "")); }
-  function dayDiff(d){
-    var today = new Date(); today.setHours(0,0,0,0);
-    var target = new Date(d); target.setHours(0,0,0,0);
-    return Math.round((target - today) / 86400000);
-  }
-  function fmtTime(d){
-    var h = d.getHours(), m = d.getMinutes();
-    return (h < 10 ? "0" : "") + h + "h" + (m < 10 ? "0" : "") + m;
-  }
-
-  /* ===== Rendu ===== */
-  function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
-
-  function render(){
-    var fr = lang === "fr";
-    var html = "";
-    var upcoming = 0, past = 0, nextDays = null;
-
-    EVENTS.forEach(function(e){ if (dayDiff(e.start) >= 0) upcoming++; else past++; });
-    EVENTS.forEach(function(e){
-      var d = dayDiff(e.start);
-      if (d >= 0 && (nextDays === null || d < nextDays)) nextDays = d;
+"use strict";
+var lang = "fr"; try { lang = localStorage.getItem(LANG_KEY) || "fr"; } catch(e) {}
+window.switchLang = function(l){ lang = l; try { localStorage.setItem(LANG_KEY, l); } catch(e) {} syncLang(); render(); };
+function syncLang(){
+  document.getElementById("btn-fr").classList.toggle("active", lang === "fr");
+  document.getElementById("btn-en").classList.toggle("active", lang === "en");
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-fr]").forEach(function(s){ s.textContent = lang === "fr" ? s.getAttribute("data-fr") : s.getAttribute("data-en"); });
+}
+window.setTheme = function(t){
+  document.body.classList.toggle("night", t === "night");
+  document.body.classList.toggle("day", t === "day");
+  document.getElementById("btn-theme-ico").textContent = t === "day" ? "🌙" : "☀️";
+  try { localStorage.setItem(THEME_KEY, t); } catch(e) {}
+};
+window.toggleTheme = function(){ setTheme(document.body.classList.contains("day") ? "night" : "day"); };
+var EVENTS = [
+  { cat:"sante", start:"2026-09-22T10:00", end:null,
+    fr:"Appeler le cabinet du Dr Poulaliou (dermatologue)", en:"Call Dr Poulaliou's office (dermatologist)",
+    whereFr:"Appel téléphonique", whereEn:"Phone call" },
+  { cat:"travail", start:"2026-09-22T17:50", end:"2026-09-22T23:00",
+    fr:"Mission inventaire — Carrefour Paimpol", en:"Inventory mission — Carrefour Paimpol",
+    whereFr:"B2 Parking Agence, 11 Rue Alexis Clairaut, Brest", whereEn:"B2 Parking Agence, 11 Rue Alexis Clairaut, Brest" },
+  { cat:"admin", start:"2026-09-23T15:00", end:"2026-09-23T16:00",
+    fr:"Entretien RSA — bilan fin CEU", en:"RSA interview — end-of-CEU review",
+    whereFr:"CDAS Bellevue, 13 Napoléon III, Brest", whereEn:"CDAS Bellevue, 13 Napoléon III, Brest" },
+  { cat:"travail", start:"2026-09-28T20:00", end:"2026-09-29T01:00",
+    fr:"Mission inventaire — Leclerc Infomil", en:"Inventory mission — Leclerc Infomil",
+    whereFr:"Route du Leck, Landerneau", whereEn:"Route du Leck, Landerneau" },
+  { cat:"travail", start:"2026-10-09T20:30", end:"2026-10-10T01:30",
+    fr:"Mission inventaire — Carrefour Plouzané", en:"Inventory mission — Carrefour Plouzané",
+    whereFr:"12 Rue des Myosotis, Plouzané", whereEn:"12 Rue des Myosotis, Plouzané" }
+];
+var CATS = [
+  { id:"sante", icon:"📞", fr:"Santé", en:"Health" },
+  { id:"travail", icon:"🏢", fr:"Travail", en:"Work" },
+  { id:"admin", icon:"🏛️", fr:"Administratif", en:"Admin" }
+];
+var MOIS_FR = ["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."];
+var MONTHS_EN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var JOURS_FR = ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
+var DAYS_EN = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function parse(d){ return new Date(d); }
+function dayDiff(d){ var t = new Date(); t.setHours(0,0,0,0); var x = new Date(d); x.setHours(0,0,0,0); return Math.round((x - t) / 86400000); }
+function fmtTime(d){ var h = d.getHours(), m = d.getMinutes(); return (h < 10 ? "0" : "") + h + "h" + (m < 10 ? "0" : "") + m; }
+function render(){
+  var fr = lang === "fr";
+  var upcoming = 0, past = 0, next = null;
+  EVENTS.forEach(function(e){ var d = dayDiff(e.start); if (d >= 0) { upcoming++; if (next === null || d < next) next = d; } else past++; });
+  var h = "";
+  h += '<div class="hero"><h1>' + (fr ? "🗓️ Mon agenda des rendez-vous" : "🗓️ My appointment diary") + '</h1>';
+  h += '<p>' + (fr ? "Les rendez-vous importants, rien d'autre." : "Important appointments, nothing else.") + '</p></div>';
+  h += '<div class="kpis">';
+  h += '<div class="kpi"><div class="label">' + (fr ? "À venir" : "Upcoming") + '</div><div class="value">' + upcoming + '</div><div class="sub">' + (fr ? "rendez-vous planifiés" : "scheduled appointments") + '</div></div>';
+  h += '<div class="kpi"><div class="label">' + (fr ? "Prochain dans" : "Next in") + '</div><div class="value">' + (next === null ? "—" : next + " j") + '</div><div class="sub">' + (next === 0 ? (fr ? "aujourd'hui !" : "today!") : (fr ? "jours" : "days")) + '</div></div>';
+  h += '<div class="kpi"><div class="label">' + (fr ? "Passés" : "Past") + '</div><div class="value">' + past + '</div><div class="sub">' + (fr ? "archivés grisés" : "grayed out") + '</div></div>';
+  h += '</div>';
+  CATS.forEach(function(cat){
+    var list = EVENTS.filter(function(e){ return e.cat === cat.id; })
+                      .sort(function(a,b){ return parse(a.start) - parse(b.start); });
+    if (!list.length) return;
+    h += '<section class="section"><h2 class="section-title">' + cat.icon + " " + esc(fr ? cat.fr : cat.en) + '</h2>';
+    list.forEach(function(e){
+      var d = parse(e.start);
+      var diff = dayDiff(e.start);
+      var isPast = diff < 0;
+      var day = d.getDate();
+      var month = fr ? MOIS_FR[d.getMonth()] : MONTHS_EN[d.getMonth()];
+      var fullDate = (fr ? JOURS_FR[d.getDay()] : DAYS_EN[d.getDay()]) + " " + day + " " + month + " " + d.getFullYear();
+      var t = fmtTime(d) + (e.end ? " – " + fmtTime(parse(e.end)) : "");
+      var count = "";
+      if (isPast) count = '<span class="badge done">✓ ' + (fr ? "Passé" : "Past") + '</span>';
+      else if (diff === 0) count = '<span class="badge soon">🔥 ' + (fr ? "Aujourd'hui !" : "Today!") + '</span>';
+      else if (diff === 1) count = '<span class="badge soon">⏳ ' + (fr ? "Demain" : "Tomorrow") + '</span>';
+      else count = '<span class="badge">⏳ ' + (fr ? "Dans " + diff + " jours" : "In " + diff + " days") + '</span>';
+      h += '<article class="rdv' + (isPast ? " past" : "") + '">';
+      h += '<div class="rdv-date"><div class="d">' + day + '</div><div class="m">' + month + '</div></div>';
+      h += '<div class="rdv-body"><div class="rdv-title">' + esc(fr ? e.fr : e.en) + '</div>';
+      h += '<div class="rdv-where">📍 ' + esc(fr ? e.whereFr : e.whereEn) + '</div>';
+      h += '<div class="rdv-meta"><span class="badge">🕐 <b>' + t + '</b></span>' + count + '<span class="badge">📅 ' + fullDate + '</span></div>';
+      h += '</div></article>';
     });
-
-    CATS.forEach(function(cat){
-      var list = EVENTS.filter(function(e){ return e.cat === cat.id; })
-                        .sort(function(a,b){ return parse(a.start) - parse(b.start); });
-      if (!list.length) return;
-
-      html += '<section class="section">';
-      html += '<h2 class="section-title">' + cat.icon + " " + esc(fr ? cat.fr : cat.en) + "</h2>";
-
-      list.forEach(function(e){
-        var d = parse(e.start);
-        var diff = dayDiff(e.start);
-        var isPast = diff < 0;
-
-        var day = d.getDate();
-        var month = fr ? MOIS_FR[d.getMonth()] : MONTHS_EN[d.getMonth()];
-        var fullDate = (fr ? JOURS_FR[d.getDay()] : DAYS_EN[d.getDay()]) + " " + day + " " + month + " " + d.getFullYear();
-
-        var timeBadge = "";
-        if (!e.allday) {
-          var t = fmtTime(d) + (e.end ? " – " + fmtTime(parse(e.end)) : "");
-          timeBadge = '<span class="badge time">🕐 <b>' + t + "</b></span>";
-        } else if (fr) {
-          timeBadge = '<span class="badge">🌞 <span data-fr="Journée" data-en="All day">Journée</span></span>';
-        } else {
-          timeBadge = '<span class="badge">🌞 All day</span>';
-        }
-
-        var countBadge = "";
-        if (isPast) {
-          countBadge = '<span class="badge done">✓ ' + (fr ? "Passé" : "Past") + "</span>";
-        } else if (diff === 0) {
-          countBadge = '<span class="badge soon">🔥 ' + (fr ? "Aujourd'hui !" : "Today!") + "</span>";
-        } else if (diff === 1) {
-          countBadge = '<span class="badge soon">⏳ ' + (fr ? "Demain" : "Tomorrow") + "</span>";
-        } else {
-          countBadge = '<span class="badge">⏳ ' + (fr ? "Dans " + diff + " jours" : "In " + diff + " days") + "</span>";
-        }
-
-        var where = (fr ? e.whereFr : e.whereEn) || "";
-        var title = esc(fr ? e.fr : e.en);
-
-        html += '<article class="rdv' + (isPast ? " past" : "") + '">';
-        html += '<div class="rdv-date"><div class="d">' + day + '</div><div class="m">' + month + "</div></div>";
-        html += '<div class="rdv-body">';
-        html += '<div class="rdv-title">' + title + "</div>";
-        if (where) html += '<div class="rdv-where">📍 ' + esc(where) + "</div>";
-        html += '<div class="rdv-meta">' + timeBadge + countBadge + '<span class="badge">📅 ' + fullDate + "</span></div>";
-        html += "</div></article>";
-      });
-
-      html += "</section>";
-    });
-
-    app.innerHTML = htm
-l;
-  
-  document.getElementById("stat-upcoming").textContent = upcoming;
-    document.getElementById("stat-past").textContent = past;
-    var nd = document.getElementById("stat-next");
-    if (nextDays === null) { nd.textContent = "—"; }
-    else if (nextDays === 0) { nd.textContent = lang === "fr" ? "0 j" : "0 d"; }
-    else { nd.textContent = (lang === "fr" ? nextDays + " j" : nextDays + " d"); }
-  }
-
-  /* ===== Langue ===== */
-  function applyLang(){
-    document.documentElement.lang = lang;
-    document.querySelectorAll("[data-fr]").forEach(function(el){
-      el.textContent = lang === "fr" ? el.getAttribute("data-fr") : el.getAttribute("data-en");
-    });
-    document.getElementById("lang-fr").classList.toggle("active", lang === "fr");
-    document.getElementById("lang-en").classList.toggle("active", lang === "en");
-    render();
-  }
-  document.getElementById("lang-fr").addEventListener("click", function(){
-    lang = "fr"; localStorage.setItem("rdv-lang", lang); applyLang();
+    h += '</section>';
   });
-  document.getElementById("lang-en").addEventListener("click", function(){
-    lang = "en"; localStorage.setItem("rdv-lang", lang); applyLang();
-  });
-
-  /* ===== Thème ===== */
-  function applyTheme(){
-    document.body.className = theme;
-    var b = document.getElementById("theme-btn");
-    b.innerHTML = theme === "day"
-      ? '☀️ <span data-fr="Thème jour" data-en="Day theme">Thème jour</span>'
-      : '🌙 <span data-fr="Thème nuit" data-en="Night theme">Thème nuit</span>';
-    applyLang(); // réapplique data-fr après réécriture du bouton
-  }
-  document.getElementById("theme-btn").addEventListener("click", function(){
-    theme = theme === "day" ? "night" : "day";
-    localStorage.setItem("rdv-theme", theme);
-    applyTheme();
-  });
-
-  applyTheme();
+  document.getElementById("app").innerHTML = h;
+}
+syncLang(); render();
 })();
 </script>
 </body>
