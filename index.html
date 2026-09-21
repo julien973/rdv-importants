@@ -43,10 +43,6 @@ h2::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--bo
 .cd{margin-top:.5rem;font-weight:800;font-size:.9rem}
 .card.past{opacity:.55}
 .card.past .ttl{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:var(--acc)}
-.card.done{opacity:.5}
-.card.done .ttl{text-decoration:line-through}
-.ask{margin-top:.6rem;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;font-size:.85rem}
-.ask button{background:var(--acc);color:#fff;border-color:transparent;font-weight:700}
 footer{position:sticky;bottom:0;z-index:50;display:flex;justify-content:space-between;gap:.6rem;flex-wrap:wrap;align-items:center;padding:.6rem 1.2rem;background:var(--card);border-top:1px solid var(--bord);backdrop-filter:blur(14px);font-size:.8rem;color:var(--sub)}
 footer a{color:var(--acc);text-decoration:none;font-weight:700}
 .ver{font-weight:800}
@@ -69,7 +65,7 @@ footer a{color:var(--acc);text-decoration:none;font-weight:700}
 </main>
 <footer>
 <a href="recurrents.html" data-fr="→ Récurrents &amp; anniversaires" data-en="→ Recurring &amp; birthdays">→ Récurrents &amp; anniversaires</a>
-<span class="ver">v3.1 · 2026</span>
+<span class="ver">v3.2 · 2026</span>
 </footer>
 </body>
 </html>
@@ -83,27 +79,23 @@ document.getElementById("btn-fr").onclick=function(){setLang("fr")};
 document.getElementById("btn-en").onclick=function(){setLang("en")};
 document.getElementById("btn-theme").onclick=function(){var cur=document.documentElement.getAttribute("data-theme")==="night"?"day":"night";document.documentElement.setAttribute("data-theme",cur);try{localStorage.setItem(TK,cur)}catch(e){}};
 applyLang(lang());
-var EVENTS=[{"id":"sante-call","start":"2026-09-22T10:00","end":"2026-09-22T10:15","cat":"sante","fr":"Appeler cabinet Dr Poulaliou (confirmer le lieu du RDV dermatologue)","en":"Call Dr Poulaliou office (confirm dermatologist location)","place":"","archived":false},{"id":"inv-paimpol","start":"2026-09-22T17:50","end":"2026-09-22T23:00","cat":"travail","fr":"Mission inventaire — Carrefour Paimpol","en":"Inventory mission — Carrefour Paimpol","place":"B2 Parking Agence, 11 Rue Alexis Clairaut, Brest","archived":false},{"id":"rsa","start":"2026-09-23T15:00","end":"2026-09-23T16:00","cat":"admin","fr":"Entretien RSA — bilan de fin de CEU","en":"RSA interview — end of CEU review","place":"CDAS Bellevue, 13 Napoléon III, Brest","archived":false},{"id":"inv-infomil","start":"2026-09-28T20:00","end":"2026-09-29T01:00","cat":"travail","fr":"Mission inventaire — Leclerc Infomil","en":"Inventory mission — Leclerc Infomil","place":"Hyper Landerneau, Route du Leck, Landerneau","archived":false},{"id":"inv-plouzane","start":"2026-10-09T20:30","end":"2026-10-10T01:30","cat":"travail","fr":"Mission inventaire — Carrefour Plouzané","en":"Inventory mission — Carrefour Plouzané","place":"Carrefour Hyper, 12 Rue des Myosotis, Plouzané","archived":false},{"id":"dermato","start":"2026-11-02T11:00","end":"2026-11-02T12:00","cat":"sante","fr":"Dermatologue — Dr Adèle Poulaliou","en":"Dermatologist — Dr Adèle Poulaliou","place":"Cabinet de Dermatologie, 22 Rue Jules Michelet, Brest","archived":false}];
-function fmtD(iso,l){var d=new Date(iso);var M=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];var Me=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];var J=['dim.','lun.','mar.','mer.','jeu.','ven.','sam.'];var Je=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];var mo=l==='fr'?M:Me,js=l==='fr'?J:Je;return js[d.getDay()]+' '+d.getDate()+' '+mo[d.getMonth()]}
+var EVENTS=[{"id":"sante-call","start":"2026-09-22T10:00","end":"2026-09-22T10:15","cat":"sante","fr":"Appeler cabinet Dr Poulaliou (confirmer le lieu du RDV dermatologue)","en":"Call Dr Poulaliou office (confirm dermatologist location)","place":""},{"id":"inv-paimpol","start":"2026-09-22T17:50","end":"2026-09-22T23:00","cat":"travail","fr":"Mission inventaire — Carrefour Paimpol","en":"Inventory mission — Carrefour Paimpol","place":"B2 Parking Agence, 11 Rue Alexis Clairaut, Brest"},{"id":"rsa","start":"2026-09-23T15:00","end":"2026-09-23T16:00","cat":"admin","fr":"Entretien RSA — bilan de fin de CEU","en":"RSA interview — end of CEU review","place":"CDAS Bellevue, 13 Napoléon III, Brest"},{"id":"inv-infomil","start":"2026-09-28T20:00","end":"2026-09-29T01:00","cat":"travail","fr":"Mission inventaire — Leclerc Infomil","en":"Inventory mission — Leclerc Infomil","place":"Hyper Landerneau, Route du Leck, Landerneau"},{"id":"inv-plouzane","start":"2026-10-09T20:30","end":"2026-10-10T01:30","cat":"travail","fr":"Mission inventaire — Carrefour Plouzané","en":"Inventory mission — Carrefour Plouzané","place":"Carrefour Hyper, 12 Rue des Myosotis, Plouzané"},{"id":"dermato","start":"2026-11-02T11:00","end":"2026-11-02T12:00","cat":"sante","fr":"Dermatologue — Dr Adèle Poulaliou","en":"Dermatologist — Dr Adèle Poulaliou","place":"Cabinet de Dermatologie, 22 Rue Jules Michelet, Brest"}];
 var CATS=[["sante","Santé","Health","🩺"],["travail","Travail","Work","💼"],["admin","Administratif","Admin","🏛️"]];
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
-function isDone(e){if(e.archived)return true;try{return localStorage.getItem("rdv-done-"+e.id)==="1"}catch(x){return false}}
 function render(){var l=lang(),now=new Date(),up=0,past=0,html="";
   EVENTS.forEach(function(e){if(new Date(e.end)>now)up++;else past++});
   var fut=EVENTS.filter(function(e){return new Date(e.start)>now});var next=fut.length?fut[0]:null;
   html+='<div class="stats"><div class="stat"><b>'+up+'</b><span data-fr="À venir" data-en="Upcoming">'+(l==="fr"?"À venir":"Upcoming")+'</span></div><div class="stat"><b>'+past+'</b><span data-fr="Passés" data-en="Past">'+(l==="fr"?"Passés":"Past")+'</span></div><div class="stat"><b>'+(next?Math.ceil((new Date(next.start)-now)/864e5)+" j":"—")+'</b><span data-fr="Prochain dans" data-en="Next in">'+(l==="fr"?"Prochain dans":"Next in")+'</span></div></div>';
   CATS.forEach(function(c){var ev=EVENTS.filter(function(e){return e.cat===c[0]});if(!ev.length)return;
     html+='<h2>'+c[3]+' '+(l==="fr"?c[1]:c[2])+'</h2><div class="cards">';
-    ev.forEach(function(e){var st=new Date(e.start),en=new Date(e.end),isPast=en<=now,done=isDone(e);
+    ev.forEach(function(e){var st=new Date(e.start),en=new Date(e.end),isPast=en<=now;
       var dd=st.getDate()+" "+(l==="fr"?["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."][st.getMonth()]:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][st.getMonth()]);
       var t=st.getHours()+"h"+("0"+st.getMinutes()).slice(-2)+" – "+en.getHours()+"h"+("0"+en.getMinutes()).slice(-2);
-      html+='<div class="card'+(isPast?" past":"")+(done?" done":"")+'"><div class="top"><span class="ttl">'+esc(l==="fr"?e.fr:e.en)+'</span><span class="date">'+dd+'</span></div><div class="meta">'+t+(e.place?" · "+esc(e.place):"")+'</div>';
+      html+='<div class="card'+(isPast?" past":"")+'"><div class="top"><span class="ttl">'+esc(l==="fr"?e.fr:e.en)+'</span><span class="date">'+dd+'</span></div><div class="meta">'+t+(e.place?" · "+esc(e.place):"")+'</div>';
       if(!isPast){var days=Math.ceil((st-now)/864e5);var cd=days<=0?"Aujourd’hui !":(days===1?"Demain":"Dans "+days+" jours");if(l!=="fr"){cd=days<=0?"Today!":(days===1?"Tomorrow":"In "+days+" days")}html+='<div class="cd">⏳ '+cd+'</div>'}
-      else if(done){html+='<span class="badge">✓ Passé &amp; archivé</span>'}
-      else{html+='<span class="badge">✓ Passé</span><div class="ask"><span>Avez-vous passé ce RDV ?</span><button onclick="sayYes(\''+e.id+'\')">Oui</button></div>';if(l!=="fr")html=html.replace("Avez-vous passé ce RDV ?","Did you attend?").replace(">Oui<",">Yes<")}
+      else{html+='<span class="badge">✓ '+(l==="fr"?"Passé":"Past")+'</span>'}
       html+='</div>'});
     html+='</div>'});
   document.getElementById("list").innerHTML=html;applyLang(lang())}
-function sayYes(id){try{localStorage.setItem("rdv-done-"+id,"1")}catch(x){}render()}
 render();setInterval(render,60000);
 </script>
