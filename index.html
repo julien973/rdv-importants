@@ -84,18 +84,23 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 .hero h1 { margin: 0 0 8px; font-size: 1.65rem; }
 .hero p { margin: 0; color: var(--muted); font-style: italic; }
 .plan { background: var(--surface); border: 1px solid var(--card-border); border-radius: 20px;
-  box-shadow: var(--shadow-md), var(--inner-light); padding: 18px 20px 10px; margin: 18px 0; position: relative; overflow: hidden; }
+  box-shadow: var(--shadow-md), var(--inner-light); padding: 18px 20px 14px; margin: 18px 0; position: relative; overflow: hidden; }
 .plan::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--progress-grad); }
-.plan-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+.plan-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
 .plan-title { font-size: 1.18rem; font-weight: 800; }
-.plan-week { color: var(--muted); font-size: .85rem; }
-.plan-item { display: flex; align-items: baseline; gap: 10px; padding: 9px 0; border-top: 1px solid var(--card-border); flex-wrap: wrap; }
-.plan-day { font-weight: 800; color: var(--acc); min-width: 120px; }
-.plan-task { flex: 1; min-width: 160px; }
-.plan-item.later .plan-day { color: var(--muted); }
-.plan-item.later { opacity: .8; }
-.plan-item.past { color: var(--past-ink); }
-.plan-item.past .plan-task { text-decoration: line-through; }
+.plan-note { color: var(--muted); font-size: .78rem; margin-top: 3px; }
+.plan-track { margin-top: 14px; }
+.plan-track-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.plan-track-title { font-weight: 700; font-size: .95rem; }
+.plan-track-count { color: var(--muted); font-size: .8rem; font-weight: 700; }
+.plan-bar { height: 6px; border-radius: 3px; background: var(--badge-bg); margin: 6px 0 6px; overflow: hidden; }
+.plan-fill { height: 100%; border-radius: 3px; background: var(--win-bar-grad); }
+.plan-mods { display: grid; grid-template-columns: repeat(auto-fill, minmax(235px, 1fr)); gap: 1px 16px; }
+.plan-mod { display: flex; align-items: center; gap: 8px; font-size: .85rem; padding: 3px 0; color: var(--muted); }
+.plan-dot { width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--acc-2); flex: none; }
+.plan-mod.done { color: var(--past-ink); }
+.plan-mod.done .plan-dot { background: var(--acc-2); border-color: var(--acc-2); }
+.plan-mod .n { margin-left: auto; font-size: .72rem; opacity: .7; white-space: nowrap; }
 .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin: 18px 0; }
 .kpi { background: var(--surface-kpi); border: 1px solid var(--card-border); border-radius: 18px;
   box-shadow: var(--shadow-md), var(--inner-light); padding: 16px 18px; text-align: center;
@@ -178,7 +183,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v3.6 · 2026</span>
+<span class="bb-ver">v3.7 · 2026</span>
 <a class="bb-link" href="recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
 </div></footer>
 <script>
@@ -244,14 +249,38 @@ var MOIS_FR = ["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept
 var MONTHS_EN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 var JOURS_FR = ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
 var DAYS_EN = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-var PLAN = [
-  { date:"2026-09-15", type:"Live", fr:"Live Studi — Terminal & navigateur", en:"Studi live — Terminal & browser" },
-  { date:"2026-09-16", type:"Cours", fr:"Cours — Réussir ma formation DWWM", en:"Course — Succeeding in my DWWM training" },
-  { date:"2026-09-17", type:"Cours", fr:"Cours — Les fondamentaux du développement", en:"Course — Development fundamentals" },
-  { date:"2026-09-18", type:"Révision", fr:"Révision — Bilan de semaine", en:"Review — Weekly recap" },
-  { date:"2026-09-22", type:"Live", fr:"Live Studi — Projet & gestionnaires de paquets", en:"Studi live — Project & package managers" }
+var TRACKS = [
+  { fr:"Réussir ma formation", mods:[
+    { fr:"Votre expérience chez Studi", r:1, done:true },
+    { fr:"Vous organiser dans votre formation", r:3, done:true },
+    { fr:"S'immerger professionnellement", r:1, done:true },
+    { fr:"Se préparer aux examens", r:3, done:true } ] },
+  { fr:"Les fondamentaux du développement", mods:[
+    { fr:"Écosystème et outils du développeur", r:13, done:false },
+    { fr:"Introduction à la programmation", r:13, done:false },
+    { fr:"Introduction à l'algorithme", r:11, done:false } ] },
+  { fr:"Développer la partie front-end", mods:[
+    { fr:"Participer à des projets web", r:5, done:false },
+    { fr:"Réaliser une maquette avec Figma", r:12, done:false },
+    { fr:"Créer un site web avec HTML & CSS", r:20, done:false },
+    { fr:"Créer un site web avec WordPress", r:4, done:false },
+    { fr:"Débuter avec JavaScript", r:15, done:false },
+    { fr:"Programmer avec JavaScript", r:16, done:false },
+    { fr:"Utiliser Git et GitHub", r:9, done:false },
+    { fr:"Déployer son application web", r:2, done:false },
+    { fr:"Sécuriser ses applications web", r:4, done:false },
+    { fr:"Gérer des conteneurs", r:7, done:false },
+    { fr:"Projet fil rouge — front-end", r:7, done:false } ] },
+  { fr:"Développer la partie back-end", mods:[
+    { fr:"Introduction aux bases de données", r:10, done:false },
+    { fr:"Développer des sites web dynamiques avec PHP", r:19, done:false },
+    { fr:"Créer et administrer une base de données en SQL", r:12, done:false },
+    { fr:"Créer une application web avec Symfony", r:18, done:false },
+    { fr:"Sécuriser ses bases de données", r:6, done:false },
+    { fr:"Sécuriser son infrastructure", r:13, done:false },
+    { fr:"Préparer un environnement de test", r:6, done:false },
+    { fr:"Projet fil rouge — back-end", r:9, done:false } ] }
 ];
-var TYPE_ICONS = { "Cours":"📘", "Live":"🔴", "Révision":"🔄", "Dossier":"📁", "Exercice":"✏️", "Autre":"📌" };
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 function parse(d){ return new Date(d); }
 function dayDiff(d){ var t = new Date(); t.setHours(0,0,0,0); var x = new Date(d); x.setHours(0,0,0,0); return Math.round((x - t) / 86400000); }
@@ -263,43 +292,21 @@ function render(){
   var h = "";
   h += '<div class="hero"><h1>' + (fr ? "🗓️ Mon agenda des rendez-vous" : "🗓️ My appointment diary") + '</h1>';
   h += '<p>' + (fr ? "Les rendez-vous importants, rien d'autre." : "Important appointments, nothing else.") + '</p></div>';
-  var monday = new Date(); monday.setHours(0,0,0,0);
-  monday.setDate(monday.getDate() - (monday.getDay() + 6) % 7);
-  var today = new Date(); today.setHours(0,0,0,0);
-  var week = [], later = [];
-  PLAN.forEach(function(p){
-    var d = new Date(p.date + "T00:00");
-    var endOfWeek = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + 7);
-    if (d >= monday && d < endOfWeek) week.push(p);
-    else if (d > today) later.push(p);
-  });
-  week.sort(function(a,b){ return new Date(a.date) - new Date(b.date); });
-  later.sort(function(a,b){ return new Date(a.date) - new Date(b.date); });
   h += '<div class="plan">';
-  h += '<div class="plan-head"><div class="plan-title">🎓 ' + (fr ? "Planning de cours" : "Course schedule") + '</div>';
-  h += '<div class="plan-week">' + (fr ? "Semaine du " : "Week of ") + monday.getDate() + " " + (fr ? MOIS_FR[monday.getMonth()] : MONTHS_EN[monday.getMonth()]) + '</div></div>';
-  if (week.length) {
-    week.forEach(function(p){
-      var d = new Date(p.date + "T00:00");
-      var diff = dayDiff(p.date);
-      h += '<div class="plan-item' + (diff < 0 ? " past" : "") + '">';
-      h += '<span class="plan-day">' + (fr ? JOURS_FR[d.getDay()] : DAYS_EN[d.getDay()]) + " " + d.getDate() + '</span>';
-      h += '<span class="plan-type">' + (TYPE_ICONS[p.type] || "📌") + '</span>';
-      h += '<span class="plan-task">' + esc(fr ? p.fr : p.en) + '</span>';
-      if (diff < 0) h += '<span class="badge done">✓ ' + (fr ? "Fait" : "Done") + '</span>';
-      else if (diff === 0) h += '<span class="badge soon">🔥 ' + (fr ? "Aujourd'hui !" : "Today!") + '</span>';
-      else if (diff === 1) h += '<span class="badge soon">⏳ ' + (fr ? "Demain" : "Tomorrow") + '</span>';
-      else h += '<span class="badge">⏳ ' + (fr ? "Dans " + diff + " jours" : "In " + diff + " days") + '</span>';
-      h += '</div>';
+  h += '<div class="plan-head"><div class="plan-title">🎓 ' + (fr ? "Parcours DWWM" : "DWWM curriculum") + '</div>';
+  h += '<span class="badge">⚠️ ' + (fr ? "Sujet à changement" : "Subject to change") + '</span></div>';
+  h += '<div class="plan-note">' + (fr ? "Ordre indicatif des modules Studi — promo reportée, aucune date ferme." : "Indicative Studi module order — deferred start, no fixed dates.") + '</div>';
+  TRACKS.forEach(function(t){
+    var doneN = 0; t.mods.forEach(function(m){ if (m.done) doneN++; });
+    var pct = Math.round(doneN / t.mods.length * 100);
+    h += '<div class="plan-track">';
+    h += '<div class="plan-track-head"><span class="plan-track-title">' + esc(t.fr) + '</span><span class="plan-track-count">' + doneN + '/' + t.mods.length + '</span></div>';
+    h += '<div class="plan-bar"><div class="plan-fill" style="width:' + pct + '%"></div></div>';
+    h += '<div class="plan-mods">';
+    t.mods.forEach(function(m){
+      h += '<div class="plan-mod' + (m.done ? ' done' : '') + '"><span class="plan-dot"></span><span>' + esc(m.fr) + '</span><span class="n">' + m.r + (fr ? ' ress.' : ' res.') + '</span></div>';
     });
-  } else {
-    h += '<div class="plan-item"><span class="plan-task">' + (fr ? "Rien de prévu cette semaine pour l'instant." : "Nothing scheduled this week yet.") + '</span></div>';
-  }
-  later.slice(0, 3).forEach(function(p){
-    var d = new Date(p.date + "T00:00");
-    h += '<div class="plan-item later"><span class="plan-day">' + (fr ? JOURS_FR[d.getDay()] : DAYS_EN[d.getDay()]) + " " + d.getDate() + " " + (fr ? MOIS_FR[d.getMonth()] : MONTHS_EN[d.getMonth()]) + '</span>';
-    h += '<span class="plan-type">' + (TYPE_ICONS[p.type] || "📌") + '</span>';
-    h += '<span class="plan-task">' + esc(fr ? p.fr : p.en) + '</span></div>';
+    h += '</div></div>';
   });
   h += '</div>';
   h += '<div class="kpis">';
