@@ -22,25 +22,25 @@ body.night {
   --topbar-bg: rgba(26,18,10,.66); --topbar-border: rgba(255,240,215,.16);
   --badge-bg: rgba(255,240,215,.10); --badge-border: rgba(255,240,215,.28);
   --past-ink: rgba(243,233,216,.38); --spot: rgba(255,235,200,.14);
-  --progress-grad: linear-gradient(90deg, #f0c75e, #d9a441, #f5d489, #d9a441);
-  --progress-glow: 0 0 12px rgba(217,164,65,.6);
+  --progress-grad: linear-gradient(90deg, #ffe55c, #ffd700, #ffb300, #ffd700, #ffe55c);
+  --progress-glow: 0 0 6px rgba(255,215,0,.9), 0 0 14px rgba(255,180,0,.6);
 }
 body.day {
-  --bg-base: #faf6ef; --ink: #2f2822; --muted: #7c6f5f;
-  --bg-image: radial-gradient(ellipse 80% 60% at 12% 6%, rgba(180,85,45,.06), transparent 60%),
-    radial-gradient(ellipse 70% 55% at 90% 14%, rgba(194,101,58,.06), transparent 60%),
-    radial-gradient(ellipse 85% 70% at 85% 95%, rgba(150,110,60,.07), transparent 62%),
-    linear-gradient(160deg, #fdfaf4 0%, #faf4e9 55%, #f7efdf 100%);
-  --surface: rgba(255,255,255,.72); --card-border: rgba(255,255,255,.95); --border-strong: rgba(45,32,19,.3);
+  --bg-base: #f4ecdd; --ink: #2d2013; --muted: #8a7a63;
+  --bg-image: radial-gradient(ellipse 80% 60% at 12% 6%, rgba(180,85,45,.10), transparent 60%),
+    radial-gradient(ellipse 70% 55% at 90% 14%, rgba(120,80,30,.08), transparent 60%),
+    radial-gradient(ellipse 85% 70% at 85% 95%, rgba(150,110,60,.10), transparent 62%),
+    linear-gradient(160deg, #f8f1e3 0%, #f1e7d3 55%, #efe5cd 100%);
+  --surface: rgba(255,252,245,.92); --card-border: rgba(255,255,255,.9); --border-strong: rgba(45,32,19,.35);
   --date-bg: linear-gradient(150deg, #c2653a, #9c4a22); --date-ink: #fff8ec;
-  --btn-bg: rgba(255,255,255,.65); --btn-hover: #ffffff; --btn-ink: #2f2822; --btn-border: rgba(45,32,19,.25);
-  --shadow-md: 0 2px 6px rgba(28,25,23,.05), 0 14px 36px rgba(28,25,23,.1);
-  --halo: 0 0 0 1px rgba(255,255,255,.95), 0 12px 32px rgba(28,25,23,.12), 0 0 22px rgba(180,85,45,.12);
-  --topbar-bg: rgba(250,246,239,.72); --topbar-border: rgba(45,32,19,.1);
-  --badge-bg: rgba(180,85,45,.07); --badge-border: rgba(180,85,45,.22);
-  --past-ink: rgba(45,32,19,.35); --spot: rgba(180,85,45,.06);
-  --progress-grad: linear-gradient(90deg, #fbbf24, #d97706, #b3453e);
-  --progress-glow: 0 0 10px rgba(217,119,6,.55);
+  --btn-bg: rgba(255,252,245,.7); --btn-hover: rgba(255,255,255,1); --btn-ink: #2d2013; --btn-border: rgba(45,32,19,.3);
+  --shadow-md: 0 8px 32px rgba(90,60,30,.14);
+  --halo: 0 0 0 1px rgba(255,255,255,.9), 0 14px 40px rgba(90,60,30,.18), 0 0 26px rgba(180,85,45,.14);
+  --topbar-bg: rgba(250,244,231,.7); --topbar-border: rgba(45,32,19,.12);
+  --badge-bg: rgba(180,85,45,.08); --badge-border: rgba(180,85,45,.25);
+  --past-ink: rgba(45,32,19,.35); --spot: rgba(180,85,45,.08);
+  --progress-grad: linear-gradient(90deg, #ff4d2e, #ff2e2e, #ff6a3d, #ff2e2e, #ff4d2e);
+  --progress-glow: 0 0 6px rgba(255,46,46,.85), 0 0 14px rgba(255,80,40,.55);
 }
 body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; overscroll-behavior-y: none;
   color: var(--ink); background-color: var(--bg-base); background-image: var(--bg-image);
@@ -111,8 +111,9 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
   border: 1px solid var(--btn-border); background: var(--btn-bg); transition: background .18s; }
 .bb-link:hover { background: var(--btn-hover); }
 .bb-ver { color: var(--muted); }
-#progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0%; background: var(--progress-grad);
-  border-radius: 999px; transition: width .18s linear; box-shadow: var(--progress-glow); }
+#progress { position: absolute; left: 0; bottom: -1px; height: 3px; width: 0%; background: var(--progress-grad);
+  border-radius: 999px; transition: width .18s linear; box-shadow: var(--progress-glow);
+  filter: saturate(1.35) brightness(1.15); }
 @media (max-width: 520px) { .rdv { flex-direction: column; } .rdv-date { flex-direction: row; gap: 8px; }
   .hero h1 { font-size: 1.3rem; } }
 </style>
@@ -132,7 +133,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="📓 Mes RDV importants" data-en="📓 My Appointments">📓 Mes RDV importants</span>
-<span class="bb-ver">v2.2 · 2026</span>
+<span class="bb-ver">v2.3 · 2026</span>
 <a class="bb-link" href="index.html" data-fr="🗓️ RDV importants" data-en="🗓️ Appointments">🗓️ RDV importants</a>
 </div></footer>
 <script>
