@@ -99,6 +99,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 .plan-track-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
 .plan-track-title { font-weight: 700; font-size: .95rem; }
 .plan-track-count { color: var(--muted); font-size: .8rem; font-weight: 700; }
+.plan-track-desc { color: var(--muted); font-size: .82rem; font-style: italic; margin: 2px 0 4px; }
 .plan-bar { height: 6px; border-radius: 3px; background: var(--badge-bg); margin: 6px 0 6px; overflow: hidden; }
 .plan-fill { height: 100%; border-radius: 3px; background: var(--win-bar-grad); }
 .plan-mods { display: grid; grid-template-columns: repeat(auto-fill, minmax(235px, 1fr)); gap: 1px 16px; }
@@ -204,7 +205,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v3.15 · 2026</span>
+<span class="bb-ver">v3.16 · 2026</span>
 <a class="bb-link" href="recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
 </div></footer>
 <script>
@@ -271,7 +272,7 @@ var MONTHS_EN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","No
 var JOURS_FR = ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
 var DAYS_EN = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 var TRACKS = [
-  { fr:"Réussir ma formation", en:"Succeeding in your training", d:"✓ fait — sept. 2026", dEn:"✓ done — Sept 2026", mods:[
+  { fr:"Réussir ma formation", en:"Succeeding in your training", p:"Les clés pour bien démarrer : organisation, motivation et préparation des examens.", pEn:"The keys to a good start: organisation, motivation and exam preparation.", d:"✓ fait — sept. 2026", dEn:"✓ done — Sept 2026", mods:[
     { fr:"Votre expérience chez Studi", en:"Your experience at Studi", r:1, done:true, les:[
       { fr:"Guide de présentation de l'équipe pédagogique et des services en ligne avec votre formation", en:"Guide to the teaching team and online services for your training" } ] },
     { fr:"Vous organiser dans votre formation", en:"Organising yourself in your training", r:3, done:true, les:[
@@ -284,7 +285,7 @@ var TRACKS = [
       { fr:"Méthodologie du dossier professionnel", en:"Professional portfolio methodology" },
       { fr:"Méthodologie du dossier projet - TP Développeur Web et Web Mobile", en:"Project dossier methodology - Web Developer assignment" },
       { fr:"Entraînement au questionnaire professionnel", en:"Professional questionnaire practice" } ] } ] },
-  { fr:"Les fondamentaux du développement", en:"Development fundamentals", d:"oct. 2026 → janv. 2027", dEn:"Oct 2026 → Jan 2027", mods:[
+  { fr:"Les fondamentaux du développement", en:"Development fundamentals", p:"Les bases que tout développeur doit maîtriser : outils, programmation et logique.", pEn:"The basics every developer needs: tools, programming and logic.", d:"oct. 2026 → janv. 2027", dEn:"Oct 2026 → Jan 2027", mods:[
     { fr:"Écosystème et outils du développeur", en:"Developer ecosystem and tools", r:13, done:false, les:[
       { fr:"L'histoire de l'informatique et d'Internet, culture générale numérique", en:"History of computing and the Internet, digital general knowledge" },
       { fr:"Le fonctionnement d'Internet", en:"How the Internet works" },
@@ -325,7 +326,7 @@ var TRACKS = [
       { fr:"Off-boarding - Introduction à l'algorithme", en:"Off-boarding - Introduction to algorithms" },
       { fr:"Auto-évaluation - Introduction à l'algorithme", en:"Self-assessment - Introduction to algorithms" },
       { fr:"Application - Introduction à l'algorithme", en:"Practical work - Introduction to algorithms" } ] } ] },
-  { fr:"Développer la partie front-end", en:"Front-end development", d:"janv. → juin 2027", dEn:"Jan → Jun 2027", mods:[
+  { fr:"Développer la partie front-end", en:"Front-end development", p:"Tout ce que l'utilisateur voit et manipule : maquettes, pages, design et interactivité.", pEn:"Everything the user sees and interacts with: mock-ups, pages, design and interactivity.", d:"janv. → juin 2027", dEn:"Jan → Jun 2027", mods:[
     { fr:"Participer à des projets web", en:"Taking part in web projects", r:5, done:false, les:[
       { fr:"L'environnement du développeur web", en:"The web developer environment" },
       { fr:"Les modèles de gestion de projet", en:"Project management models" },
@@ -438,7 +439,7 @@ var TRACKS = [
       { fr:"Appeler une API depuis le front", en:"Calling an API from the front end" },
       { fr:"Mettre en place les recommandations de sécurité de la partie front", en:"Applying the front-end security recommendations" },
       { fr:"Mettre en ligne la partie front d'une application", en:"Putting an application's front end online" } ] } ] },
-  { fr:"Développer la partie back-end", en:"Back-end development", d:"juin → déc. 2027", dEn:"Jun → Dec 2027", mods:[
+  { fr:"Développer la partie back-end", en:"Back-end development", p:"La mécanique invisible : bases de données, serveurs, tests et sécurité des applications.", pEn:"The invisible machinery: databases, servers, testing and application security.", d:"juin → déc. 2027", dEn:"Jun → Dec 2027", mods:[
     { fr:"Introduction aux bases de données", en:"Introduction to databases", r:10, done:false, les:[{ fr:"Présentation de la notion base de données", en:"Introducing the database concept" }, { fr:"Installer un SGBD en ligne de commande", en:"Installing a DBMS from the command line" }, { fr:"Créer une BDD et l'explorer", en:"Creating and exploring a database" }, { fr:"Introduction à la modélisation conceptuelle de données avec UML", en:"Introduction to conceptual data modelling with UML" }, { fr:"Les diagrammes fonctionnels", en:"Functional diagrams" }, { fr:"Le diagramme de classe", en:"The class diagram" }, { fr:"Introduction au passage UML-Relationnel", en:"Introduction to mapping UML to relational" }, { fr:"Modèle relationnel Vs Objet", en:"Relational vs object model" }, { fr:"Introduction au langage SQL", en:"Introduction to the SQL language" }, { fr:"Application - Introduction aux bases de données", en:"Practical work - Introduction to databases" }] },
     { fr:"Développer des sites web dynamiques avec PHP", en:"Building dynamic websites with PHP", r:19, done:false, les:[{ fr:"PHP et HTML (sorties)", en:"PHP and HTML (output)" }, { fr:"Les types de données, les variables et les constantes", en:"Data types, variables and constants" }, { fr:"Les fonctions", en:"Functions" }, { fr:"Les tableaux en PHP", en:"Arrays in PHP" }, { fr:"Les conditions", en:"Conditions" }, { fr:"Les boucles", en:"Loops" }, { fr:"Créer ses propres fonctions", en:"Writing your own functions" }, { fr:"L'organisation des fichiers PHP", en:"Organising PHP files" }, { fr:"Les superglobales Get, Post et Files", en:"The Get, Post and Files superglobals" }, { fr:"La sécurité", en:"Security" }, { fr:"La manipulation des dates", en:"Working with dates" }, { fr:"La manipulation des fichiers en PHP", en:"Working with files in PHP" }, { fr:"Les expressions régulières", en:"Regular expressions" }, { fr:"Utiliser la documentation PHP et Standard de codage PHP", en:"Using the PHP documentation and PHP coding standard" }, { fr:"La programmation Orientée Objet : concepts de base", en:"Object-oriented programming: basic concepts" }, { fr:"La programmation Orientée Objet : concepts avancés", en:"Object-oriented programming: advanced concepts" }, { fr:"La gestion des erreurs", en:"Error handling" }, { fr:"La programmation Orientée Objet : Design Patterns", en:"Object-oriented programming: design patterns" }, { fr:"La programmation Orientée Objet : L'encapsulation et la visibilité", en:"Object-oriented programming: encapsulation and visibility" }] },
     { fr:"Créer et administrer une base de données en SQL", en:"Creating and administering a SQL database", r:12, done:false, les:[{ fr:"Création et alimentation de bases de données SQL", en:"Creating and populating SQL databases" }, { fr:"L'interrogation de bases de données SQL", en:"Querying SQL databases" }, { fr:"Introduction au passage UML-Relationnel", en:"Introduction to mapping UML to relational" }, { fr:"PHP/PDO : accès en lecture/écriture", en:"PHP/PDO: read/write access" }, { fr:"Les requêtes SQL", en:"SQL queries" }, { fr:"Les fonctions SQL", en:"SQL functions" }, { fr:"Les jointures SQL", en:"SQL joins" }, { fr:"Gérer les accès des utilisateurs au niveau PHP et BD", en:"Managing user access at PHP and database level" }, { fr:"Découvrir un autre SGBDR: PostgreSQL", en:"Discovering another RDBMS: PostgreSQL" }, { fr:"Introduction à MongoDB", en:"Introduction to MongoDB" }, { fr:"Découverte d'un ORM PHP", en:"Discovering a PHP ORM" }, { fr:"UP Projet : Créer et administrer une base de données", en:"Advanced project: creating and administering a database" }] },
@@ -465,12 +466,13 @@ function render(){
   h += '<div class="plan-head" onclick="document.getElementById(\'plancard\').classList.toggle(\'open\')"><div class="plan-title">🎓 ' + (fr ? "Graduate Développeur web full stack" : "Graduate Full Stack Web Developer") + '<span class="plan-years">2023 – 2029</span></div>';
   h += '<span class="badge">' + totD + '/' + tot + (fr ? " modules — cliquer pour déplier" : " modules — click to expand") + ' <span class="plan-chev">▸</span></span></div>';
   h += '<div class="plan-body">';
-  h += '<div class="plan-note">' + (fr ? "Ma formation de développeur web, suivie à mon rythme d'octobre 2026 à fin 2029 — les dates sont indicatives. Déplie un module pour voir ses leçons." : "My web developer training, followed at my own pace from October 2026 to late 2029 — dates are indicative. Expand a module to see its lessons.") + '</div>';
+  h += '<div class="plan-note">' + (fr ? "De zéro, en reconversion, jusqu'au métier de développeur web : 26 modules et 239 leçons, suivis à mon rythme d'octobre 2026 à fin 2029 — dates indicatives. Déplie un module pour voir ses leçons." : "From scratch, as a career change, to becoming a web developer: 26 modules and 239 lessons, at my own pace from October 2026 to late 2029 — dates are indicative. Expand a module to see its lessons.") + '</div>';
   TRACKS.forEach(function(t){
     var doneN = 0; t.mods.forEach(function(m){ if (m.done) doneN++; });
     var pct = Math.round(doneN / t.mods.length * 100);
     h += '<div class="plan-track">';
     h += '<div class="plan-track-head"><span class="plan-track-title">' + esc(fr ? t.fr : t.en) + '</span><span class="plan-track-count">' + doneN + '/' + t.mods.length + ' · ' + esc(fr ? t.d : t.dEn) + '</span></div>';
+    h += '<div class="plan-track-desc">' + esc(fr ? t.p : t.pEn) + '</div>';
     h += '<div class="plan-bar"><div class="plan-fill" style="width:' + pct + '%"></div></div>';
     h += '<div class="plan-mods">';
     t.mods.forEach(function(m){
@@ -493,12 +495,13 @@ function render(){
   h += '<div class="kpi"><div class="label">' + (fr ? "Prochain dans" : "Next in") + '</div><div class="value">' + (next === null ? "—" : next + " j") + '</div><div class="sub">' + (next === 0 ? (fr ? "aujourd'hui !" : "today!") : (fr ? "jours" : "days")) + '</div></div>';
   h += '<div class="kpi"><div class="label">' + (fr ? "Passés" : "Past") + '</div><div class="value">' + past + '</div><div class="sub">' + (fr ? "archivés grisés" : "grayed out") + '</div></div>';
   h += '</div>';
-  CATS.forEach(function(cat){
-    var list = EVENTS.filter(function(e){ return e.cat === cat.id; })
-                      .sort(function(a,b){ return parse(a.start) - parse(b.start); });
-    if (!list.length) return;
-    h += '<section class="section"><h2 class="section-title">' + cat.icon + " " + esc(fr ? cat.fr : cat.en) + '</h2>';
-    list.forEach(function(e){
+  var upcomingList = EVENTS.filter(function(e){ return dayDiff(e.start) >= 0; })
+    .sort(function(a,b){ return parse(a.start) - parse(b.start); });
+  var pastList = EVENTS.filter(function(e){ return dayDiff(e.start) < 0; })
+    .sort(function(a,b){ return parse(b.start) - parse(a.start); });
+  function renderE(e){
+    var cat = CATS.filter(function(c){ return c.id === e.cat; })[0];
+
       var d = parse(e.start);
       var diff = dayDiff(e.start);
       var isPast = diff < 0;
@@ -513,14 +516,21 @@ function render(){
       else count = '<span class="badge">⏳ ' + (fr ? "Dans " + diff + " jours" : "In " + diff + " days") + '</span>';
       h += '<article class="rdv' + (isPast ? " past" : "") + (e.cat === "sante" ? " rdv-sante" : "") + '">';
       h += '<div class="rdv-date"><div class="d">' + day + '</div><div class="m">' + month + '</div></div>';
-      h += '<div class="rdv-body"><div class="rdv-title">' + esc(fr ? e.fr : e.en) + '</div>';
+      h += '<div class="rdv-body"><div class="rdv-title">' + cat.icon + ' ' + esc(fr ? e.fr : e.en) + '</div>';
       if (e.descFr) h += '<div class="rdv-desc">' + esc(fr ? e.descFr : e.descEn) + '</div>';
       h += '<div class="rdv-where">📍 ' + esc(fr ? e.whereFr : e.whereEn) + '</div>';
       h += '<div class="rdv-meta"><span class="badge">🕐 <b>' + t + '</b></span>' + count + '<span class="badge">📅 ' + fullDate + '</span></div>';
       h += '</div></article>';
-    });
+
+  }
+  h += '<section class="section"><h2 class="section-title">' + (fr ? "🗓️ Prochains rendez-vous" : "🗓️ Upcoming appointments") + '</h2>';
+  upcomingList.forEach(renderE);
+  h += '</section>';
+  if (pastList.length) {
+    h += '<section class="section"><h2 class="section-title">' + (fr ? "✓ Rendez-vous passés" : "✓ Past appointments") + '</h2>';
+    pastList.forEach(renderE);
     h += '</section>';
-  });
+  }
   document.getElementById("app").innerHTML = h;
 }
 syncLang(); render();
