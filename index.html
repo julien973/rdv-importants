@@ -163,6 +163,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 .badge.soon { border-color: var(--acc-2); color: var(--acc-2); font-weight: 700;
   box-shadow: 0 0 12px rgba(147,90,255,.25); }
 .badge.done { opacity: .8; }
+.badge.cat { border-color: var(--acc-2); color: var(--acc-2); }
 .win { position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--card-border); border-radius: 18px;
   box-shadow: var(--shadow-md), var(--inner-light); padding: 18px 20px; margin-bottom: 14px;
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
@@ -205,7 +206,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v3.16 · 2026</span>
+<span class="bb-ver">v3.17 · 2026</span>
 <a class="bb-link" href="recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
 </div></footer>
 <script>
@@ -519,7 +520,7 @@ function render(){
       h += '<div class="rdv-body"><div class="rdv-title">' + cat.icon + ' ' + esc(fr ? e.fr : e.en) + '</div>';
       if (e.descFr) h += '<div class="rdv-desc">' + esc(fr ? e.descFr : e.descEn) + '</div>';
       h += '<div class="rdv-where">📍 ' + esc(fr ? e.whereFr : e.whereEn) + '</div>';
-      h += '<div class="rdv-meta"><span class="badge">🕐 <b>' + t + '</b></span>' + count + '<span class="badge">📅 ' + fullDate + '</span></div>';
+      h += '<div class="rdv-meta"><span class="badge cat">' + cat.icon + ' <b>' + esc(fr ? cat.fr : cat.en) + '</b></span><span class="badge">🕐 <b>' + t + '</b></span>' + count + '<span class="badge">📅 ' + fullDate + '</span></div>';
       h += '</div></article>';
 
   }
