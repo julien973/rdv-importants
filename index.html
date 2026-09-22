@@ -86,7 +86,12 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 .plan { background: var(--surface); border: 1px solid var(--card-border); border-radius: 20px;
   box-shadow: var(--shadow-md), var(--inner-light); padding: 18px 20px 14px; margin: 18px 0; position: relative; overflow: hidden; }
 .plan::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--progress-grad); }
-.plan-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.plan-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; cursor: pointer; user-select: none; }
+.plan-body { display: none; }
+.plan.open .plan-body { display: block; }
+.plan-chev { display: inline-block; transition: transform .2s; font-size: .8rem; }
+.plan.open .plan-chev { transform: rotate(90deg); }
+.plan-hint { color: var(--acc-2); font-weight: 700; font-size: .8rem; margin-left: 8px; }
 .plan-title { font-size: 1.18rem; font-weight: 800; }
 .plan-note { color: var(--muted); font-size: .78rem; margin-top: 3px; }
 .plan-track { margin-top: 14px; }
@@ -194,7 +199,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v3.10 · 2026</span>
+<span class="bb-ver">v3.13 · 2026</span>
 <a class="bb-link" href="recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
 </div></footer>
 <script>
@@ -261,7 +266,7 @@ var MONTHS_EN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","No
 var JOURS_FR = ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
 var DAYS_EN = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 var TRACKS = [
-  { fr:"Réussir ma formation", en:"Succeeding in your training", mods:[
+  { fr:"Réussir ma formation", en:"Succeeding in your training", d:"✓ fait — sept. 2026", dEn:"✓ done — Sept 2026", mods:[
     { fr:"Votre expérience chez Studi", en:"Your experience at Studi", r:1, done:true, les:[
       { fr:"Guide de présentation de l'équipe pédagogique et des services en ligne avec votre formation", en:"Guide to the teaching team and online services for your training" } ] },
     { fr:"Vous organiser dans votre formation", en:"Organising yourself in your training", r:3, done:true, les:[
@@ -274,7 +279,7 @@ var TRACKS = [
       { fr:"Méthodologie du dossier professionnel", en:"Professional portfolio methodology" },
       { fr:"Méthodologie du dossier projet - TP Développeur Web et Web Mobile", en:"Project dossier methodology - Web Developer assignment" },
       { fr:"Entraînement au questionnaire professionnel", en:"Professional questionnaire practice" } ] } ] },
-  { fr:"Les fondamentaux du développement", en:"Development fundamentals", mods:[
+  { fr:"Les fondamentaux du développement", en:"Development fundamentals", d:"oct. 2026 → janv. 2027", dEn:"Oct 2026 → Jan 2027", mods:[
     { fr:"Écosystème et outils du développeur", en:"Developer ecosystem and tools", r:13, done:false, les:[
       { fr:"L'histoire de l'informatique et d'Internet, culture générale numérique", en:"History of computing and the Internet, digital general knowledge" },
       { fr:"Le fonctionnement d'Internet", en:"How the Internet works" },
@@ -315,7 +320,7 @@ var TRACKS = [
       { fr:"Off-boarding - Introduction à l'algorithme", en:"Off-boarding - Introduction to algorithms" },
       { fr:"Auto-évaluation - Introduction à l'algorithme", en:"Self-assessment - Introduction to algorithms" },
       { fr:"Application - Introduction à l'algorithme", en:"Practical work - Introduction to algorithms" } ] } ] },
-  { fr:"Développer la partie front-end", en:"Front-end development", mods:[
+  { fr:"Développer la partie front-end", en:"Front-end development", d:"janv. → juin 2027", dEn:"Jan → Jun 2027", mods:[
     { fr:"Participer à des projets web", en:"Taking part in web projects", r:5, done:false, les:[
       { fr:"L'environnement du développeur web", en:"The web developer environment" },
       { fr:"Les modèles de gestion de projet", en:"Project management models" },
@@ -428,7 +433,7 @@ var TRACKS = [
       { fr:"Appeler une API depuis le front", en:"Calling an API from the front end" },
       { fr:"Mettre en place les recommandations de sécurité de la partie front", en:"Applying the front-end security recommendations" },
       { fr:"Mettre en ligne la partie front d'une application", en:"Putting an application's front end online" } ] } ] },
-  { fr:"Développer la partie back-end", en:"Back-end development", mods:[
+  { fr:"Développer la partie back-end", en:"Back-end development", d:"juin → déc. 2027", dEn:"Jun → Dec 2027", mods:[
     { fr:"Introduction aux bases de données", en:"Introduction to databases", r:10, done:false, les:[{ fr:"Présentation de la notion base de données", en:"Introducing the database concept" }, { fr:"Installer un SGBD en ligne de commande", en:"Installing a DBMS from the command line" }, { fr:"Créer une BDD et l'explorer", en:"Creating and exploring a database" }, { fr:"Introduction à la modélisation conceptuelle de données avec UML", en:"Introduction to conceptual data modelling with UML" }, { fr:"Les diagrammes fonctionnels", en:"Functional diagrams" }, { fr:"Le diagramme de classe", en:"The class diagram" }, { fr:"Introduction au passage UML-Relationnel", en:"Introduction to mapping UML to relational" }, { fr:"Modèle relationnel Vs Objet", en:"Relational vs object model" }, { fr:"Introduction au langage SQL", en:"Introduction to the SQL language" }, { fr:"Application - Introduction aux bases de données", en:"Practical work - Introduction to databases" }] },
     { fr:"Développer des sites web dynamiques avec PHP", en:"Building dynamic websites with PHP", r:19, done:false, les:[{ fr:"PHP et HTML (sorties)", en:"PHP and HTML (output)" }, { fr:"Les types de données, les variables et les constantes", en:"Data types, variables and constants" }, { fr:"Les fonctions", en:"Functions" }, { fr:"Les tableaux en PHP", en:"Arrays in PHP" }, { fr:"Les conditions", en:"Conditions" }, { fr:"Les boucles", en:"Loops" }, { fr:"Créer ses propres fonctions", en:"Writing your own functions" }, { fr:"L'organisation des fichiers PHP", en:"Organising PHP files" }, { fr:"Les superglobales Get, Post et Files", en:"The Get, Post and Files superglobals" }, { fr:"La sécurité", en:"Security" }, { fr:"La manipulation des dates", en:"Working with dates" }, { fr:"La manipulation des fichiers en PHP", en:"Working with files in PHP" }, { fr:"Les expressions régulières", en:"Regular expressions" }, { fr:"Utiliser la documentation PHP et Standard de codage PHP", en:"Using the PHP documentation and PHP coding standard" }, { fr:"La programmation Orientée Objet : concepts de base", en:"Object-oriented programming: basic concepts" }, { fr:"La programmation Orientée Objet : concepts avancés", en:"Object-oriented programming: advanced concepts" }, { fr:"La gestion des erreurs", en:"Error handling" }, { fr:"La programmation Orientée Objet : Design Patterns", en:"Object-oriented programming: design patterns" }, { fr:"La programmation Orientée Objet : L'encapsulation et la visibilité", en:"Object-oriented programming: encapsulation and visibility" }] },
     { fr:"Créer et administrer une base de données en SQL", en:"Creating and administering a SQL database", r:12, done:false, les:[{ fr:"Création et alimentation de bases de données SQL", en:"Creating and populating SQL databases" }, { fr:"L'interrogation de bases de données SQL", en:"Querying SQL databases" }, { fr:"Introduction au passage UML-Relationnel", en:"Introduction to mapping UML to relational" }, { fr:"PHP/PDO : accès en lecture/écriture", en:"PHP/PDO: read/write access" }, { fr:"Les requêtes SQL", en:"SQL queries" }, { fr:"Les fonctions SQL", en:"SQL functions" }, { fr:"Les jointures SQL", en:"SQL joins" }, { fr:"Gérer les accès des utilisateurs au niveau PHP et BD", en:"Managing user access at PHP and database level" }, { fr:"Découvrir un autre SGBDR: PostgreSQL", en:"Discovering another RDBMS: PostgreSQL" }, { fr:"Introduction à MongoDB", en:"Introduction to MongoDB" }, { fr:"Découverte d'un ORM PHP", en:"Discovering a PHP ORM" }, { fr:"UP Projet : Créer et administrer une base de données", en:"Advanced project: creating and administering a database" }] },
@@ -449,15 +454,18 @@ function render(){
   var h = "";
   h += '<div class="hero"><h1>' + (fr ? "🗓️ Mon agenda des rendez-vous" : "🗓️ My appointment diary") + '</h1>';
   h += '<p>' + (fr ? "Les rendez-vous importants, rien d'autre." : "Important appointments, nothing else.") + '</p></div>';
-  h += '<div class="plan">';
-  h += '<div class="plan-head"><div class="plan-title">🎓 ' + (fr ? "Parcours DWWM" : "DWWM curriculum") + '</div>';
-  h += '<span class="badge">⚠️ ' + (fr ? "Sujet à changement" : "Subject to change") + '</span></div>';
-  h += '<div class="plan-note">' + (fr ? "Ordre indicatif des modules Studi — promo reportée, aucune date ferme." : "Indicative Studi module order — deferred start, no fixed dates.") + '</div>';
+  var totD = 0, tot = 0;
+  TRACKS.forEach(function(t){ totD += t.mods.filter(function(m){ return m.done; }).length; tot += t.mods.length; });
+  h += '<div class="plan" id="plancard">';
+  h += '<div class="plan-head" onclick="document.getElementById(\'plancard\').classList.toggle(\'open\')"><div class="plan-title">🎓 ' + (fr ? "Parcours DWWM" : "DWWM curriculum") + '</div>';
+  h += '<span class="badge">' + totD + '/' + tot + (fr ? " modules — cliquer pour déplier" : " modules — click to expand") + ' <span class="plan-chev">▸</span></span></div>';
+  h += '<div class="plan-body">';
+  h += '<div class="plan-note">' + (fr ? "Mon rythme — dates indicatives, celles de Studi ne sont qu'un repère. Clique sur un module pour voir ses leçons." : "My own pace — dates are indicative; Studi's are only a reference. Click a module to see its lessons.") + '</div>';
   TRACKS.forEach(function(t){
     var doneN = 0; t.mods.forEach(function(m){ if (m.done) doneN++; });
     var pct = Math.round(doneN / t.mods.length * 100);
     h += '<div class="plan-track">';
-    h += '<div class="plan-track-head"><span class="plan-track-title">' + esc(fr ? t.fr : t.en) + '</span><span class="plan-track-count">' + doneN + '/' + t.mods.length + '</span></div>';
+    h += '<div class="plan-track-head"><span class="plan-track-title">' + esc(fr ? t.fr : t.en) + '</span><span class="plan-track-count">' + doneN + '/' + t.mods.length + ' · ' + esc(fr ? t.d : t.dEn) + '</span></div>';
     h += '<div class="plan-bar"><div class="plan-fill" style="width:' + pct + '%"></div></div>';
     h += '<div class="plan-mods">';
     t.mods.forEach(function(m){
@@ -473,6 +481,7 @@ function render(){
     });
     h += '</div></div>';
   });
+  h += '</div>';
   h += '</div>';
   h += '<div class="kpis">';
   h += '<div class="kpi"><div class="label">' + (fr ? "À venir" : "Upcoming") + '</div><div class="value">' + upcoming + '</div><div class="sub">' + (fr ? "rendez-vous planifiés" : "scheduled appointments") + '</div></div>';
