@@ -94,6 +94,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 .plan-hint { color: var(--acc-2); font-weight: 700; font-size: .8rem; margin-left: 8px; }
 .plan-title { font-size: 1.18rem; font-weight: 800; }
 .plan-note { color: var(--muted); font-size: .78rem; margin-top: 3px; }
+.plan-years { display: block; font-size: .82rem; font-weight: 800; color: var(--acc-2); letter-spacing: 1.2px; margin-top: 2px; }
 .plan-track { margin-top: 14px; }
 .plan-track-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
 .plan-track-title { font-weight: 700; font-size: .95rem; }
@@ -139,6 +140,10 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 .rdv::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
   background: linear-gradient(90deg, var(--acc-2), var(--acc)); }
 .rdv:hover { transform: translateY(-3px) scale(1.005); box-shadow: var(--halo); }
+.rdv-sante { box-shadow: var(--shadow-md), var(--inner-light), 0 0 22px rgba(244,63,94,.28); }
+.rdv-sante::before { background: linear-gradient(90deg, #fda4af, #f43f5e, #e11d48);
+  filter: saturate(1.4) brightness(1.15); box-shadow: 0 0 16px rgba(244,63,94,.9), 0 0 42px rgba(244,63,94,.55); }
+.rdv.rdv-sante:hover { box-shadow: var(--halo), 0 0 26px rgba(244,63,94,.4); }
 .rdv.past { opacity: .55; filter: saturate(.4); }
 .rdv-date { flex: 0 0 74px; background: var(--date-bg); color: var(--date-ink); border-radius: 14px;
   display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 4px;
@@ -199,7 +204,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v3.13 · 2026</span>
+<span class="bb-ver">v3.14 · 2026</span>
 <a class="bb-link" href="recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
 </div></footer>
 <script>
@@ -257,7 +262,7 @@ var EVENTS = [
     descFr:"Mission d’inventaire rémunérée de nuit : comptage des produits du Carrefour de Plouzané, magasin fermé au public.", descEn:"Paid overnight inventory mission: product counting at the Plouzané Carrefour, store closed to the public." }
 ];
 var CATS = [
-  { id:"sante", icon:"📞", fr:"Santé", en:"Health" },
+  { id:"sante", icon:"❤️", fr:"Santé", en:"Health" },
   { id:"travail", icon:"🏢", fr:"Travail", en:"Work" },
   { id:"admin", icon:"🏛️", fr:"Administratif", en:"Admin" }
 ];
@@ -457,7 +462,7 @@ function render(){
   var totD = 0, tot = 0;
   TRACKS.forEach(function(t){ totD += t.mods.filter(function(m){ return m.done; }).length; tot += t.mods.length; });
   h += '<div class="plan" id="plancard">';
-  h += '<div class="plan-head" onclick="document.getElementById(\'plancard\').classList.toggle(\'open\')"><div class="plan-title">🎓 ' + (fr ? "Parcours DWWM" : "DWWM curriculum") + '</div>';
+  h += '<div class="plan-head" onclick="document.getElementById(\'plancard\').classList.toggle(\'open\')"><div class="plan-title">🎓 ' + (fr ? "Graduate Développeur web full stack" : "Graduate Full Stack Web Developer") + '<span class="plan-years">2023 – 2029</span></div>';
   h += '<span class="badge">' + totD + '/' + tot + (fr ? " modules — cliquer pour déplier" : " modules — click to expand") + ' <span class="plan-chev">▸</span></span></div>';
   h += '<div class="plan-body">';
   h += '<div class="plan-note">' + (fr ? "Mon rythme — dates indicatives, celles de Studi ne sont qu'un repère. Clique sur un module pour voir ses leçons." : "My own pace — dates are indicative; Studi's are only a reference. Click a module to see its lessons.") + '</div>';
@@ -506,7 +511,7 @@ function render(){
       else if (diff === 0) count = '<span class="badge soon">🔥 ' + (fr ? "Aujourd'hui !" : "Today!") + '</span>';
       else if (diff === 1) count = '<span class="badge soon">⏳ ' + (fr ? "Demain" : "Tomorrow") + '</span>';
       else count = '<span class="badge">⏳ ' + (fr ? "Dans " + diff + " jours" : "In " + diff + " days") + '</span>';
-      h += '<article class="rdv' + (isPast ? " past" : "") + '">';
+      h += '<article class="rdv' + (isPast ? " past" : "") + (e.cat === "sante" ? " rdv-sante" : "") + '">';
       h += '<div class="rdv-date"><div class="d">' + day + '</div><div class="m">' + month + '</div></div>';
       h += '<div class="rdv-body"><div class="rdv-title">' + esc(fr ? e.fr : e.en) + '</div>';
       if (e.descFr) h += '<div class="rdv-desc">' + esc(fr ? e.descFr : e.descEn) + '</div>';
