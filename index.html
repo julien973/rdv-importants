@@ -204,7 +204,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v3.14 · 2026</span>
+<span class="bb-ver">v3.15 · 2026</span>
 <a class="bb-link" href="recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
 </div></footer>
 <script>
@@ -465,7 +465,7 @@ function render(){
   h += '<div class="plan-head" onclick="document.getElementById(\'plancard\').classList.toggle(\'open\')"><div class="plan-title">🎓 ' + (fr ? "Graduate Développeur web full stack" : "Graduate Full Stack Web Developer") + '<span class="plan-years">2023 – 2029</span></div>';
   h += '<span class="badge">' + totD + '/' + tot + (fr ? " modules — cliquer pour déplier" : " modules — click to expand") + ' <span class="plan-chev">▸</span></span></div>';
   h += '<div class="plan-body">';
-  h += '<div class="plan-note">' + (fr ? "Mon rythme — dates indicatives, celles de Studi ne sont qu'un repère. Clique sur un module pour voir ses leçons." : "My own pace — dates are indicative; Studi's are only a reference. Click a module to see its lessons.") + '</div>';
+  h += '<div class="plan-note">' + (fr ? "Ma formation de développeur web, suivie à mon rythme d'octobre 2026 à fin 2029 — les dates sont indicatives. Déplie un module pour voir ses leçons." : "My web developer training, followed at my own pace from October 2026 to late 2029 — dates are indicative. Expand a module to see its lessons.") + '</div>';
   TRACKS.forEach(function(t){
     var doneN = 0; t.mods.forEach(function(m){ if (m.done) doneN++; });
     var pct = Math.round(doneN / t.mods.length * 100);
