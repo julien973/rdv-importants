@@ -211,7 +211,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v3.24 · 2026</span>
+<span class="bb-ver">v3.25 · 2026</span>
 <a class="bb-link" href="recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
 </div></footer>
 <script>
@@ -457,12 +457,13 @@ var TRACKS = [
 ];
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 function parse(d){ return new Date(d); }
-function dayDiff(d){ var t = new Date(); t.setHours(0,0,0,0); var x = new Date(d); x.setHours(0,0,0,0); return Math.round((x - t) / 86400000); }
+function dayDiff(d){ return (parse(d) - new Date()) / 86400000; }
+function dayDiffMid(d){ var t = new Date(); t.setHours(0,0,0,0); var x = new Date(d); x.setHours(0,0,0,0); return Math.round((x - t) / 86400000); }
 function fmtTime(d){ var h = d.getHours(), m = d.getMinutes(); return (h < 10 ? "0" : "") + h + "h" + (m < 10 ? "0" : "") + m; }
 function render(){
   var fr = lang === "fr";
   var upcoming = 0, past = 0, next = null;
-  EVENTS.forEach(function(e){ var d = dayDiff(e.start); if (d >= 0) { upcoming++; if (next === null || d < next) next = d; } else past++; });
+  EVENTS.forEach(function(e){ var d = dayDiff(e.start); if (d >= 0) { upcoming++; var dd = Math.ceil(d); if (next === null || dd < next) next = dd; } else past++; });
   var h = "";
   h += '<div class="hero"><h1>' + (fr ? "🗓️ Mon agenda des rendez-vous" : "🗓️ My appointment diary") + '</h1>';
   h += '<p>' + (fr ? "Les rendez-vous importants, rien d'autre." : "Important appointments, nothing else.") + '</p></div>';
@@ -510,6 +511,7 @@ function render(){
 
       var d = parse(e.start);
       var diff = dayDiff(e.start);
+      var md = dayDiffMid(e.start);
       var isPast = diff < 0;
       var day = d.getDate();
       var month = fr ? MOIS_FR[d.getMonth()] : MONTHS_EN[d.getMonth()];
@@ -517,9 +519,9 @@ function render(){
       var t = fmtTime(d) + (e.end ? " – " + fmtTime(parse(e.end)) : "");
       var count = "";
       if (isPast) count = '<span class="badge done">✓ ' + (fr ? "Passé" : "Past") + '</span>';
-      else if (diff === 0) count = '<span class="badge soon">🔥 ' + (fr ? "Aujourd'hui !" : "Today!") + '</span>';
-      else if (diff === 1) count = '<span class="badge soon">⏳ ' + (fr ? "Demain" : "Tomorrow") + '</span>';
-      else count = '<span class="badge">⏳ ' + (fr ? "Dans " + diff + " jours" : "In " + diff + " days") + '</span>';
+      else if (md === 0) count = '<span class="badge soon">🔥 ' + (fr ? "Aujourd'hui !" : "Today!") + '</span>';
+      else if (md === 1) count = '<span class="badge soon">⏳ ' + (fr ? "Demain" : "Tomorrow") + '</span>';
+      else count = '<span class="badge">⏳ ' + (fr ? "Dans " + Math.ceil(diff) + " jours" : "In " + Math.ceil(diff) + " days") + '</span>';
       h += '<article class="rdv rdv-cat-' + e.cat + (isPast ? " past" : "") + '">';
       h += '<div class="rdv-date"><div class="d">' + day + '</div><div class="m">' + month + '</div></div>';
       h += '<div class="rdv-body"><div class="rdv-title">' + cat.icon + ' ' + esc(fr ? e.fr : e.en) + '</div>';
