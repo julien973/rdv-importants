@@ -208,7 +208,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v3.22 · 2026</span>
+<span class="bb-ver">v3.23 · 2026</span>
 <a class="bb-link" href="recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
 </div></footer>
 <script>
@@ -536,7 +536,7 @@ function render(){
     soon.forEach(renderE);
     h += '</section>';
   }
-  // le reste par catégorie, cartes triées par date, sections ordonnées par le plus proche RDV restant
+  // le reste par catégorie — Santé toujours en premier, puis les autres par plus proche RDV restant
   var catGroups = CATS.map(function(cat){
     var up = EVENTS.filter(function(e){ return e.cat === cat.id && dayDiff(e.start) > 3; })
                     .sort(function(a,b){ return parse(a.start) - parse(b.start); });
@@ -544,7 +544,7 @@ function render(){
                      .sort(function(a,b){ return parse(b.start) - parse(a.start); });
     var nearest = up.length ? parse(up[0].start).getTime() : Infinity;
     return { cat: cat, up: up, past: past, nearest: nearest };
-  }).sort(function(a,b){ return a.nearest - b.nearest; });
+  }).sort(function(a,b){ var pa = a.cat.id === "sante" ? 0 : 1, pb = b.cat.id === "sante" ? 0 : 1; return (pa - pb) || (a.nearest - b.nearest); });
   catGroups.forEach(function(g){
     if (!g.up.length && !g.past.length) return;
     h += '<section class="section"><h2 class="section-title">' + g.cat.icon + " " + esc(fr ? g.cat.fr : g.cat.en) + '</h2>';
