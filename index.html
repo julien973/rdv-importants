@@ -112,7 +112,9 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
   border-left: 2px solid var(--acc-2); background: var(--badge-bg); border-radius: 0 10px 10px 0; }
 .plan-mod.open + .plan-lessons { display: block; }
 .plan-les { font-size: .8rem; color: var(--muted); padding: 2px 0; display: flex; gap: 8px; align-items: baseline; }
-.plan-les-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--acc-2); flex: none; transform: translateY(-2px); }
+.plan-les-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); opacity: .45; flex: none; transform: translateY(-2px); }
+.plan-les.done .plan-les-dot { background: var(--acc-2); opacity: 1; }
+.plan-les.done span:last-child { color: var(--past-ink); }
 .plan-dot { width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--acc-2); flex: none; }
 .plan-mod.done { color: var(--past-ink); }
 .plan-mod.done .plan-dot { background: var(--acc-2); border-color: var(--acc-2); }
@@ -211,7 +213,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v3.29 · 2026</span>
+<span class="bb-ver">v3.30 · 2026</span>
 <a class="bb-link" href="recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
 </div></footer>
 <script>
@@ -492,7 +494,7 @@ function render(){
       if (hasLes) {
         h += '<div class="plan-lessons">';
         m.les.forEach(function(l){
-          h += '<div class="plan-les"><span class="plan-les-dot"></span><span>' + esc(fr ? l.fr : l.en) + '</span></div>';
+          h += '<div class="plan-les' + (m.done ? ' done' : '') + '"><span class="plan-les-dot"></span><span>' + esc(fr ? l.fr : l.en) + '</span></div>';
         });
         h += '</div>';
       }
