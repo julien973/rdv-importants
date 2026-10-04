@@ -9,25 +9,25 @@
 * { box-sizing: border-box; }
 :root { font-family: Inter, "Segoe UI", system-ui, sans-serif; }
 body.day, body.night {
-  --bg-base: #090d19; --ink: #eef0fa; --muted: #9aa0bf;
+  --bg-base: #272a58; --ink: #eef0ff; --muted: #b0b8e8;
   --bg-image:
-    linear-gradient(rgba(167,139,250,.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(167,139,250,.05) 1px, transparent 1px),
-    radial-gradient(ellipse 62% 44% at 18% 8%, rgba(139,92,246,.24), transparent 62%),
-    radial-gradient(ellipse 50% 36% at 86% 16%, rgba(56,140,250,.18), transparent 62%),
-    radial-gradient(ellipse 55% 42% at 80% 94%, rgba(124,58,237,.16), transparent 62%),
-    radial-gradient(ellipse 45% 32% at 10% 88%, rgba(45,212,191,.10), transparent 60%),
-    linear-gradient(160deg, #0b1020 0%, #0d1226 50%, #0a0e1c 100%);
+    linear-gradient(rgba(140,170,255,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(140,170,255,.05) 1px, transparent 1px),
+    radial-gradient(ellipse 60% 42% at 20% 10%, rgba(168,110,255,.52), transparent 62%),
+    radial-gradient(ellipse 50% 36% at 85% 20%, rgba(96,140,255,.55), transparent 62%),
+    radial-gradient(ellipse 55% 40% at 78% 92%, rgba(188,120,255,.34), transparent 62%),
+    radial-gradient(ellipse 45% 32% at 12% 88%, rgba(80,190,255,.26), transparent 60%),
+    linear-gradient(160deg, #2d2860 0%, #2e3170 50%, #232556 100%);
   background-size: 44px 44px, 44px 44px, auto, auto, auto, auto, auto;
-  --surface: rgba(15,20,38,.58); --surface-kpi: rgba(18,24,46,.62);
-  --card-border: rgba(167,139,250,.16); --border-strong: rgba(167,139,250,.42);
-  --inner-light: inset 0 1px 0 rgba(255,255,255,.07);
-  --btn-bg: rgba(167,139,250,.10); --btn-hover: rgba(167,139,250,.22); --btn-ink: #eef0fa; --btn-border: rgba(167,139,250,.30);
-  --shadow-md: 0 2px 6px rgba(4,6,16,.4), 0 18px 44px rgba(4,6,16,.5);
-  --halo: 0 0 0 1px rgba(167,139,250,.22), 0 16px 48px rgba(4,6,16,.6), 0 0 34px rgba(139,92,246,.24);
-  --topbar-bg: rgba(9,13,25,.62); --topbar-border: rgba(167,139,250,.12);
-  --badge-bg: rgba(167,139,250,.08); --badge-border: rgba(167,139,250,.24);
-  --past-ink: rgba(238,240,250,.38); --spot: rgba(56,140,250,.14);
+  --surface: rgba(38,38,80,.62); --surface-kpi: rgba(44,44,92,.58);
+  --card-border: rgba(190,200,255,.20); --border-strong: rgba(190,200,255,.48);
+  --inner-light: inset 0 1px 0 rgba(255,255,255,.14);
+  --btn-bg: rgba(190,200,255,.12); --btn-hover: rgba(190,200,255,.24); --btn-ink: #eef0ff; --btn-border: rgba(190,200,255,.38);
+  --shadow-md: 0 2px 6px rgba(10,8,40,.3), 0 18px 42px rgba(10,8,40,.45);
+  --halo: 0 0 0 1px rgba(190,200,255,.22), 0 14px 46px rgba(10,8,40,.5), 0 0 32px rgba(124,110,255,.32);
+  --topbar-bg: rgba(34,34,76,.62); --topbar-border: rgba(190,200,255,.14);
+  --badge-bg: rgba(190,200,255,.10); --badge-border: rgba(190,200,255,.26);
+  --past-ink: rgba(238,240,255,.4); --spot: rgba(120,180,255,.18);
   --win-bar-grad: linear-gradient(90deg, #8b5cf6, #38bdf8);
 }
 body.night {
@@ -50,25 +50,25 @@ body.night {
   --win-bar-grad: linear-gradient(90deg, #8b5cf6, #38bdf8);
 }
 body.day {
-  --bg-base: #eef0f8; --ink: #1c2033; --muted: #6b7194;
+  --bg-base: #e9eefc; --ink: #1e2340; --muted: #5f6794;
   --bg-image:
-    linear-gradient(rgba(139,92,246,.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(139,92,246,.05) 1px, transparent 1px),
-    radial-gradient(ellipse 55% 38% at 15% 10%, rgba(139,92,246,.16), transparent 62%),
-    radial-gradient(ellipse 45% 32% at 88% 15%, rgba(96,165,250,.14), transparent 60%),
-    radial-gradient(ellipse 50% 35% at 80% 90%, rgba(45,212,191,.10), transparent 62%),
-    radial-gradient(ellipse 40% 28% at 10% 85%, rgba(99,102,241,.12), transparent 60%),
-    linear-gradient(160deg, #f7f8fd 0%, #e9ecf7 100%);
+    linear-gradient(rgba(99,102,241,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99,102,241,.06) 1px, transparent 1px),
+    radial-gradient(ellipse 55% 38% at 15% 10%, rgba(139,92,246,.34), transparent 62%),
+    radial-gradient(ellipse 45% 32% at 88% 15%, rgba(59,130,246,.36), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 80% 90%, rgba(34,211,238,.20), transparent 62%),
+    radial-gradient(ellipse 40% 28% at 10% 85%, rgba(217,70,239,.20), transparent 60%),
+    linear-gradient(160deg, #f5f7ff 0%, #e4eafc 100%);
   background-size: 44px 44px, 44px 44px, auto, auto, auto, auto, auto;
-  --surface: rgba(255,255,255,.72); --surface-kpi: rgba(255,255,255,.66);
-  --card-border: rgba(255,255,255,.9); --border-strong: rgba(28,32,51,.24);
+  --surface: rgba(255,255,255,.66); --surface-kpi: rgba(255,255,255,.6);
+  --card-border: rgba(255,255,255,.95); --border-strong: rgba(30,35,64,.26);
   --inner-light: inset 0 1px 0 rgba(255,255,255,.95);
-  --btn-bg: rgba(255,255,255,.6); --btn-hover: #ffffff; --btn-ink: #1c2033; --btn-border: rgba(28,32,51,.2);
-  --shadow-md: 0 2px 6px rgba(28,32,51,.06), 0 16px 40px rgba(28,32,51,.13);
-  --halo: 0 0 0 1px rgba(255,255,255,.9), 0 14px 44px rgba(28,32,51,.16), 0 0 26px rgba(139,92,246,.14);
-  --topbar-bg: rgba(247,248,253,.66); --topbar-border: rgba(28,32,51,.08);
-  --badge-bg: rgba(139,92,246,.07); --badge-border: rgba(139,92,246,.22);
-  --past-ink: rgba(28,32,51,.36); --spot: rgba(139,92,246,.1);
+  --btn-bg: rgba(255,255,255,.6); --btn-hover: #ffffff; --btn-ink: #1e2340; --btn-border: rgba(30,35,64,.2);
+  --shadow-md: 0 2px 6px rgba(59,80,180,.08), 0 16px 40px rgba(59,80,180,.16);
+  --halo: 0 0 0 1px rgba(255,255,255,.95), 0 14px 44px rgba(59,80,180,.2), 0 0 28px rgba(99,102,241,.22);
+  --topbar-bg: rgba(245,247,255,.7); --topbar-border: rgba(30,35,64,.08);
+  --badge-bg: rgba(99,102,241,.08); --badge-border: rgba(99,102,241,.24);
+  --past-ink: rgba(30,35,64,.36); --spot: rgba(99,102,241,.12);
   --win-bar-grad: linear-gradient(90deg, #8b5cf6, #38bdf8);
 }
 body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; overscroll-behavior-y: none;
@@ -237,7 +237,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v4 · aperçu 2</span>
+<span class="bb-ver">v4 · aperçu 3</span>
 <a class="bb-link" href="recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
 </div></footer>
 <script>
