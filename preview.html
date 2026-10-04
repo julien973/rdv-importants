@@ -9,66 +9,50 @@
 * { box-sizing: border-box; }
 :root { font-family: Inter, "Segoe UI", system-ui, sans-serif; }
 body.day, body.night {
-  --bg-base: #272a58; --ink: #eef0ff; --muted: #b0b8e8;
-  --bg-image:
-    linear-gradient(rgba(140,170,255,.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(140,170,255,.05) 1px, transparent 1px),
-    radial-gradient(ellipse 60% 42% at 20% 10%, rgba(168,110,255,.52), transparent 62%),
-    radial-gradient(ellipse 50% 36% at 85% 20%, rgba(96,140,255,.55), transparent 62%),
-    radial-gradient(ellipse 55% 40% at 78% 92%, rgba(188,120,255,.34), transparent 62%),
-    radial-gradient(ellipse 45% 32% at 12% 88%, rgba(80,190,255,.26), transparent 60%),
-    linear-gradient(160deg, #2d2860 0%, #2e3170 50%, #232556 100%);
-  background-size: 44px 44px, 44px 44px, auto, auto, auto, auto, auto;
-  --surface: rgba(38,38,80,.62); --surface-kpi: rgba(44,44,92,.58);
-  --card-border: rgba(190,200,255,.20); --border-strong: rgba(190,200,255,.48);
-  --inner-light: inset 0 1px 0 rgba(255,255,255,.14);
-  --btn-bg: rgba(190,200,255,.12); --btn-hover: rgba(190,200,255,.24); --btn-ink: #eef0ff; --btn-border: rgba(190,200,255,.38);
-  --shadow-md: 0 2px 6px rgba(10,8,40,.3), 0 18px 42px rgba(10,8,40,.45);
-  --halo: 0 0 0 1px rgba(190,200,255,.22), 0 14px 46px rgba(10,8,40,.5), 0 0 32px rgba(124,110,255,.32);
-  --topbar-bg: rgba(34,34,76,.62); --topbar-border: rgba(190,200,255,.14);
-  --badge-bg: rgba(190,200,255,.10); --badge-border: rgba(190,200,255,.26);
-  --past-ink: rgba(238,240,255,.4); --spot: rgba(120,180,255,.18);
-  --win-bar-grad: linear-gradient(90deg, #8b5cf6, #38bdf8);
+  --progress-grad: linear-gradient(90deg, #f06192, #fbbf24, #4ade80, #38bdf8, #a78bfa);
+  --progress-glow: rgba(240, 97, 146, .6);
+  --acc: #7c3aed; --acc-2: #a78bfa; --acc-soft: rgba(147, 90, 255, .14);
+  --date-bg: linear-gradient(150deg, #8b5cf6, #6d28d9); --date-ink: #f5f2ff;
+  --date-glow: 0 6px 22px rgba(124, 58, 237, .45);
 }
 body.night {
-  --bg-base: #2e2650; --ink: #f0ecfa; --muted: #b6a8d8;
+  --bg-base: #2b2860; --ink: #f0edfd; --muted: #b4b0e6;
   --bg-image:
-    radial-gradient(ellipse 60% 42% at 20% 10%, rgba(178,128,255,.55), transparent 62%),
-    radial-gradient(ellipse 50% 36% at 85% 20%, rgba(125,155,255,.5), transparent 62%),
-    radial-gradient(ellipse 55% 40% at 78% 92%, rgba(240,140,255,.4), transparent 62%),
-    radial-gradient(ellipse 45% 32% at 12% 88%, rgba(100,130,255,.38), transparent 60%),
-    linear-gradient(160deg, #35295e 0%, #3d2f6b 50%, #312654 100%);
-  --surface: rgba(46,36,74,.66); --surface-kpi: rgba(52,42,84,.6);
-  --card-border: rgba(230,220,255,.22); --border-strong: rgba(230,220,255,.5);
-  --inner-light: inset 0 1px 0 rgba(255,255,255,.12);
-  --btn-bg: rgba(230,220,255,.12); --btn-hover: rgba(230,220,255,.24); --btn-ink: #f0ecfa; --btn-border: rgba(230,220,255,.4);
-  --shadow-md: 0 2px 6px rgba(15,8,40,.25), 0 16px 40px rgba(15,8,40,.4);
-  --halo: 0 0 0 1px rgba(230,220,255,.24), 0 14px 44px rgba(15,8,40,.5), 0 0 30px rgba(147,90,255,.28);
-  --topbar-bg: rgba(41,32,72,.6); --topbar-border: rgba(230,220,255,.16);
-  --badge-bg: rgba(230,220,255,.10); --badge-border: rgba(230,220,255,.28);
-  --past-ink: rgba(240,236,250,.4); --spot: rgba(200,180,255,.16);
+    radial-gradient(ellipse 60% 42% at 20% 10%, rgba(178,120,255,.5), transparent 62%),
+    radial-gradient(ellipse 50% 36% at 85% 20%, rgba(105,150,255,.55), transparent 62%),
+    radial-gradient(ellipse 55% 40% at 78% 92%, rgba(200,130,255,.38), transparent 62%),
+    radial-gradient(ellipse 45% 32% at 12% 88%, rgba(70,160,255,.42), transparent 60%),
+    radial-gradient(ellipse 35% 26% at 50% 55%, rgba(80,120,255,.22), transparent 60%),
+    linear-gradient(160deg, #342a6e 0%, #3a3580 50%, #2a2a63 100%);
+  --surface: rgba(40,36,88,.64); --surface-kpi: rgba(46,42,96,.6);
+  --card-border: rgba(200,200,255,.22); --border-strong: rgba(200,200,255,.5);
+  --inner-light: inset 0 1px 0 rgba(255,255,255,.13);
+  --btn-bg: rgba(200,200,255,.12); --btn-hover: rgba(200,200,255,.24); --btn-ink: #f0edfd; --btn-border: rgba(200,200,255,.4);
+  --shadow-md: 0 2px 6px rgba(15,10,45,.28), 0 16px 40px rgba(15,10,45,.45);
+  --halo: 0 0 0 1px rgba(200,200,255,.24), 0 14px 44px rgba(15,10,45,.5), 0 0 34px rgba(124,110,255,.34);
+  --topbar-bg: rgba(36,32,80,.6); --topbar-border: rgba(200,200,255,.16);
+  --badge-bg: rgba(200,200,255,.10); --badge-border: rgba(200,200,255,.28);
+  --past-ink: rgba(240,237,253,.4); --spot: rgba(110,160,255,.2);
   --win-bar-grad: linear-gradient(90deg, #8b5cf6, #38bdf8);
 }
 body.day {
-  --bg-base: #e9eefc; --ink: #1e2340; --muted: #5f6794;
+  --bg-base: #e6ecfc; --ink: #1e2340; --muted: #5f6794;
   --bg-image:
-    linear-gradient(rgba(99,102,241,.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(99,102,241,.06) 1px, transparent 1px),
-    radial-gradient(ellipse 55% 38% at 15% 10%, rgba(139,92,246,.34), transparent 62%),
-    radial-gradient(ellipse 45% 32% at 88% 15%, rgba(59,130,246,.36), transparent 60%),
-    radial-gradient(ellipse 50% 35% at 80% 90%, rgba(34,211,238,.20), transparent 62%),
-    radial-gradient(ellipse 40% 28% at 10% 85%, rgba(217,70,239,.20), transparent 60%),
-    linear-gradient(160deg, #f5f7ff 0%, #e4eafc 100%);
-  background-size: 44px 44px, 44px 44px, auto, auto, auto, auto, auto;
-  --surface: rgba(255,255,255,.66); --surface-kpi: rgba(255,255,255,.6);
+    radial-gradient(ellipse 55% 38% at 15% 10%, rgba(139,92,246,.42), transparent 62%),
+    radial-gradient(ellipse 45% 32% at 88% 15%, rgba(59,130,246,.44), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 80% 90%, rgba(34,211,238,.26), transparent 62%),
+    radial-gradient(ellipse 40% 28% at 10% 85%, rgba(217,70,239,.26), transparent 60%),
+    radial-gradient(ellipse 32% 24% at 50% 50%, rgba(99,102,241,.18), transparent 60%),
+    linear-gradient(160deg, #f6f8ff 0%, #e0e7fb 100%);
+  --surface: rgba(255,255,255,.62); --surface-kpi: rgba(255,255,255,.58);
   --card-border: rgba(255,255,255,.95); --border-strong: rgba(30,35,64,.26);
   --inner-light: inset 0 1px 0 rgba(255,255,255,.95);
-  --btn-bg: rgba(255,255,255,.6); --btn-hover: #ffffff; --btn-ink: #1e2340; --btn-border: rgba(30,35,64,.2);
-  --shadow-md: 0 2px 6px rgba(59,80,180,.08), 0 16px 40px rgba(59,80,180,.16);
-  --halo: 0 0 0 1px rgba(255,255,255,.95), 0 14px 44px rgba(59,80,180,.2), 0 0 28px rgba(99,102,241,.22);
-  --topbar-bg: rgba(245,247,255,.7); --topbar-border: rgba(30,35,64,.08);
+  --btn-bg: rgba(255,255,255,.58); --btn-hover: #ffffff; --btn-ink: #1e2340; --btn-border: rgba(30,35,64,.2);
+  --shadow-md: 0 2px 6px rgba(59,80,180,.08), 0 16px 40px rgba(59,80,180,.17);
+  --halo: 0 0 0 1px rgba(255,255,255,.95), 0 14px 44px rgba(59,80,180,.22), 0 0 32px rgba(99,102,241,.26);
+  --topbar-bg: rgba(246,248,255,.68); --topbar-border: rgba(30,35,64,.08);
   --badge-bg: rgba(99,102,241,.08); --badge-border: rgba(99,102,241,.24);
-  --past-ink: rgba(30,35,64,.36); --spot: rgba(99,102,241,.12);
+  --past-ink: rgba(30,35,64,.36); --spot: rgba(99,102,241,.16);
   --win-bar-grad: linear-gradient(90deg, #8b5cf6, #38bdf8);
 }
 body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; overscroll-behavior-y: none;
@@ -76,7 +60,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
   transition: background-color .45s ease, color .45s ease; }
 @media (hover: hover) and (pointer: fine) { body { background-attachment: fixed; } }
 .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-.orbs i { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .55; }
+.orbs i { position: absolute; border-radius: 50%; filter: blur(64px); opacity: .7; }
 .orbs .o1 { width: 380px; height: 380px; left: -100px; top: 6%; background: var(--acc-soft); }
 .orbs .o2 { width: 300px; height: 300px; right: -80px; top: 36%; background: var(--spot); }
 .orbs .o3 { width: 340px; height: 340px; left: 28%; bottom: -100px; background: var(--acc-soft); }
@@ -237,7 +221,7 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v4 · aperçu 3</span>
+<span class="bb-ver">v4 · aperçu 4</span>
 <a class="bb-link" href="recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
 </div></footer>
 <script>
