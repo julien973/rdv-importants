@@ -64,6 +64,7 @@
   .botbar .sep{opacity:.4}
   @media(max-width:560px){.stat .val{font-size:1.2rem}.card{padding:13px 14px}}
   </style>
+<script>(function(){try{var t=localStorage.getItem('rdv-theme');if(t==='night'){document.documentElement.style.background='#0a1216';document.documentElement.style.colorScheme='dark';}}catch(e){}})();</script>
 </head>
 <body class="day">
 
@@ -88,7 +89,7 @@
 
 <footer class="botbar"><div class="botbar-in">
   <a href="index.html">📅 <span data-i18n="footerHome">Mes RDV</span></a><span class="sep">·</span><a href="https://julien973.github.io/rgis-heures-paie/" target="_blank" rel="noopener">💶 <span data-i18n="footerRgis">Heures &amp; paie RGIS</span></a>
-  <span class="sep">·</span><span>v4.0.1</span><span>·</span><span>2026</span>
+  <span class="sep">·</span><span>v4.0.2</span><span>·</span><span>2026</span>
 </div></footer>
 <script>
 
@@ -125,6 +126,7 @@
   $('btnFR').onclick = ()=>setLang('fr');
   $('btnEN').onclick = ()=>setLang('en');
   $('btnTheme').onclick = ()=>setTheme(document.body.classList.contains('night')?'day':'night');
+  try{ setTheme(localStorage.getItem('rdv-theme')||'day'); }catch(e){}
   
   const BD = [{"ic":"🎂","md":"10-12","fr":"Anniversaire de Niva","en":"Niva's birthday"},{"ic":"🎂","md":"11-05","fr":"Anniversaire de Kon","en":"Kon's birthday"},{"ic":"🎂","md":"11-12","fr":"Anniversaire de Kiana","en":"Kiana's birthday"},{"ic":"🎂","md":"12-16","fr":"Anniversaire de Leeloo","en":"Leeloo's birthday"},{"ic":"🎂","md":"12-25","fr":"Anniversaire de Nat & Mika","en":"Nat & Mika's birthday"},{"ic":"🎂","md":"01-23","fr":"Anniversaire de Nicre","en":"Nicre's birthday"},{"ic":"🎂","md":"02-23","fr":"Mon anniversaire (Julien)","en":"My birthday (Julien)"}];
   const WIN = [{"fr":"Ouverture de l’actualisation — octobre 2026","en":"Renewal window opens — October 2026","date":"2026-10-28"},{"fr":"Fermeture de l’actualisation — octobre 2026","en":"Renewal window closes — October 2026","date":"2026-11-15"},{"fr":"Ouverture de l’actualisation — novembre 2026","en":"Renewal window opens — November 2026","date":"2026-11-28"},{"fr":"Fermeture de l’actualisation — novembre 2026","en":"Renewal window closes — November 2026","date":"2026-12-15"},{"fr":"Ouverture de l’actualisation — décembre 2026","en":"Renewal window opens — December 2026","date":"2026-12-28"},{"fr":"Fermeture de l’actualisation — décembre 2026","en":"Renewal window closes — December 2026","date":"2027-01-15"}];
