@@ -3,609 +3,170 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mes RDV importants</title>
+<title>RDV importants — Julien</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-@property --surface-alpha { syntax: "<number>"; inherits: true; initial-value: 0.72; }
-* { box-sizing: border-box; }
-:root { font-family: Inter, "Segoe UI", system-ui, sans-serif; }
-body.day, body.night {
-  --progress-grad: linear-gradient(90deg, #f06192, #fbbf24, #4ade80, #38bdf8, #a78bfa);
-  --progress-glow: rgba(240, 97, 146, .6);
-  --acc: #7c3aed; --acc-2: #a78bfa; --acc-soft: rgba(147, 90, 255, .14);
-  --date-bg: linear-gradient(150deg, #8b5cf6, #6d28d9); --date-ink: #f5f2ff;
-  --date-glow: 0 6px 18px rgba(124, 58, 237, .35);
-}
-body.night {
-  --bg-base: #2e2650; --ink: #f0ecfa; --muted: #b6a8d8;
-  --bg-image:
-    radial-gradient(ellipse 60% 42% at 20% 10%, rgba(178,128,255,.55), transparent 62%),
-    radial-gradient(ellipse 50% 36% at 85% 20%, rgba(125,155,255,.5), transparent 62%),
-    radial-gradient(ellipse 55% 40% at 78% 92%, rgba(240,140,255,.4), transparent 62%),
-    radial-gradient(ellipse 45% 32% at 12% 88%, rgba(100,130,255,.38), transparent 60%),
-    linear-gradient(160deg, #35295e 0%, #3d2f6b 50%, #312654 100%);
-  --surface: rgba(46,36,74,.66); --surface-kpi: rgba(52,42,84,.6);
-  --card-border: rgba(230,220,255,.22); --border-strong: rgba(230,220,255,.5);
-  --inner-light: inset 0 1px 0 rgba(255,255,255,.12);
-  --btn-bg: rgba(230,220,255,.12); --btn-hover: rgba(230,220,255,.24); --btn-ink: #f0ecfa; --btn-border: rgba(230,220,255,.4);
-  --shadow-md: 0 2px 6px rgba(15,8,40,.25), 0 16px 40px rgba(15,8,40,.4);
-  --halo: 0 0 0 1px rgba(230,220,255,.24), 0 14px 44px rgba(15,8,40,.5), 0 0 30px rgba(147,90,255,.28);
-  --topbar-bg: rgba(41,32,72,.6); --topbar-border: rgba(230,220,255,.16);
-  --badge-bg: rgba(230,220,255,.10); --badge-border: rgba(230,220,255,.28);
-  --past-ink: rgba(240,236,250,.4); --spot: rgba(200,180,255,.16);
-  --win-bar-grad: linear-gradient(90deg, #8b5cf6, #38bdf8);
-}
-body.day {
-  --bg-base: #ece7fb; --ink: #2b2340; --muted: #7d729c;
-  --bg-image:
-    radial-gradient(ellipse 55% 38% at 15% 10%, rgba(167,120,255,.5), transparent 62%),
-    radial-gradient(ellipse 45% 32% at 88% 15%, rgba(96,165,250,.42), transparent 60%),
-    radial-gradient(ellipse 50% 35% at 80% 90%, rgba(232,121,249,.38), transparent 62%),
-    radial-gradient(ellipse 40% 28% at 10% 85%, rgba(129,140,248,.35), transparent 60%),
-    linear-gradient(160deg, #f7f4ff 0%, #ebe5fa 100%);
-  --surface: rgba(255,253,255,.78); --surface-kpi: rgba(255,253,255,.7);
-  --card-border: rgba(255,255,255,.95); --border-strong: rgba(43,35,64,.28);
-  --inner-light: inset 0 1px 0 rgba(255,255,255,.9);
-  --btn-bg: rgba(255,255,255,.65); --btn-hover: #ffffff; --btn-ink: #2b2340; --btn-border: rgba(43,35,64,.22);
-  --shadow-md: 0 2px 6px rgba(70,50,140,.06), 0 16px 40px rgba(70,50,140,.14);
-  --halo: 0 0 0 1px rgba(255,255,255,.95), 0 14px 44px rgba(70,50,140,.18), 0 0 28px rgba(147,90,255,.2);
-  --topbar-bg: rgba(247,244,255,.68); --topbar-border: rgba(43,35,64,.1);
-  --badge-bg: rgba(124,58,237,.07); --badge-border: rgba(124,58,237,.22);
-  --past-ink: rgba(43,35,64,.38); --spot: rgba(147,90,255,.1);
-  --win-bar-grad: linear-gradient(90deg, #7c3aed, #38bdf8);
-}
-body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; overscroll-behavior-y: none;
-  color: var(--ink); background-color: var(--bg-base); background-image: var(--bg-image);
-  transition: background-color .45s ease, color .45s ease; }
-@media (hover: hover) and (pointer: fine) { body { background-attachment: fixed; } }
-.orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-.orbs i { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .55; }
-.orbs .o1 { width: 380px; height: 380px; left: -100px; top: 6%; background: var(--acc-soft); }
-.orbs .o2 { width: 300px; height: 300px; right: -80px; top: 36%; background: var(--spot); }
-.orbs .o3 { width: 340px; height: 340px; left: 28%; bottom: -100px; background: var(--acc-soft); }
-.topbar { position: sticky; top: 0; z-index: 20; background: var(--topbar-bg);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--topbar-border); }
-.topbar-inner { max-width: 980px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 18px; gap: 12px; flex-wrap: wrap; }
-.tb-brand { font-size: 1.05rem; letter-spacing: .3px; font-weight: 700; }
-.tb-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-.lang-btn { display: inline-flex; align-items: center; gap: 7px; padding: 7px 13px; border-radius: 999px;
-  border: 1px solid var(--btn-border); background: var(--btn-bg); color: var(--btn-ink); cursor: pointer;
-  font-family: inherit; font-size: .92rem; transition: background .18s, transform .18s, box-shadow .18s; }
-.lang-btn:hover { background: var(--btn-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
-.lang-btn.active { outline: 2px solid var(--acc-2); outline-offset: 1px; font-weight: 700; }
-.flag { width: 21px; height: 14px; border-radius: 2px; display: block; box-shadow: 0 0 0 1px rgba(0,0,0,.15); }
-.page { position: relative; z-index: 1; max-width: 980px; margin: 0 auto; padding: 22px 18px 10px; }
-.hero { background: var(--surface); border: 1px solid var(--card-border); border-radius: 20px;
-  box-shadow: var(--shadow-md), var(--inner-light);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  padding: 26px 26px 22px; margin-top: 18px; position: relative; overflow: hidden; }
-.hero::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
-  background: linear-gradient(90deg, var(--acc-2), var(--acc)); }
-.hero h1 { margin: 0 0 8px; font-size: 1.65rem; }
-.hero p { margin: 0; color: var(--muted); font-style: italic; }
-.plan { background: var(--surface); border: 1px solid var(--card-border); border-radius: 20px;
-  box-shadow: var(--shadow-md), var(--inner-light); padding: 18px 20px 14px; margin: 18px 0; position: relative; overflow: hidden; }
-.plan::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--progress-grad); }
-.plan-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; cursor: pointer; user-select: none; }
-.plan-body { display: none; }
-.plan.open .plan-body { display: block; }
-.plan-chev { display: inline-block; transition: transform .2s; font-size: .8rem; }
-.plan.open .plan-chev { transform: rotate(90deg); }
-.plan-hint { color: var(--acc-2); font-weight: 700; font-size: .8rem; margin-left: 8px; }
-.plan-title { font-size: 1.18rem; font-weight: 800; }
-.plan-note { color: var(--muted); font-size: .78rem; margin-top: 3px; }
-.plan-years { display: block; font-size: .82rem; font-weight: 800; color: var(--acc-2); letter-spacing: 1.2px; margin-top: 2px; }
-.plan-track { margin-top: 14px; }
-.plan-track-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.plan-track-title { font-weight: 700; font-size: .95rem; }
-.plan-track-count { color: var(--muted); font-size: .8rem; font-weight: 700; }
-.plan-track-desc { color: var(--muted); font-size: .82rem; font-style: italic; margin: 2px 0 4px; }
-.plan-bar { height: 6px; border-radius: 3px; background: var(--badge-bg); margin: 6px 0 6px; overflow: hidden; }
-.plan-fill { height: 100%; border-radius: 3px; background: var(--win-bar-grad); }
-.plan-mods { display: grid; grid-template-columns: repeat(auto-fill, minmax(235px, 1fr)); gap: 1px 16px; }
-.plan-mod { display: flex; align-items: center; gap: 8px; font-size: .85rem; padding: 3px 0; color: var(--muted); }
-.plan-mod.clk { cursor: pointer; border-radius: 8px; padding: 3px 6px; margin: 0 -6px; transition: background .15s; }
-.plan-mod.clk:hover { background: var(--badge-bg); }
-.plan-chev { display: inline-block; transition: transform .2s; font-size: .7rem; }
-.plan-mod.open .plan-chev { transform: rotate(90deg); }
-.plan-lessons { display: none; grid-column: 1 / -1; margin: 2px 0 8px 17px; padding: 8px 14px;
-  border-left: 2px solid var(--acc-2); background: var(--badge-bg); border-radius: 0 10px 10px 0; }
-.plan-mod.open + .plan-lessons { display: block; }
-.plan-les { font-size: .8rem; color: var(--muted); padding: 2px 0; display: flex; gap: 8px; align-items: baseline; }
-.plan-les-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); opacity: .45; flex: none; transform: translateY(-2px); }
-.plan-les.done .plan-les-dot { background: var(--acc-2); opacity: 1; }
-.plan-les.done span:last-child { color: var(--past-ink); }
-.plan-dot { width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--acc-2); flex: none; }
-.plan-mod.done { color: var(--past-ink); }
-.plan-mod.done .plan-dot { background: var(--acc-2); border-color: var(--acc-2); }
-.plan-mod .n { margin-left: auto; font-size: .72rem; opacity: .7; white-space: nowrap; }
-.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin: 18px 0; }
-.kpi { position: relative; overflow: hidden; background: var(--surface-kpi); border: 1px solid var(--card-border); border-radius: 18px;
-  box-shadow: var(--shadow-md), var(--inner-light); padding: 16px 18px; text-align: center;
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  transition: transform .18s, box-shadow .18s; }
-.kpi::after { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, var(--acc-2), var(--acc)); }
-.win::after { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, var(--acc-2), var(--acc)); }
-.kpi:hover { transform: translateY(-3px); box-shadow: var(--halo); }
-.kpi .label { font-size: .78rem; text-transform: uppercase; letter-spacing: 1.4px; color: var(--muted); font-weight: 600; }
-.kpi .value { font-size: 2rem; font-weight: 800; margin: 4px 0 2px;
-  background: linear-gradient(135deg, #a78bfa, #7c3aed, #38bdf8);
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-.kpi .sub { font-size: .85rem; color: var(--muted); }
-.section { margin: 26px 0; }
-.section-title { display: flex; align-items: center; gap: 10px; font-size: 1.2rem; margin: 0 0 14px; font-weight: 700; }
-.section-title::after { content: ""; flex: 1; height: 1px;
-  background: linear-gradient(90deg, var(--badge-border), transparent); }
-.rdv { display: flex; gap: 16px; background: var(--surface); border: 1px solid var(--card-border);
-  border-radius: 18px; box-shadow: var(--shadow-md), var(--inner-light); padding: 16px 18px; margin-bottom: 12px;
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  transition: transform .2s, box-shadow .2s; align-items: stretch; position: relative; overflow: hidden; }
-.rdv::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
-  background: linear-gradient(90deg, var(--acc-2), var(--acc)); }
-.rdv:hover { transform: translateY(-3px) scale(1.005); box-shadow: var(--halo); }
-.rdv-cat-sante { box-shadow: var(--shadow-md), var(--inner-light), 0 0 22px rgba(244,63,94,.28); }
-.rdv-cat-travail::before { background: linear-gradient(90deg, #bbf7d0, #4ade80, #16a34a); filter: saturate(1.35) brightness(1.1); }
-.rdv-cat-admin::before { background: linear-gradient(90deg, #fde68a, #f59e0b, #d97706); filter: saturate(1.3) brightness(1.08); }
-.rdv-cat-sante::before { background: linear-gradient(90deg, #fda4af, #f43f5e, #e11d48);
-  filter: saturate(1.4) brightness(1.15); box-shadow: 0 0 16px rgba(244,63,94,.9), 0 0 42px rgba(244,63,94,.55); }
-.rdv.rdv-cat-sante:hover { box-shadow: var(--halo), 0 0 26px rgba(244,63,94,.4); }
-.rdv.past { opacity: .55; filter: saturate(.4); }
-.rdv.cancelled { opacity: .75; filter: saturate(.35); position: relative; }
-.rdv.cancelled .rdv-title, .rdv.cancelled .rdv-desc, .rdv.cancelled .rdv-where { text-decoration: line-through; text-decoration-thickness: 1px; }
-.stamp { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) rotate(-22deg);
-  border: 3px solid #ef4444; color: #ef4444; font-weight: 900; font-size: 1.6rem; letter-spacing: .18em;
-  padding: 4px 18px; border-radius: 6px; opacity: .5; pointer-events: none; text-transform: uppercase; z-index: 2;
-  box-shadow: 0 0 0 1px rgba(239,68,68,.25) inset; background: rgba(239,68,68,.06); }
-.rdv-date { flex: 0 0 74px; background: var(--date-bg); color: var(--date-ink); border-radius: 14px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 4px;
-  box-shadow: var(--date-glow), inset 0 1px 0 rgba(255,255,255,.35); }
-.rdv-date .d { font-size: 1.75rem; font-weight: 800; line-height: 1; }
-.rdv-date .m { font-size: .74rem; text-transform: uppercase; letter-spacing: 1.6px; margin-top: 3px; font-weight: 600; }
-.rdv-body { flex: 1; min-width: 0; }
-.rdv-title { font-size: 1.06rem; font-weight: 700; margin-bottom: 3px; }
-.rdv.past .rdv-title, .rdv.past .rdv-where { color: var(--past-ink); }
-.rdv-where { color: var(--muted); font-size: .9rem; margin-bottom: 9px; }
-.rdv-desc { color: var(--muted); font-size: .84rem; margin: -5px 0 9px; font-style: italic; }
-.rdv-meta { display: flex; flex-wrap: wrap; gap: 7px; }
-.badge { display: inline-flex; align-items: center; gap: 5px; font-size: .78rem; padding: 4px 11px; font-weight: 600;
-  border-radius: 999px; background: var(--badge-bg); border: 1px solid var(--badge-border);
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-.badge.soon { border-color: var(--acc-2); color: var(--acc-2); font-weight: 700;
-  box-shadow: 0 0 12px rgba(147,90,255,.25); }
-.badge.done { opacity: .8; }
-.badge.cat { border-color: currentColor; color: var(--acc-2); }
-.rdv-cat-sante .badge.cat { color: #f43f5e; }
-.rdv-cat-travail .badge.cat { color: #16a34a; }
-.rdv-cat-admin .badge.cat { color: #d97706; }
-.win { position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--card-border); border-radius: 18px;
-  box-shadow: var(--shadow-md), var(--inner-light); padding: 18px 20px; margin-bottom: 14px;
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  transition: transform .2s, box-shadow .2s; }
-.win:hover { transform: translateY(-3px); box-shadow: var(--halo); }
-.win-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; }
-.win-title { font-size: 1.06rem; font-weight: 700; }
-.win-sub { color: var(--muted); font-size: .9rem; margin: 6px 0 10px; }
-.win-bar { height: 9px; border-radius: 999px; background: var(--badge-bg); border: 1px solid var(--badge-border); overflow: hidden;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,.12); }
-.win-bar i { display: block; height: 100%; background: var(--win-bar-grad); border-radius: 999px;
-  box-shadow: 0 0 10px rgba(124,58,237,.4); }
-.botbar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 20; background: var(--topbar-bg);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-top: 1px solid var(--topbar-border); }
-.botbar-inner { max-width: 980px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 18px; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
-.bb-link { color: var(--ink); text-decoration: none; padding: 5px 12px; border-radius: 999px; font-weight: 600;
-  border: 1px solid var(--btn-border); background: var(--btn-bg); transition: background .18s, transform .18s; }
-.bb-link:hover { background: var(--btn-hover); transform: translateY(-1px); }
-.bb-ver { color: var(--muted); }
-#progress { position: absolute; left: 0; bottom: -1px; height: 3px; width: 0%; background: var(--progress-grad);
-  border-radius: 999px; transition: width .18s linear; box-shadow: var(--progress-glow);
-  filter: saturate(1.3) brightness(1.12); will-change: width; }
-@media (max-width: 520px) { .rdv { flex-direction: column; } .rdv-date { flex-direction: row; gap: 8px; }
-  .hero h1 { font-size: 1.3rem; } }
-/* ===== v3.35 — badges de catégorie sur le bord des cartes ===== */
-.rdv { overflow: visible; padding-left: 40px; }
-.edge-badge { position: absolute; left: -15px; top: 50%; transform: translateY(-50%);
-  width: 30px; height: 30px; border-radius: 10px; display: flex; align-items: center;
-  justify-content: center; font-size: 15px; z-index: 4; border: 1.5px solid var(--edge-c);
-  background: linear-gradient(145deg, rgba(60,50,120,.95), rgba(40,36,88,.95));
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 4px 14px rgba(10,8,40,.5), 0 0 12px var(--edge-glow), inset 0 1px 0 rgba(255,255,255,.18);
-  --edge-c: #a78bfa; --edge-glow: rgba(167,139,250,.5); }
-.rdv-cat-sante .edge-badge { --edge-c: #f43f5e; --edge-glow: rgba(244,63,94,.5); }
-.rdv-cat-travail .edge-badge { --edge-c: #4ade80; --edge-glow: rgba(74,222,128,.5); }
-.rdv-cat-admin .edge-badge { --edge-c: #f59e0b; --edge-glow: rgba(245,158,11,.5); }
-body.day .edge-badge { background: linear-gradient(145deg, #ffffff, #e9edff); }
-</style>
+  :root{--radius:16px;--radius-sm:12px}
+  body.day{--surface:rgba(255,255,255,.66);--ink:#2b2620;--muted:#7c6f5f;--accent:#0d7a68;--accent-ink:#0a5c4f;--accent-soft:rgba(13,122,104,.1);--gold:#b8860b;--gold-soft:rgba(184,134,11,.12);--border:#e6dbc8;--border-strong:#d8c9b0;--shadow-sm:0 1px 2px rgba(28,25,23,.05),0 4px 14px rgba(28,25,23,.06);--shadow-md:0 2px 6px rgba(28,25,23,.06),0 16px 40px rgba(28,25,23,.12);--topbar-bg:rgba(247,240,230,.8);--topbar-border:rgba(221,210,196,.6);--hero-bar:linear-gradient(90deg,#0d7a68,#b8860b);color:var(--ink);background:radial-gradient(900px 500px at 85% -5%,rgba(13,122,104,.1),transparent 60%),radial-gradient(700px 420px at 5% 15%,rgba(184,134,11,.09),transparent 62%),linear-gradient(180deg,#f7f2e8 0%,#f0e9da 100%)}
+  body.night{--surface:rgba(255,255,255,.09);--ink:#eef4f2;--muted:#9db8b0;--accent:#2dd4bf;--accent-ink:#7ce8da;--accent-soft:rgba(45,212,191,.14);--gold:#e8c565;--gold-soft:rgba(232,197,101,.13);--border:rgba(235,245,240,.16);--border-strong:rgba(235,245,240,.3);--shadow-sm:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.25);--shadow-md:0 2px 8px rgba(0,0,0,.35),0 18px 44px rgba(0,0,0,.4);--topbar-bg:rgba(9,16,20,.72);--topbar-border:rgba(120,180,170,.2);--hero-bar:linear-gradient(90deg,#2dd4bf,#e8c565);color:var(--ink);background:radial-gradient(900px 500px at 85% -5%,rgba(45,212,191,.09),transparent 60%),radial-gradient(700px 420px at 5% 15%,rgba(232,197,101,.07),transparent 62%),linear-gradient(180deg,#0a1216 0%,#0c1a1e 100%)}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.55;min-height:100svh}
+  h1,h2,.brand,.stat .val,.card .ttl{font-family:Sora,Inter,system-ui,sans-serif}
+  .wrap{max-width:880px;margin:0 auto;padding:0 18px 70px}
+  .topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:var(--topbar-bg);border-bottom:1px solid var(--topbar-border)}
+  .topbar-in{max-width:880px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .brand{font-weight:800;font-size:.95rem;display:flex;align-items:center;gap:8px}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--hero-bar);display:inline-block}
+  .grow{flex:1}
+  .btn{background:var(--surface);border:1px solid var(--border);color:var(--ink);border-radius:999px;padding:6px 13px;font-size:.8rem;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+  .btn:hover{border-color:var(--accent)}
+  .langbtns{display:flex;gap:0}
+  .langbtns .btn{border-radius:0;padding:6px 12px;font-size:.8rem}
+  .langbtns .btn:first-child{border-radius:999px 0 0 999px;border-right:none}
+  .langbtns .btn:last-child{border-radius:0 999px 999px 0}
+  .langbtns .btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+  body.night .langbtns .btn.active{color:#06231e}
+  .langbtns .flag{width:18px;height:12px;border-radius:2px;object-fit:cover;flex-shrink:0;box-shadow:0 0 0 1px rgba(0,0,0,.18)}
+  .hero{margin:34px 0 8px}
+  .hero h1{font-size:clamp(1.6rem,4.5vw,2.4rem);margin:.1em 0;background:var(--hero-bar);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:inline-block}
+  .hero-bar{height:4px;border-radius:99px;background:var(--hero-bar);max-width:340px;margin:16px 0 0}
+  .hero p{color:var(--muted);margin:.2em 0 0;max-width:640px}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:26px 0}
+  .stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow-sm);position:relative}
+  .stat::before{content:'';position:absolute;top:0;left:14px;right:14px;height:3px;background:var(--hero-bar);border-radius:0 0 6px 6px;opacity:.85}
+  .stat .lab{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
+  .stat .val{font-size:1.5rem;font-weight:800;margin-top:2px}
+  h2{font-size:1.15rem;margin:34px 0 4px;display:flex;align-items:center;gap:10px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;min-width:27px;height:27px;border-radius:8px;background:var(--accent);color:#fff;font-size:.85rem}
+  body.night h2 .n{color:#06231e}
+  .sec-desc{color:var(--muted);font-size:.85rem;margin:0 0 14px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:15px 17px;box-shadow:var(--shadow-sm);margin:10px 0;position:relative;transition:opacity .3s}
+  .card::before{content:'';position:absolute;top:0;left:14px;right:14px;height:3px;background:var(--hero-bar);border-radius:0 0 6px 6px;opacity:.85}
+  .card .top{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}
+  .card .ic{flex-shrink:0;width:40px;height:40px;border-radius:11px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:1.25rem;border:1px solid var(--accent)}
+  .card .body{flex:1;min-width:200px}
+  .card .ttl{font-weight:800;font-size:1rem;margin:0}
+  .card .meta{color:var(--muted);font-size:.82rem;margin-top:3px}
+  .card .loc{font-size:.78rem;color:var(--muted);margin-top:2px}
+  .badge{font-size:.72rem;font-weight:800;padding:3px 11px;border-radius:999px;white-space:nowrap}
+  .badge.next{background:var(--accent);color:#fff}
+  body.night .badge.next{color:#06231e}
+  .badge.today{background:var(--gold);color:#fff}
+  body.night .badge.today{color:#3d2b00}
+  .badge.past{background:transparent;border:1px solid var(--border-strong);color:var(--muted)}
+  .card.past{opacity:.55}
+  .card.past .ttl{text-decoration:line-through;text-decoration-thickness:1.5px}
+  .night-ic{font-size:.72rem;color:var(--gold);font-weight:700}
+  .botbar{position:fixed;bottom:0;left:0;right:0;z-index:50;background:var(--topbar-bg);backdrop-filter:blur(14px);border-top:1px solid var(--topbar-border);font-size:.75rem;color:var(--muted)}
+  .botbar-in{max-width:880px;margin:0 auto;padding:8px 18px;display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap}
+  .botbar a{color:var(--muted);text-decoration:none;font-weight:600}
+  .botbar a:hover{color:var(--accent)}
+  .botbar .sep{opacity:.4}
+  @media(max-width:560px){.stat .val{font-size:1.2rem}.card{padding:13px 14px}}
+  </style>
+<script>
+(function(){ try { var t = localStorage.getItem('rdv-theme'); if(t==='night') document.documentElement.dataset.pre='n'; } catch(e){} })();
+</script>
 </head>
-<body class="night">
-<script>try{if(localStorage.getItem("rdv-theme")==="day")document.body.className="day";}catch(e){}</script>
-<div class="orbs" aria-hidden="true"><i class="o1"></i><i class="o2"></i><i class="o3"></i></div>
-<header class="topbar"><div class="topbar-inner">
-<span class="tb-brand" data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<div class="tb-actions">
-<button class="lang-btn active" id="btn-fr" onclick="switchLang('fr')"><svg class="flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#0055A4"/><rect x="1" width="1" height="2" fill="#ffffff"/><rect x="2" width="1" height="2" fill="#EF4135"/></svg>FR</button>
-<button class="lang-btn" id="btn-en" onclick="switchLang('en')"><svg class="flag" viewBox="0 0 60 30" aria-hidden="true"><rect width="60" height="30" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#ffffff" stroke-width="6"/><path d="M30,0 V30 M0,15 H60" stroke="#ffffff" stroke-width="10"/><path d="M30,0 V30 M0,15 H60" stroke="#C8102E" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="3.5"/></svg>EN</button>
-<button class="lang-btn" id="btn-theme" onclick="toggleTheme()"><span id="btn-theme-ico">☀️</span> <span data-fr="Thème" data-en="Theme">Thème</span></button>
-</div></div><i id="progress" aria-hidden="true"></i></header>
-<main class="page">
-<div id="app"></div>
-</main>
-<footer class="botbar"><div class="botbar-inner">
-<span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v3.35 · 2026</span>
-<a class="bb-link" href="recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
+<body class="day">
+
+<header class="topbar"><div class="topbar-in">
+  <div class="brand"><span class="dot"></span><span data-i18n="brand">RDV de Julien</span></div>
+  <div class="grow"></div>
+  <a class="btn" href="https://julien973.github.io/rgis-heures-paie/" target="_blank" rel="noopener" title="Heures RGIS & estimateur de paie">💶 <span data-i18n="footerRgis">Heures &amp; paie RGIS</span></a>
+  <div class="langbtns">
+    <button class="btn lang active" id="btnFR"><img class="flag" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 20'%3E%3Crect width='10' height='20' fill='%230055A4'/%3E%3Crect x='10' width='10' height='20' fill='%23fff'/%3E%3Crect x='20' width='10' height='20' fill='%23EF4135'/%3E%3C/svg%3E">FR</button>
+    <button class="btn lang" id="btnEN"><img class="flag" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3CclipPath id='c'%3E%3Cpath d='M0 0h60v30H0z'/%3E%3C/clipPath%3E%3Cg clip-path='url(%23c)'%3E%3Crect width='60' height='30' fill='%23002169'/%3E%3Cpath d='M0 0l60 30M60 0L0 30' stroke='%23fff' stroke-width='6'/%3E%3Cpath d='M0 0l60 30M60 0L0 30' stroke='%23C8102E' stroke-width='4'/%3E%3Cpath d='M30 0v30M0 15h60' stroke='%23fff' stroke-width='10'/%3E%3Cpath d='M30 0v30M0 15h60' stroke='%23C8102E' stroke-width='6'/%3E%3C/g%3E%3C/svg%3E">EN</button>
+  </div>
+  <button class="btn" id="btnTheme" title="Jour / Nuit">🌙</button>
+</div></header>
+<div class="wrap">
+  <div class="hero">
+    <h1 data-i18n="heroTitle">Mes rendez-vous importants</h1>
+    <div class="hero-bar"></div>
+    <p data-i18n="heroSub">Les dates qui comptent : santé, missions RGIS, démarches. Chaque compte à rebours est recalculé à chaque affichage.</p>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="lab" data-i18n="stUp">À venir</div><div class="val" id="stUp">—</div></div>
+    <div class="stat"><div class="lab" data-i18n="stNext">Prochain dans</div><div class="val" id="stNext">—</div></div>
+    <div class="stat"><div class="lab" data-i18n="stPast">Passés</div><div class="val" id="stPast">—</div></div>
+  </div>
+  <div id="list"></div>
+  <h2><span class="n">🔁</span><span data-i18n="recTitle">Les récurrents</span></h2>
+  <p class="sec-desc"><a href="recurrents.html" style="color:var(--accent);font-weight:700" data-i18n="recLink">Voir les anniversaires et fenêtres d’actualisation</a></p>
+</div>
+
+<footer class="botbar"><div class="botbar-in">
+  <a href="recurrents.html">🔁 <span data-i18n="footerRec">Récurrents</span></a><span class="sep">·</span><a href="https://julien973.github.io/rgis-heures-paie/" target="_blank" rel="noopener">💶 <span data-i18n="footerRgis">Heures &amp; paie RGIS</span></a>
+  <span class="sep">·</span><span>v4.0</span><span>·</span><span>2026</span>
 </div></footer>
 <script>
-(function(){
-"use strict";
-var THEME_KEY = "rdv-theme"; var LANG_KEY = "rdv-lang";
-var lang = "fr"; try { lang = localStorage.getItem(LANG_KEY) || "fr"; } catch(e) {}
-window.switchLang = function(l){ lang = l; try { localStorage.setItem(LANG_KEY, l); } catch(e) {} syncLang(); render(); };
-function syncLang(){
-  document.getElementById("btn-fr").classList.toggle("active", lang === "fr");
-  document.getElementById("btn-en").classList.toggle("active", lang === "en");
-  document.documentElement.lang = lang;
-  document.querySelectorAll("[data-fr]").forEach(function(s){ s.textContent = lang === "fr" ? s.getAttribute("data-fr") : s.getAttribute("data-en"); });
-}
-window.setTheme = function(t){
-  document.body.classList.toggle("night", t === "night");
-  document.body.classList.toggle("day", t === "day");
-  document.getElementById("btn-theme-ico").textContent = t === "day" ? "🌙" : "☀️";
-  try { localStorage.setItem(THEME_KEY, t); } catch(e) {}
-};
-window.toggleTheme = function(){ setTheme(document.body.classList.contains("day") ? "night" : "day"); };
-window.addEventListener("scroll", function(){
-  var h = document.documentElement;
-  var p = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
-  document.getElementById("progress").style.width = p + "%";
-}, { passive: true });
-var EVENTS = [
-  { cat:"sante", start:"2026-09-22T10:00", end:null,
-    fr:"Appeler le cabinet du Dr Poulaliou (dermatologue)", en:"Call Dr Poulaliou's office (dermatologist)",
-    descFr:"Appel rapide au cabinet pour confirmer l’adresse exacte avant la consultation de novembre.", descEn:"Quick call to confirm the exact address before the November consultation.",
-    whereFr:"Appel téléphonique", whereEn:"Phone call" },
-  { cat:"sante", start:"2026-10-13T14:30", end:"2026-10-13T15:30",
-    fr:"Rendez-vous psychiatre — CMP", en:"Psychiatrist appointment — CMP",
-    whereFr:"1 Rue de Saint-Brieuc, Brest", whereEn:"1 Rue de Saint-Brieuc, Brest",
-    descFr:"Suivi psychiatrique régulier au CMP (Centre Médico-Psychologique).", descEn:"Regular psychiatric follow-up at the CMP (Centre Médico-Psychologique)." },
-  { cat:"sante", start:"2026-11-02T11:00", end:"2026-11-02T12:00",
-    fr:"Rendez-vous dermatologue — Dr Adèle Poulaliou", en:"Dermatologist appointment — Dr Adèle Poulaliou",
-    whereFr:"Cabinet de Dermatologie, 22 Rue Jules Michelet, Brest", whereEn:"Dermatology Office, 22 Rue Jules Michelet, Brest",
-    descFr:"Consultation dermatologique chez la spécialiste (peau, grains de beauté, etc.).", descEn:"Dermatology consultation with the specialist (skin, moles, etc.)." },
-  { cat:"travail", start:"2026-09-22T17:50", end:"2026-09-22T23:00",
-    fr:"Mission inventaire — Carrefour Paimpol", en:"Inventory mission — Carrefour Paimpol",
-    whereFr:"B2 Parking Agence, 11 Rue Alexis Clairaut, Brest", whereEn:"B2 Parking Agence, 11 Rue Alexis Clairaut, Brest",
-    descFr:"Mission d’inventaire rémunérée de nuit : comptage des rayons du magasin. Rendez-vous d’abord au point de rassemblement B2 à Brest avant de partir en covoiturage vers Paimpol.", descEn:"Paid overnight inventory mission: shelf counting. Meet first at the B2 gathering point in Brest before carpooling to Paimpol." },
-  { cat:"admin", start:"2026-09-23T15:00", end:"2026-09-23T16:00",
-    fr:"Entretien RSA — bilan fin CEU", en:"RSA interview — end-of-CEU review",
-    whereFr:"CDAS Bellevue, 13 Napoléon III, Brest", whereEn:"CDAS Bellevue, 13 Napoléon III, Brest",
-    descFr:"Rendez-vous obligatoire avec le CDAS : bilan de fin de parcours CEU dans le cadre du dossier RSA.", descEn:"Mandatory meeting with the CDAS: end-of-CEU review as part of the RSA file." },
-  { cat:"travail", start:"2026-09-28T18:10", end:"2026-09-29T01:00",
-    fr:"Mission inventaire — Leclerc Infomil", en:"Inventory mission — Leclerc Infomil",
-    whereFr:"RDV 18h10 — B2 Parking Agence, 11 Rue Alexis Clairaut, Brest · départ 19h10 pour le Hyper Landerneau", whereEn:"Meet 6:10 PM — B2 Agency Parking, 11 Rue Alexis Clairaut, Brest · start 7:10 PM at the Hyper Landerneau",
-    descFr:"Mission d’inventaire rémunérée de nuit (n°660, confirmée, durée 5 h — PARA + HYPER) au Leclerc Hyper Landerneau — Route du Leck, 29800 Landerneau. Rendez-vous à 18h10 au point B2, parking agence (11 Rue Alexis Clairaut, Brest) ; Start Time 19h10 : prêt et rémunéré à partir de cette heure, dépôt des affaires possible 15 min avant. Superviseur : Alizée Le Duc.", descEn:"Paid overnight inventory mission (#660, confirmed, 5 hrs — PARA + HYPER) at the Landerneau Hyper Leclerc — Route du Leck, 29800 Landerneau. Meet at 6:10 PM at point B2, agency parking (11 Rue Alexis Clairaut, Brest); Start Time 7:10 PM: be ready and paid from that time, belongings drop-off 15 min before. Supervisor: Alizée Le Duc." },
-  { cat:"travail", start:"2026-10-06T18:00", end:"2026-10-07T01:00",
-    fr:"Mission inventaire — Leclerc Infomil (Pont-l'Abbé)", en:"Inventory mission — Leclerc Infomil (Pont-l'Abbé)",
-    whereFr:"RDV 18h00 — B2 Parking Agence, 11 Rue Alexis Clairaut, Brest · départ 19h40 pour le Leclerc de Pont-l'Abbé", whereEn:"Meet 6:00 PM — B2 Agency Parking, 11 Rue Alexis Clairaut, Brest · start 7:40 PM at the Pont-l'Abbé Leclerc",
-    descFr:"Mission d'inventaire rémunérée de nuit (n°502, durée 4 h) au Leclerc Hyper Pont-l'Abbé — Route de Saint-Jean Trolimon, 29120 Pont-l'Abbé. Rendez-vous à 18h00 au point B2, parking agence (11 Rue Alexis Clairaut, Brest) ; Start Time 19h40 : prêt et rémunéré à partir de cette heure, dépôt des affaires possible 15 min avant. Contact : Alizée Le Duc.", descEn:"Paid overnight inventory mission (#502, 4 hrs) at the Pont-l'Abbé Hyper Leclerc — Route de Saint-Jean Trolimon, 29120 Pont-l'Abbé. Meet at 6:00 PM at point B2, agency parking (11 Rue Alexis Clairaut, Brest); Start Time 7:40 PM: be ready and paid from that time, belongings drop-off 15 min before. Contact: Alizée Le Duc." },
-  { cat:"travail", start:"2026-10-06T18:35", end:"2026-10-07T01:00", cancelled:true,
-    fr:"Mission inventaire — GIFI (Landerneau)", en:"Inventory mission — GIFI (Landerneau)",
-    whereFr:"RDV 18h35 — B2 Parking Agence, 11 Rue Alexis Clairaut, Brest · départ 19h15 pour le GIFI de Landerneau", whereEn:"Meet 6:35 PM — B2 Agency Parking, 11 Rue Alexis Clairaut, Brest · start 7:15 PM at the Landerneau GIFI",
-    descFr:"⚠️ Mission annulée par l’agence. Mission d’inventaire rémunérée de nuit (n°1205) : comptage, précomptage et caissettes au GIFI — Rue de la Marne, 29800 Landerneau. Rendez-vous à 18h35 au point B2, parking agence (11 Rue Alexis Clairaut, Brest) ; Start Time 19h15 : prêt et rémunéré à partir de cette heure, dépôt des affaires possible 15 min avant. Superviseur : Kevin Faudot.", descEn:"⚠️ Mission cancelled by the agency. Paid overnight inventory mission (#1205): counting, pre-counting and small crates at the GIFI — Rue de la Marne, 29800 Landerneau. Meet at 6:35 PM at point B2, agency parking (11 Rue Alexis Clairaut, Brest); Start Time 7:15 PM: be ready and paid from that time, belongings drop-off 15 min before. Supervisor: Kevin Faudot." },
-  { cat:"travail", start:"2026-10-08T17:45", end:"2026-10-09T01:00", cancelled:true,
-    fr:"Mission inventaire — GIFI (Carhaix-Plouguer)", en:"Inventory mission — GIFI (Carhaix-Plouguer)",
-    whereFr:"RDV 17h45 — B2 Parking Agence, 11 Rue Alexis Clairaut, Brest · départ 19h15 pour le GIFI de Carhaix-Plouguer", whereEn:"Meet 5:45 PM — B2 Agency Parking, 11 Rue Alexis Clairaut, Brest · start 7:15 PM at the Carhaix-Plouguer GIFI",
-    descFr:"⚠️ Mission annulée par l’agence. Mission d’inventaire rémunérée de nuit (n°1418) : comptage, précomptage et caissettes au GIFI — Bd Jean Moulin, 29270 Carhaix-Plouguer. Rendez-vous à 17h45 au point B2, parking agence (11 Rue Alexis Clairaut, Brest) ; Start Time 19h15 : prêt et rémunéré à partir de cette heure, dépôt des affaires possible 15 min avant. Contact : Alizée Le Duc.", descEn:"⚠️ Mission cancelled by the agency. Paid overnight inventory mission (#1418): counting, pre-counting and small crates at the GIFI — Bd Jean Moulin, 29270 Carhaix-Plouguer. Meet at 5:45 PM at point B2, agency parking (11 Rue Alexis Clairaut, Brest); Start Time 7:15 PM: be ready and paid from that time, belongings drop-off 15 min before. Contact: Alizée Le Duc." },
-  { cat:"travail", start:"2026-10-02T17:40", end:"2026-10-03T01:00",
-    fr:"Mission inventaire — Carrefour Market (Fouesnant)", en:"Inventory mission — Carrefour Market (Fouesnant)",
-    whereFr:"RDV 17h40 — B2 Parking Agence, 11 Rue Alexis Clairaut, Brest · départ 19h10 pour le Carrefour Market de Fouesnant", whereEn:"Meet 5:40 PM — B2 Agency Parking, 11 Rue Alexis Clairaut, Brest · start 7:10 PM at the Fouesnant Carrefour Market",
-    descFr:"Mission d’inventaire rémunérée de nuit (n°3021081145555, durée 4,5 h) au Carrefour Market — Maner Ker Elo, 29170 Fouesnant. Rendez-vous à 17h40 au point B2, parking agence (11 Rue Alexis Clairaut, Brest) ; Start Time 19h10 : prêt et rémunéré à partir de cette heure, dépôt des affaires possible 15 min avant. Contact : Alizée Le Duc.", descEn:"Paid overnight inventory mission (#3021081145555, 4.5 hrs) at the Carrefour Market — Maner Ker Elo, 29170 Fouesnant. Meet at 5:40 PM at point B2, agency parking (11 Rue Alexis Clairaut, Brest); Start Time 7:10 PM: be ready and paid from that time, belongings drop-off 15 min before. Contact: Alizée Le Duc." },
-  { cat:"travail", start:"2026-10-12T19:50", end:"2026-10-13T01:00",
-    fr:"Mission inventaire — Carrefour Plouzané", en:"Inventory mission — Carrefour Plouzané",
-    whereFr:"RDV 19h50 — B2 Parking Agence, 11 Rue Alexis Clairaut, Brest · départ 20h40 pour le Carrefour de Plouzané", whereEn:"Meet 7:50 PM — B2 Agency Parking, 11 Rue Alexis Clairaut, Brest · start 8:40 PM at the Plouzané Carrefour",
-    descFr:"Mission d’inventaire rémunérée de nuit (n°3020476125500, durée 4 h — déplacée du 09/10 au lundi 12/10) au Carrefour Hyper Franchise — 12 Rue des Myosotis, 29280 Plouzané. Rendez-vous à 19h50 au point B2, parking agence (11 Rue Alexis Clairaut, Brest) ; Start Time 20h40 : prêt et rémunéré à partir de cette heure, dépôt des affaires possible 15 min avant. Superviseur : Alizée Le Duc.", descEn:"Paid overnight inventory mission (#3020476125500, 4 hrs — moved from 09/10 to Monday 12/10) at the Carrefour Hyper Franchise — 12 Rue des Myosotis, 29280 Plouzané. Meet at 7:50 PM at point B2, agency parking (11 Rue Alexis Clairaut, Brest); Start Time 8:40 PM: be ready and paid from that time, belongings drop-off 15 min before. Supervisor: Alizée Le Duc." },
-  { cat:"travail", start:"2026-10-01T18:10", end:"2026-10-02T01:00",
-    fr:"Mission inventaire — Leclerc Infomil (Quéven)", en:"Inventory mission — Leclerc Infomil (Quéven)",
-    whereFr:"RDV 18h10 — B2 Parking Agence, 11 Rue Alexis Clairaut, Brest · départ 20h10 pour le Hyper Queven", whereEn:"Meet 6:10 PM — B2 Agency Parking, 11 Rue Alexis Clairaut, Brest · start 8:10 PM at the Hyper Queven",
-    descFr:"Mission d’inventaire rémunérée de nuit (n°997, confirmée) au Leclerc Hyper Quéven — Place Pierre Quinio, 56530 Quéven. Rendez-vous à 18h10 au point B2, parking agence (11 Rue Alexis Clairaut, Brest) ; Start Time 20h10 : prêt et rémunéré à partir de cette heure, dépôt des affaires possible 15 min avant. Contact : Alizée Le Duc.", descEn:"Paid overnight inventory mission (#997, confirmed) at the Leclerc Hyper Quéven — Place Pierre Quinio, 56530 Quéven. Meet at 6:10 PM at point B2, agency parking (11 Rue Alexis Clairaut, Brest); Start Time 8:10 PM: be ready and paid from that time, belongings drop-off 15 min before. Contact: Alizée Le Duc." }
-];
-var CATS = [
-  { id:"sante", icon:"❤️", fr:"Santé", en:"Health" },
-  { id:"travail", icon:"🏢", fr:"Travail", en:"Work" },
-  { id:"admin", icon:"🏛️", fr:"Administratif", en:"Admin" }
-];
-var MOIS_FR = ["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."];
-var MONTHS_EN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-var JOURS_FR = ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
-var DAYS_EN = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-var TRACKS = [
-  { fr:"Réussir ma formation", en:"Succeeding in your training", p:"Les clés pour bien démarrer : organisation, motivation et préparation des examens.", pEn:"The keys to a good start: organisation, motivation and exam preparation.", d:"✓ fait — sept. 2026", dEn:"✓ done — Sept 2026", mods:[
-    { fr:"Votre expérience chez Studi", en:"Your experience at Studi", r:1, done:true, les:[
-      { fr:"Guide de présentation de l'équipe pédagogique et des services en ligne avec votre formation", en:"Guide to the teaching team and online services for your training" } ] },
-    { fr:"Vous organiser dans votre formation", en:"Organising yourself in your training", r:3, done:true, les:[
-      { fr:"Les conseils de votre formateur référent", en:"Tips from your referent trainer" },
-      { fr:"Gestion du temps et du stress", en:"Time and stress management" },
-      { fr:"Me motiver au quotidien", en:"Staying motivated day to day" } ] },
-    { fr:"S'immerger professionnellement pendant la formation", en:"Gaining professional experience during the training", r:1, done:true, les:[
-      { fr:"Stage, bénévolat, expérience professionnelle", en:"Internship, volunteering, professional experience" } ] },
-    { fr:"Se préparer aux examens", en:"Preparing for exams", r:3, done:true, les:[
-      { fr:"Méthodologie du dossier professionnel", en:"Professional portfolio methodology" },
-      { fr:"Méthodologie du dossier projet - TP Développeur Web et Web Mobile", en:"Project dossier methodology - Web Developer assignment" },
-      { fr:"Entraînement au questionnaire professionnel", en:"Professional questionnaire practice" } ] } ] },
-  { fr:"Les fondamentaux du développement", en:"Development fundamentals", p:"Les bases que tout développeur doit maîtriser : outils, programmation et logique.", pEn:"The basics every developer needs: tools, programming and logic.", d:"oct. 2026 → janv. 2027", dEn:"Oct 2026 → Jan 2027", mods:[
-    { fr:"Écosystème et outils du développeur", en:"Developer ecosystem and tools", r:13, done:false, les:[
-      { fr:"L'histoire de l'informatique et d'Internet, culture générale numérique", en:"History of computing and the Internet, digital general knowledge" },
-      { fr:"Le fonctionnement d'Internet", en:"How the Internet works" },
-      { fr:"Sensibilisation à la cybersécurité", en:"Cybersecurity awareness" },
-      { fr:"Les droits d'auteur et licences libres", en:"Copyright and free licenses" },
-      { fr:"La sensibilisation au RGPD", en:"GDPR awareness" },
-      { fr:"Github Student Developer Pack", en:"Github Student Developer Pack" },
-      { fr:"La suite Jetbrains", en:"The JetBrains suite" },
-      { fr:"VSCode", en:"VSCode" },
-      { fr:"La préparation de l'environnement de travail", en:"Setting up your work environment" },
-      { fr:"Installer Linux sur Windows et MacOS", en:"Installing Linux on Windows and MacOS" },
-      { fr:"Jeux de logique", en:"Logic games" },
-      { fr:"Assurer une veille technologique en développement", en:"Keeping up a technology watch in development" },
-      { fr:"Application : Connaître l'écosystème et installer les outils du développeur", en:"Practical work: knowing the ecosystem and installing the developer tools" } ] },
-    { fr:"Introduction à la programmation", en:"Introduction to programming", r:13, done:false, les:[
-      { fr:"On-boarding - Introduction à la programmation", en:"On-boarding - Introduction to programming" },
-      { fr:"Introduction à la programmation", en:"Introduction to programming" },
-      { fr:"Les variables", en:"Variables" },
-      { fr:"Les opérateurs et opérateurs logiques", en:"Operators and logical operators" },
-      { fr:"Les structures de contrôle", en:"Control structures" },
-      { fr:"En bref : les bonnes pratiques de codage", en:"In short: coding best practices" },
-      { fr:"Les chaînes de caractère", en:"Character strings" },
-      { fr:"Les structures de données", en:"Data structures" },
-      { fr:"Le type de données Date", en:"The Date data type" },
-      { fr:"Les fonctions", en:"Functions" },
-      { fr:"Off-boarding - Introduction à la programmation", en:"Off-boarding - Introduction to programming" },
-      { fr:"Auto-évaluation - Introduction à la programmation", en:"Self-assessment - Introduction to programming" },
-      { fr:"Application - Introduction à la programmation", en:"Practical work - Introduction to programming" } ] },
-    { fr:"Introduction à l'algorithme", en:"Introduction to algorithms", r:11, done:false, les:[
-      { fr:"On-boarding - Introduction à l'algorithme", en:"On-boarding - Introduction to algorithms" },
-      { fr:"La représentation graphique d'un algorithme : flowchart", en:"Graphical representation of an algorithm: flowchart" },
-      { fr:"L'écriture en pseudo-code : introduction", en:"Writing pseudo-code: introduction" },
-      { fr:"L'écriture d'un algorithme en pseudo-code : approfondissement", en:"Writing an algorithm in pseudo-code: going further" },
-      { fr:"Mon premier algorithme", en:"My first algorithm" },
-      { fr:"Les fonctions", en:"Functions" },
-      { fr:"Les objets et les classes", en:"Objects and classes" },
-      { fr:"La récursivité", en:"Recursion" },
-      { fr:"Off-boarding - Introduction à l'algorithme", en:"Off-boarding - Introduction to algorithms" },
-      { fr:"Auto-évaluation - Introduction à l'algorithme", en:"Self-assessment - Introduction to algorithms" },
-      { fr:"Application - Introduction à l'algorithme", en:"Practical work - Introduction to algorithms" } ] } ] },
-  { fr:"Développer la partie front-end", en:"Front-end development", p:"Tout ce que l'utilisateur voit et manipule : maquettes, pages, design et interactivité.", pEn:"Everything the user sees and interacts with: mock-ups, pages, design and interactivity.", d:"janv. → juin 2027", dEn:"Jan → Jun 2027", mods:[
-    { fr:"Participer à des projets web", en:"Taking part in web projects", r:5, done:false, les:[
-      { fr:"L'environnement du développeur web", en:"The web developer environment" },
-      { fr:"Les modèles de gestion de projet", en:"Project management models" },
-      { fr:"Les outils collaboratifs de partage de ressources", en:"Collaborative resource-sharing tools" },
-      { fr:"Récit utilisateur (user stories)", en:"User stories" },
-      { fr:"Bien rédiger ses user stories", en:"Writing good user stories" } ] },
-    { fr:"Réaliser une maquette avec Figma", en:"Designing a mock-up with Figma", r:12, done:false, les:[
-      { fr:"Introduction aux concepts UX (versus UI)", en:"Introduction to UX concepts (versus UI)" },
-      { fr:"Planifier et suivre les tâches du maquettage", en:"Planning and tracking mock-up tasks" },
-      { fr:"Prendre en main Figma et son interface", en:"Getting started with Figma and its interface" },
-      { fr:"Importer et exporter des fichiers sur Figma", en:"Importing and exporting files in Figma" },
-      { fr:"Créer des composants sur Figma", en:"Creating components in Figma" },
-      { fr:"Utiliser les composants animés sur Figma", en:"Using animated components in Figma" },
-      { fr:"Créer un design responsive sur Figma", en:"Creating a responsive design in Figma" },
-      { fr:"Créer un prototype, le partager et l'exporter avec Figma", en:"Creating, sharing and exporting a prototype with Figma" },
-      { fr:"Prendre en compte l'accessibilité visuelle sur Figma", en:"Accounting for visual accessibility in Figma" },
-      { fr:"Collaborer avec Figma", en:"Collaborating with Figma" },
-      { fr:"Projet : Réaliser la maquette d'une application web responsive", en:"Project: designing the mock-up of a responsive web application" },
-      { fr:"Figma - Maîtriser les nouveautés de 2025", en:"Figma - Mastering the 2025 features" } ] },
-    { fr:"Créer un site web avec HTML & CSS", en:"Building a website with HTML & CSS", r:20, done:false, les:[
-      { fr:"Introduction au HTML", en:"Introduction to HTML" },
-      { fr:"Syntaxe générale de HTML", en:"General HTML syntax" },
-      { fr:"L'organisation du texte", en:"Organising text" },
-      { fr:"Un langage hypertexte", en:"A hypertext language" },
-      { fr:"Le multimédia en HTML", en:"Multimedia in HTML" },
-      { fr:"Introduction au CSS", en:"Introduction to CSS" },
-      { fr:"CSS3 : Le style du texte", en:"CSS3: text styling" },
-      { fr:"La structuration logique en HTML5 et le modèle de boites en CSS3", en:"Logical structure in HTML5 and the CSS3 box model" },
-      { fr:"Les sélecteurs CSS", en:"CSS selectors" },
-      { fr:"La mise en page avec CSS", en:"CSS layout" },
-      { fr:"La création de tableaux", en:"Creating tables" },
-      { fr:"La création de formulaires", en:"Creating forms" },
-      { fr:"Layout avec CSS Grid", en:"Layout with CSS Grid" },
-      { fr:"Les effets avancés de CSS", en:"Advanced CSS effects" },
-      { fr:"Le responsive design", en:"Responsive design" },
-      { fr:"Introduction à Bootstrap", en:"Introduction to Bootstrap" },
-      { fr:"Ouverture vers d'autres framework CSS", en:"An opening to other CSS frameworks" },
-      { fr:"Le référencement des sites Web", en:"Website SEO" },
-      { fr:"Valider la qualité de son site", en:"Validating your site's quality" },
-      { fr:"Déployer son site sur le Web", en:"Deploying your site on the Web" } ] },
-    { fr:"Créer un site web avec WordPress", en:"Building a website with WordPress", r:4, done:false, les:[
-      { fr:"Installer et configurer WordPress sur son serveur : Hello world", en:"Installing and configuring WordPress on your server: Hello world" },
-      { fr:"L'administration de son site wordpress", en:"Administering your WordPress site" },
-      { fr:"Les paramètres d'un site WordPress", en:"WordPress site settings" },
-      { fr:"Les solutions de paiement en ligne", en:"Online payment solutions" } ] },
-    { fr:"Débuter avec JavaScript", en:"Getting started with JavaScript", r:15, done:false, les:[
-      { fr:"Introduction à javascript", en:"Introduction to JavaScript" },
-      { fr:"Syntaxe et intégration de JS", en:"JS syntax and integration" },
-      { fr:"Les variables en JS", en:"Variables in JS" },
-      { fr:"Les opérateurs", en:"Operators" },
-      { fr:"Structures de contrôle en JS", en:"Control structures in JS" },
-      { fr:"Les boucles", en:"Loops" },
-      { fr:"Les fonctions en JS", en:"Functions in JS" },
-      { fr:"Les types de données", en:"Data types" },
-      { fr:"L'objet JavaScript Number", en:"The JavaScript Number object" },
-      { fr:"Les objets JavaScript String et Array", en:"The JavaScript String and Array objects" },
-      { fr:"Les objets JS", en:"JS objects" },
-      { fr:"Les classes et l'instanciation d'objet", en:"Classes and object instantiation" },
-      { fr:"L'objet Date", en:"The Date object" },
-      { fr:"Introduction au Document Object Model", en:"Introduction to the Document Object Model" },
-      { fr:"Projet d'application : formulaire dynamique avec JS", en:"Application project: dynamic form with JS" } ] },
-    { fr:"Programmer avec JavaScript", en:"Programming with JavaScript", r:16, done:false, les:[
-      { fr:"JS Browser BOM (window - screen - Location - History, etc)", en:"JS Browser BOM (window - screen - Location - History, etc.)" },
-      { fr:"Fonction asynchrone et callback", en:"Asynchronous functions and callbacks" },
-      { fr:"Le format JSON et AJAX", en:"The JSON format and AJAX" },
-      { fr:"Les promesses", en:"Promises" },
-      { fr:"Découverte des patrons de conception", en:"Discovering design patterns" },
-      { fr:"JavaScript Events", en:"JavaScript events" },
-      { fr:"Introduction et installation de TypeScript", en:"Introduction to and installation of TypeScript" },
-      { fr:"Types de données avec TypeScript", en:"Data types with TypeScript" },
-      { fr:"Données avancées avec TypeScript", en:"Advanced data with TypeScript" },
-      { fr:"L'objet avec TypeScript", en:"Objects with TypeScript" },
-      { fr:"JavaScript Graphics", en:"JavaScript graphics" },
-      { fr:"JavaScript Canvas", en:"JavaScript canvas" },
-      { fr:"La Gestion d'erreur", en:"Error handling" },
-      { fr:"Debug", en:"Debugging" },
-      { fr:"Les bonnes pratiques de la programmation avec JS", en:"JS programming best practices" },
-      { fr:"Projet : Memory game", en:"Project: memory game" } ] },
-    { fr:"Utiliser Git et GitHub pour gérer son code source", en:"Using Git and GitHub to manage your source code", r:9, done:false, les:[
-      { fr:"Introduction à la ligne de commande", en:"Introduction to the command line" },
-      { fr:"Introduction à Git et Github", en:"Introduction to Git and GitHub" },
-      { fr:"Les bases", en:"The basics" },
-      { fr:"Les interactions avec le dépôt distant", en:"Interacting with the remote repository" },
-      { fr:"Naviguer dans l'historique", en:"Navigating the history" },
-      { fr:"La gestion des branches", en:"Branch management" },
-      { fr:"Les branches avec Git - Rebaser", en:"Branches with Git - rebasing" },
-      { fr:"Les bonnes pratiques", en:"Best practices" },
-      { fr:"Projet - Utiliser Git et Github pour gérer son code source", en:"Project - using Git and GitHub to manage your source code" } ] },
-    { fr:"Déployer son application web", en:"Deploying your web application", r:2, done:false, les:[
-      { fr:"La mise en ligne d'applications web avec Heroku", en:"Putting web applications online with Heroku" },
-      { fr:"Présentation et utilisation de Fly.io", en:"Introduction to and use of Fly.io" } ] },
-    { fr:"Sécuriser ses applications web", en:"Securing your web applications", r:4, done:false, les:[
-      { fr:"Les principales failles de sécurité", en:"The main security flaws" },
-      { fr:"Les guides de tests", en:"Testing guides" },
-      { fr:"Analyser la sécurité pour évaluer la vulnérabilité d'une application web", en:"Analysing security to assess a web application's vulnerability" },
-      { fr:"Sécuriser la publication d'une application web", en:"Securing the release of a web application" } ] },
-    { fr:"Gérer des conteneurs", en:"Managing containers", r:7, done:false, les:[
-      { fr:"L'architecture applicative de microservices", en:"Microservice application architecture" },
-      { fr:"L'outil docker : principes, objectifs et solutions", en:"Docker: principles, goals and solutions" },
-      { fr:"Le Dockerfile et ses instructions", en:"The Dockerfile and its instructions" },
-      { fr:"Docker Compose : Introduction", en:"Docker Compose: introduction" },
-      { fr:"Docker Compose : Etude de cas", en:"Docker Compose: case study" },
-      { fr:"L'automatisation de la création des containers avec un outil de type Docker", en:"Automating container creation with a Docker-type tool" },
-      { fr:"L'utilisation des conteneurs pour gérer les mises à jour applicatives", en:"Using containers to manage application updates" } ] },
-    { fr:"Projet fil rouge - Développement front-end", en:"Guiding project - front-end development", r:7, done:false, les:[
-      { fr:"Modéliser la partie front d'un site à partir d'un brief client", en:"Modelling the front end of a site from a client brief" },
-      { fr:"Réaliser la partie front responsive", en:"Building the responsive front end" },
-      { fr:"Réaliser l'interface utilisateur", en:"Building the user interface" },
-      { fr:"Dynamiser la partie front", en:"Bringing the front end to life" },
-      { fr:"Appeler une API depuis le front", en:"Calling an API from the front end" },
-      { fr:"Mettre en place les recommandations de sécurité de la partie front", en:"Applying the front-end security recommendations" },
-      { fr:"Mettre en ligne la partie front d'une application", en:"Putting an application's front end online" } ] } ] },
-  { fr:"Développer la partie back-end", en:"Back-end development", p:"La mécanique invisible : bases de données, serveurs, tests et sécurité des applications.", pEn:"The invisible machinery: databases, servers, testing and application security.", d:"juin → déc. 2027", dEn:"Jun → Dec 2027", mods:[
-    { fr:"Introduction aux bases de données", en:"Introduction to databases", r:10, done:false, les:[{ fr:"Présentation de la notion base de données", en:"Introducing the database concept" }, { fr:"Installer un SGBD en ligne de commande", en:"Installing a DBMS from the command line" }, { fr:"Créer une BDD et l'explorer", en:"Creating and exploring a database" }, { fr:"Introduction à la modélisation conceptuelle de données avec UML", en:"Introduction to conceptual data modelling with UML" }, { fr:"Les diagrammes fonctionnels", en:"Functional diagrams" }, { fr:"Le diagramme de classe", en:"The class diagram" }, { fr:"Introduction au passage UML-Relationnel", en:"Introduction to mapping UML to relational" }, { fr:"Modèle relationnel Vs Objet", en:"Relational vs object model" }, { fr:"Introduction au langage SQL", en:"Introduction to the SQL language" }, { fr:"Application - Introduction aux bases de données", en:"Practical work - Introduction to databases" }] },
-    { fr:"Développer des sites web dynamiques avec PHP", en:"Building dynamic websites with PHP", r:19, done:false, les:[{ fr:"PHP et HTML (sorties)", en:"PHP and HTML (output)" }, { fr:"Les types de données, les variables et les constantes", en:"Data types, variables and constants" }, { fr:"Les fonctions", en:"Functions" }, { fr:"Les tableaux en PHP", en:"Arrays in PHP" }, { fr:"Les conditions", en:"Conditions" }, { fr:"Les boucles", en:"Loops" }, { fr:"Créer ses propres fonctions", en:"Writing your own functions" }, { fr:"L'organisation des fichiers PHP", en:"Organising PHP files" }, { fr:"Les superglobales Get, Post et Files", en:"The Get, Post and Files superglobals" }, { fr:"La sécurité", en:"Security" }, { fr:"La manipulation des dates", en:"Working with dates" }, { fr:"La manipulation des fichiers en PHP", en:"Working with files in PHP" }, { fr:"Les expressions régulières", en:"Regular expressions" }, { fr:"Utiliser la documentation PHP et Standard de codage PHP", en:"Using the PHP documentation and PHP coding standard" }, { fr:"La programmation Orientée Objet : concepts de base", en:"Object-oriented programming: basic concepts" }, { fr:"La programmation Orientée Objet : concepts avancés", en:"Object-oriented programming: advanced concepts" }, { fr:"La gestion des erreurs", en:"Error handling" }, { fr:"La programmation Orientée Objet : Design Patterns", en:"Object-oriented programming: design patterns" }, { fr:"La programmation Orientée Objet : L'encapsulation et la visibilité", en:"Object-oriented programming: encapsulation and visibility" }] },
-    { fr:"Créer et administrer une base de données en SQL", en:"Creating and administering a SQL database", r:12, done:false, les:[{ fr:"Création et alimentation de bases de données SQL", en:"Creating and populating SQL databases" }, { fr:"L'interrogation de bases de données SQL", en:"Querying SQL databases" }, { fr:"Introduction au passage UML-Relationnel", en:"Introduction to mapping UML to relational" }, { fr:"PHP/PDO : accès en lecture/écriture", en:"PHP/PDO: read/write access" }, { fr:"Les requêtes SQL", en:"SQL queries" }, { fr:"Les fonctions SQL", en:"SQL functions" }, { fr:"Les jointures SQL", en:"SQL joins" }, { fr:"Gérer les accès des utilisateurs au niveau PHP et BD", en:"Managing user access at PHP and database level" }, { fr:"Découvrir un autre SGBDR: PostgreSQL", en:"Discovering another RDBMS: PostgreSQL" }, { fr:"Introduction à MongoDB", en:"Introduction to MongoDB" }, { fr:"Découverte d'un ORM PHP", en:"Discovering a PHP ORM" }, { fr:"UP Projet : Créer et administrer une base de données", en:"Advanced project: creating and administering a database" }] },
-    { fr:"Créer une application web avec Symfony", en:"Building a web application with Symfony", r:18, done:false, les:[{ fr:"Présentation du framework Symfony", en:"Introduction to the Symfony framework" }, { fr:"Les bases de Symfony", en:"Symfony basics" }, { fr:"Le routing", en:"Routing" }, { fr:"Les contrôleurs", en:"Controllers" }, { fr:"Le moteur de template Twig", en:"The Twig template engine" }, { fr:"Le modèle MVC", en:"The MVC model" }, { fr:"Les entités", en:"Entities" }, { fr:"Manipuler ses entités avec Doctrine", en:"Working with entities using Doctrine" }, { fr:"Les formulaires en Symfony", en:"Forms in Symfony" }, { fr:"Le Profiler", en:"The Profiler" }, { fr:"La validation en Symfony", en:"Validation in Symfony" }, { fr:"La sécurité et la gestion des utilisateurs", en:"Security and user management" }, { fr:"Déployer son site Symfony en production", en:"Deploying a Symfony site to production" }, { fr:"Le composant Mailer", en:"The Mailer component" }, { fr:"L'Event Dispatcher", en:"The Event Dispatcher" }, { fr:"Les tests unitaires avec PHPUnit", en:"Unit testing with PHPUnit" }, { fr:"Ouverture à un autre framework PHP : Laravel", en:"An opening to another PHP framework: Laravel" }, { fr:"Projet - Créer une application web avec le framework Symfony", en:"Project - building a web application with the Symfony framework" }] },
-    { fr:"Sécuriser ses bases de données", en:"Securing your databases", r:6, done:false, les:[{ fr:"Cadre légal et chiffrement des données", en:"Legal framework and data encryption" }, { fr:"Failles liées à la BDD côté développement", en:"Database flaws on the development side" }, { fr:"Failles liées à la BDD côté administration", en:"Database flaws on the administration side" }, { fr:"Les failles d'include et d'upload", en:"Include and upload vulnerabilities" }, { fr:"Failles XSS", en:"XSS vulnerabilities" }, { fr:"Attaque par brute force", en:"Brute force attacks" }] },
-    { fr:"Sécuriser son infrastructure", en:"Securing your infrastructure", r:13, done:false, les:[{ fr:"La connaissance des normes et des standards relatifs aux échanges sécurisés", en:"Knowing the standards for secure exchanges" }, { fr:"L'application des recommandations de configuration d'un système GNU/Linux de l'ANSSI", en:"Applying ANSSI GNU/Linux configuration recommendations" }, { fr:"La connaissance des principes de base d'une gestion sécurisée des identités", en:"Basics of secure identity management" }, { fr:"Introduction à l'architecture TCP-IP", en:"Introduction to TCP-IP architecture" }, { fr:"La révision des règles d'authentification", en:"Reviewing authentication rules" }, { fr:"L'introduction à OpenSSH", en:"Introduction to OpenSSH" }, { fr:"Les Niveaux de test", en:"Test levels" }, { fr:"Le test fonctionnel", en:"Functional testing" }, { fr:"La mise en place des environnements de test", en:"Setting up test environments" }, { fr:"La mise en place des environnements de pré-production", en:"Setting up pre-production environments" }, { fr:"L'utilisation d'un environnement de test et de pré-production", en:"Using a test and pre-production environment" }, { fr:"Le test des mises à jour de sécurité avant le déploiement", en:"Testing security updates before deployment" }, { fr:"La mise à jour de la documentation technique après un test", en:"Updating technical documentation after a test" }] },
-    { fr:"Préparer un environnement de test", en:"Setting up a test environment", r:6, done:false, les:[{ fr:"Les méthodes agiles pour le développement logiciel", en:"Agile methods for software development" }, { fr:"La démarche DevOps", en:"The DevOps approach" }, { fr:"Les bases d'un environnement de test", en:"Basics of a test environment" }, { fr:"La mise en place de l'intégration continue (CI)", en:"Setting up continuous integration (CI)" }, { fr:"La mise en place de la livraison ou déploiement continu (CD)", en:"Setting up continuous delivery/deployment (CD)" }, { fr:"Application : Préparer un environnement de test", en:"Practical work: setting up a test environment" }] },
-    { fr:"Projet fil rouge - Développement back-end", en:"Guiding project - back-end development", r:9, done:false, les:[{ fr:"Préparer l'environnement et la création d'un projet Symfony", en:"Preparing the environment and creating a Symfony project" }, { fr:"Créer la base de données de l'application", en:"Creating the application database" }, { fr:"Mettre en place l'interface utilisateur", en:"Building the user interface" }, { fr:"Mettre en place les composants d'accès aux données", en:"Building the data access components" }, { fr:"Sécuriser l'accès aux données", en:"Securing data access" }, { fr:"Documenter son API", en:"Documenting your API" }, { fr:"Tester son application web", en:"Testing your web application" }, { fr:"Remplir sa base de données avec les DataFixture", en:"Populating your database with DataFixtures" }, { fr:"Mettre en ligne l'application web", en:"Putting the web application online" }] } ] }
-];
-function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
-function parse(d){ return new Date(d); }
-function dayDiff(d){ return (parse(d) - new Date()) / 86400000; }
-function dayDiffMid(d){ var t = new Date(); t.setHours(0,0,0,0); var x = new Date(d); x.setHours(0,0,0,0); return Math.round((x - t) / 86400000); }
-function fmtTime(d){ var h = d.getHours(), m = d.getMinutes(); return (h < 10 ? "0" : "") + h + "h" + (m < 10 ? "0" : "") + m; }
-function render(){
-  var fr = lang === "fr";
-  var upcoming = 0, past = 0, next = null;
-  EVENTS.forEach(function(e){ if (e.cancelled) return; var d = dayDiff(e.start); if (d >= 0) { upcoming++; var dd = Math.ceil(d); if (next === null || dd < next) next = dd; } else past++; });
-  var h = "";
-  h += '<div class="hero"><h1>' + (fr ? "🗓️ Mon agenda des rendez-vous" : "🗓️ My appointment diary") + '</h1>';
-  h += '<p>' + (fr ? "Les rendez-vous importants, rien d'autre." : "Important appointments, nothing else.") + '</p></div>';
-  var totD = 0, tot = 0;
-  TRACKS.forEach(function(t){ totD += t.mods.filter(function(m){ return m.done; }).length; tot += t.mods.length; });
-  h += '<div class="plan" id="plancard">';
-  h += '<div class="plan-head" onclick="document.getElementById(\'plancard\').classList.toggle(\'open\')"><div class="plan-title">🎓 ' + (fr ? "Graduate Développeur web full stack" : "Graduate Full Stack Web Developer") + '<span class="plan-years">2023 – 2029</span></div>';
-  h += '<span class="badge">' + totD + '/' + tot + (fr ? " modules — cliquer pour déplier" : " modules — click to expand") + ' <span class="plan-chev">▸</span></span></div>';
-  h += '<div class="plan-body">';
-  h += '<div class="plan-note">' + (fr ? "De zéro, en reconversion, jusqu'au métier de développeur web : 26 modules et 239 leçons, suivis à mon rythme d'octobre 2026 à fin 2029 — dates indicatives. Déplie un module pour voir ses leçons." : "From scratch, as a career change, to becoming a web developer: 26 modules and 239 lessons, at my own pace from October 2026 to late 2029 — dates are indicative. Expand a module to see its lessons.") + '</div>';
-  TRACKS.forEach(function(t){
-    var doneN = 0; t.mods.forEach(function(m){ if (m.done) doneN++; });
-    var pct = Math.round(doneN / t.mods.length * 100);
-    h += '<div class="plan-track">';
-    h += '<div class="plan-track-head"><span class="plan-track-title">' + esc(fr ? t.fr : t.en) + '</span><span class="plan-track-count">' + doneN + '/' + t.mods.length + ' · ' + esc(fr ? t.d : t.dEn) + '</span></div>';
-    h += '<div class="plan-track-desc">' + esc(fr ? t.p : t.pEn) + '</div>';
-    h += '<div class="plan-bar"><div class="plan-fill" style="width:' + pct + '%"></div></div>';
-    h += '<div class="plan-mods">';
-    t.mods.forEach(function(m){
-      var hasLes = m.les && m.les.length;
-      h += '<div class="plan-mod' + (m.done ? ' done' : '') + (hasLes ? ' clk' : '') + '"' + (hasLes ? ' onclick="this.classList.toggle(\'open\')"' : '') + '><span class="plan-dot"></span><span class="plan-mod-name">' + esc(fr ? m.fr : m.en) + '</span><span class="n">' + m.r + (fr ? ' ress.' : ' res.') + (hasLes ? ' <span class="plan-chev">▸</span>' : '') + '</span></div>';
-      if (hasLes) {
-        h += '<div class="plan-lessons">';
-        m.les.forEach(function(l){
-          h += '<div class="plan-les' + (m.done ? ' done' : '') + '"><span class="plan-les-dot"></span><span>' + esc(fr ? l.fr : l.en) + '</span></div>';
-        });
-        h += '</div>';
+
+  const RDV = [{"cat":"sante","ic":"🩺","date":"2026-09-22T10:00","dur":15,"fr":{"t":"Appeler cabinet Dr Poulaliou","m":"Confirmer le lieu du RDV dermatologue"},"en":{"t":"Call Dr Poulaliou office","m":"Confirm dermatologist appointment location"}},{"cat":"travail","ic":"🌙","date":"2026-09-22T17:50","dur":310,"fr":{"t":"Mission inventaire — Carrefour Paimpol","m":"Départ : parking agence RGIS, Brest"},"en":{"t":"Inventory mission — Carrefour Paimpol","m":"Departure: RGIS agency parking, Brest"}},{"cat":"admin","ic":"🏛️","date":"2026-09-23T15:00","dur":60,"fr":{"t":"Entretien RSA — bilan de fin de CEU","m":"CDAS Bellevue, Brest"},"en":{"t":"RSA interview — end of CEU review","m":"CDAS Bellevue, Brest"}},{"cat":"travail","ic":"🌙","date":"2026-09-28T18:10","dur":410,"fr":{"t":"Mission inventaire — Leclerc Landerneau","m":"Départ : parking agence RGIS, Brest"},"en":{"t":"Inventory mission — Leclerc Landerneau","m":"Departure: RGIS agency parking, Brest"}},{"cat":"travail","ic":"🌙","date":"2026-10-01T18:10","dur":410,"fr":{"t":"Mission inventaire — Leclerc Quéven","m":"Départ : parking agence RGIS, Brest"},"en":{"t":"Inventory mission — Leclerc Quéven","m":"Departure: RGIS agency parking, Brest"}},{"cat":"travail","ic":"🌙","date":"2026-10-02T17:40","dur":440,"fr":{"t":"Mission inventaire — Carrefour Fouesnant","m":"Départ : parking agence RGIS, Brest"},"en":{"t":"Inventory mission — Carrefour Fouesnant","m":"Departure: RGIS agency parking, Brest"}},{"cat":"travail","ic":"🌙","date":"2026-10-06T18:00","dur":420,"fr":{"t":"Mission inventaire — Leclerc Pont-l’Abbé","m":"Départ 18:00 · parking agence RGIS, Brest · fin vers 01:00"},"en":{"t":"Inventory mission — Leclerc Pont-l’Abbé","m":"Departure 6 PM · RGIS agency parking, Brest · ends ~1 AM"}},{"cat":"travail","ic":"🌙","date":"2026-10-12T19:50","dur":310,"fr":{"t":"Mission inventaire — Carrefour Plouzané","m":"Départ 19:50 · parking agence RGIS, Brest · fin vers 01:00"},"en":{"t":"Inventory mission — Carrefour Plouzané","m":"Departure 7:50 PM · RGIS agency parking, Brest · ends ~1 AM"}},{"cat":"sante","ic":"🩺","date":"2026-10-13T14:30","dur":60,"fr":{"t":"Rendez-vous psychiatre — CMP","m":"1 Rue de Saint-Brieuc, Brest"},"en":{"t":"Psychiatrist appointment — CMP","m":"1 Rue de Saint-Brieuc, Brest"}},{"cat":"sante","ic":"🩺","date":"2026-11-02T11:00","dur":60,"fr":{"t":"Rendez-vous dermatologue — Dr Adèle Poulaliou","m":"Cabinet de Dermatologie, 22 Rue Jules Michelet, Brest"},"en":{"t":"Dermatologist appointment — Dr Adèle Poulaliou","m":"Dermatology office, 22 Rue Jules Michelet, Brest"}}];
+  const CATS = {
+    sante:{ic:'🩺',fr:'Santé',en:'Health'},
+    travail:{ic:'🧮',fr:'Travail — missions RGIS',en:'Work — RGIS missions'},
+    admin:{ic:'🏛️',fr:'Administratif',en:'Administrative'}
+  };
+  let LANG = localStorage.getItem('rdv-lang') || 'fr';
+  let LANG_APPLIED = false;
+  const T = k => (LANG==='fr'?FR[k]:EN[k]) || FR[k] || k;
+  const fmtD = (iso) => {
+    const d = new Date(iso); const dn = new Date(iso); dn.setMinutes(0);
+    return d.toLocaleDateString(LANG==='fr'?'fr-FR':'en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) + ' · ' + d.toLocaleTimeString(LANG==='fr'?'fr-FR':'en-GB',{hour:'2-digit',minute:'2-digit'});
+  };
+  const daysUntil = iso => Math.ceil((new Date(iso+'T23:59:59') - NOW)/86400000);
+  const cd = iso => {
+    const dd = daysUntil(iso);
+    if (LANG==='fr') return dd<=0 ? "Aujourd'hui !" : (dd===1 ? 'Demain' : 'Dans '+dd+' jours');
+    return dd<=0 ? 'Today!' : (dd===1 ? 'Tomorrow' : 'In '+dd+' days');
+  };
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  function applyLang(){
+    document.documentElement.lang = LANG;
+    document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.dataset.i18n; if(T(k)!==k) el.innerHTML = T(k); });
+    document.querySelectorAll('.flag-active').forEach(()=>{});
+    $('btnFR').classList.toggle('active', LANG==='fr');
+    $('btnEN').classList.toggle('active', LANG==='en');
+    if (typeof render === 'function') render();
+  }
+  function setLang(l){ LANG=l; localStorage.setItem('rdv-lang', l); applyLang(); }
+  function setTheme(t){ document.body.classList.toggle('night', t==='night'); document.body.classList.toggle('day', t!=='night'); localStorage.setItem('rdv-theme', t); $('btnTheme').textContent = t==='night'?'☀️':'🌙'; }
+  const $ = id => document.getElementById(id);
+  $('btnFR').onclick = ()=>setLang('fr');
+  $('btnEN').onclick = ()=>setLang('en');
+  $('btnTheme').onclick = ()=>setTheme(document.body.classList.contains('night')?'day':'night');
+  
+  const NOW = new Date();
+  const FR = {"brand":"RDV de Julien","heroTitle":"Mes rendez-vous importants","heroSub":"Les dates qui comptent : santé, missions RGIS, démarches. Chaque compte à rebours est recalculé à chaque affichage.","stUp":"À venir","stNext":"Prochain dans","stPast":"Passés","catSante":"Santé","catTravail":"Travail — missions RGIS","catAdmin":"Administratif","nightTag":"nuit","today":"Aujourd'hui !","tomorrow":"Demain","inDays":"Dans {n} jours","pastTag":"✓ Passé","empty":"Aucun rendez-vous à venir dans cette catégorie.","footerHome":"Mes heures & ma paie","footerRec":"Récurrents","footerRgis":"Heures & paie RGIS","recTitle":"Les récurrents","recLink":"Voir les anniversaires et fenêtres d’actualisation","validTag":"Valid","toOpen":"Ouvre le","toClose":"Fermeture le","stateOpen":"Ouverte","stateSoon":"À venir","stateDone":"Terminée"}; const EN = {"brand":"Julien's appointments","heroTitle":"My important appointments","heroSub":"The dates that matter: health, RGIS missions, paperwork. Every countdown is recalculated on each visit.","stUp":"Upcoming","stNext":"Next in","stPast":"Past","catSante":"Health","catTravail":"Work — RGIS missions","catAdmin":"Administrative","nightTag":"night","today":"Today!","tomorrow":"Tomorrow","inDays":"In {n} days","pastTag":"✓ Past","empty":"No upcoming appointment in this category.","footerHome":"My hours & pay","footerRec":"Recurring","footerRgis":"RGIS hours & pay","recTitle":"Recurring items","recLink":"See birthdays and renewal windows","validTag":"Valid","toOpen":"Opens on","toClose":"Closes on","stateOpen":"Open","stateSoon":"Upcoming","stateDone":"Done"};
+  const T2 = k => T(k);
+  function render(){
+    // stats
+    const future = RDV.filter(e=>new Date(e.date)>NOW);
+    const past = RDV.length - future.length;
+    const nextDays = future.length ? Math.max(0, Math.ceil((new Date(future[0].date)-NOW)/86400000)) : 0;
+    $('stUp').textContent = future.length;
+    $('stNext').textContent = nextDays===0 ? T('today') : (nextDays===1 ? T('tomorrow') : T('inDays').replace('{n}', nextDays));
+    $('stPast').textContent = past;
+    // groups
+    let html = '';
+    for (const [key,c] of Object.entries(CATS)){
+      const list = RDV.filter(e=>e.cat===key).sort((a,b)=>new Date(a.date)-new Date(b.date));
+      if(!list.length) continue;
+      html += '<h2><span class="n">'+c.ic+'</span>'+esc(c[LANG])+'</h2><p class="sec-desc">'+(list.some(e=>new Date(e.date)>NOW)?'':'')+'</p>';
+      for (const e of list){
+        const d = new Date(e.date); const isPast = d < NOW; const isNext = !isPast && future[0] && e===future[0];
+        const L = e[LANG];
+        const badge = isPast ? '<span class="badge past">'+T('pastTag')+'</span>' : (isNext?'<span class="badge next">'+cd(e.date)+'</span>':'<span class="badge today" style="background:var(--accent-soft);color:var(--accent-ink);border:1px solid var(--accent)">'+cd(e.date)+'</span>');
+        html += '<div class="card'+(isPast?' past':'')+'"><div class="top"><div class="ic">'+e.ic+'</div><div class="body"><p class="ttl">'+esc(L.t)+(e.ic==='🌙'?' <span class="night-ic">· '+T('nightTag')+'</span>':'')+'</p><p class="meta">'+esc(fmtD(e.date))+(e.dur?' · '+e.dur+' min':'')+'</p><p class="loc">'+esc(L.m)+'</p></div>'+badge+'</div></div>';
       }
-    });
-    h += '</div></div>';
-  });
-  h += '</div>';
-  h += '</div>';
-  h += '<div class="kpis">';
-  h += '<div class="kpi"><div class="label">' + (fr ? "À venir" : "Upcoming") + '</div><div class="value">' + upcoming + '</div><div class="sub">' + (fr ? "rendez-vous planifiés" : "scheduled appointments") + '</div></div>';
-  h += '<div class="kpi"><div class="label">' + (fr ? "Prochain dans" : "Next in") + '</div><div class="value">' + (next === null ? "—" : next + " j") + '</div><div class="sub">' + (next === 0 ? (fr ? "aujourd'hui !" : "today!") : (fr ? "jours" : "days")) + '</div></div>';
-  h += '<div class="kpi"><div class="label">' + (fr ? "Passés" : "Past") + '</div><div class="value">' + past + '</div><div class="sub">' + (fr ? "archivés grisés" : "grayed out") + '</div></div>';
-  h += '</div>';
-  function renderE(e){
-    var cat = CATS.filter(function(c){ return c.id === e.cat; })[0];
-
-    var cat = CATS.filter(function(c){ return c.id === e.cat; })[0];
-
-    var cat = CATS.filter(function(c){ return c.id === e.cat; })[0];
-
-      var d = parse(e.start);
-      var diff = dayDiff(e.start);
-      var md = dayDiffMid(e.start);
-      var isPast = diff < 0;
-      var day = d.getDate();
-      var month = fr ? MOIS_FR[d.getMonth()] : MONTHS_EN[d.getMonth()];
-      var fullDate = (fr ? JOURS_FR[d.getDay()] : DAYS_EN[d.getDay()]) + " " + day + " " + month + " " + d.getFullYear();
-      var t = fmtTime(d) + (e.end ? " – " + fmtTime(parse(e.end)) : "");
-      var count = "";
-      if (isPast) count = '<span class="badge done">✓ ' + (fr ? "Passé" : "Past") + '</span>';
-      else if (md === 0) count = '<span class="badge soon">🔥 ' + (fr ? "Aujourd'hui !" : "Today!") + '</span>';
-      else if (md === 1) count = '<span class="badge soon">⏳ ' + (fr ? "Demain" : "Tomorrow") + '</span>';
-      else count = '<span class="badge">⏳ ' + (fr ? "Dans " + Math.ceil(diff) + " jours" : "In " + Math.ceil(diff) + " days") + '</span>';
-      h += '<article class="rdv rdv-cat-' + e.cat + (isPast ? " past" : "") + (e.cancelled ? " cancelled" : "") + '"><span class="edge-badge">' + cat.icon + '</span>';;
-      if (e.cancelled) h += '<div class="stamp">' + (fr ? "Annulé" : "Cancelled") + '</div>';
-      h += '<div class="rdv-date"><div class="d">' + day + '</div><div class="m">' + month + '</div></div>';
-      h += '<div class="rdv-body"><div class="rdv-title">' + cat.icon + ' ' + esc(fr ? e.fr : e.en) + '</div>';
-      if (e.descFr) h += '<div class="rdv-desc">' + esc(fr ? e.descFr : e.descEn) + '</div>';
-      h += '<div class="rdv-where">📍 ' + esc(fr ? e.whereFr : e.whereEn) + '</div>';
-      h += '<div class="rdv-meta"><span class="badge cat">' + cat.icon + ' <b>' + esc(fr ? cat.fr : cat.en) + '</b></span><span class="badge">🕐 <b>' + t + '</b></span>' + count + '<span class="badge">📅 ' + fullDate + '</span></div>';
-      h += '</div></article>';
-
-
-
+    }
+    $('list').innerHTML = html;
+    applyStaticI18n();
   }
-  // zone urgente : tous les RDV d'ici 3 jours, toutes catégories, triés par date
-  var soon = EVENTS.filter(function(e){ if (e.cancelled) return false; var d = dayDiff(e.start); return d >= 0 && d <= 3; })
-                   .sort(function(a,b){ return parse(a.start) - parse(b.start); });
-  if (soon.length) {
-    h += '<section class="section"><h2 class="section-title">🗓️ ' + (fr ? "Prochains rendez-vous" : "Upcoming appointments") + '</h2>';
-    soon.forEach(renderE);
-    h += '</section>';
-  }
-  // le reste par catégorie — Santé toujours en premier, puis les autres par plus proche RDV restant
-  var catGroups = CATS.map(function(cat){
-    var up = EVENTS.filter(function(e){ return e.cat === cat.id && !e.cancelled && dayDiff(e.start) > 3; })
-                    .sort(function(a,b){ return parse(a.start) - parse(b.start); });
-    var past = EVENTS.filter(function(e){ return e.cat === cat.id && !e.cancelled && dayDiff(e.start) < 0; })
-                     .sort(function(a,b){ return parse(b.start) - parse(a.start); });
-    var canc = EVENTS.filter(function(e){ return e.cat === cat.id && e.cancelled; })
-                     .sort(function(a,b){ return parse(b.start) - parse(a.start); });
-    var nearest = up.length ? parse(up[0].start).getTime() : Infinity;
-    return { cat: cat, up: up, past: past, canc: canc, nearest: nearest };
-  }).sort(function(a,b){ var pa = a.cat.id === "sante" ? 0 : 1, pb = b.cat.id === "sante" ? 0 : 1; return (pa - pb) || (a.nearest - b.nearest); });
-  catGroups.forEach(function(g){
-    if (!g.up.length && !g.past.length) return;
-    h += '<section class="section"><h2 class="section-title">' + g.cat.icon + " " + esc(fr ? g.cat.fr : g.cat.en) + '</h2>';
-    g.up.forEach(renderE);
-    g.past.forEach(renderE);
-    g.canc.forEach(renderE);
-    h += '</section>';
-  });
-  document.getElementById("app").innerHTML = h;
-}
-syncLang(); render();
-})();
+  function applyStaticI18n(){ /* handled by data-i18n loop in applyLang */ }
+  applyLang();
+  
 </script>
 </body>
 </html>

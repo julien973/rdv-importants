@@ -3,283 +3,163 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mes récurrents</title>
+<title>Récurrents — Julien</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-@property --surface-alpha { syntax: "<number>"; inherits: true; initial-value: 0.72; }
-* { box-sizing: border-box; }
-:root { font-family: Inter, "Segoe UI", system-ui, sans-serif; }
-body.day, body.night {
-  --progress-grad: linear-gradient(90deg, #f06192, #fbbf24, #4ade80, #38bdf8, #a78bfa);
-  --progress-glow: rgba(240, 97, 146, .6);
-  --acc: #7c3aed; --acc-2: #a78bfa; --acc-soft: rgba(147, 90, 255, .14);
-  --date-bg: linear-gradient(150deg, #8b5cf6, #6d28d9); --date-ink: #f5f2ff;
-  --date-glow: 0 6px 18px rgba(124, 58, 237, .35);
-}
-body.night {
-  --bg-base: #2e2650; --ink: #f0ecfa; --muted: #b6a8d8;
-  --bg-image:
-    radial-gradient(ellipse 60% 42% at 20% 10%, rgba(178,128,255,.55), transparent 62%),
-    radial-gradient(ellipse 50% 36% at 85% 20%, rgba(125,155,255,.5), transparent 62%),
-    radial-gradient(ellipse 55% 40% at 78% 92%, rgba(240,140,255,.4), transparent 62%),
-    radial-gradient(ellipse 45% 32% at 12% 88%, rgba(100,130,255,.38), transparent 60%),
-    linear-gradient(160deg, #35295e 0%, #3d2f6b 50%, #312654 100%);
-  --surface: rgba(46,36,74,.66); --surface-kpi: rgba(52,42,84,.6);
-  --card-border: rgba(230,220,255,.22); --border-strong: rgba(230,220,255,.5);
-  --inner-light: inset 0 1px 0 rgba(255,255,255,.12);
-  --btn-bg: rgba(230,220,255,.12); --btn-hover: rgba(230,220,255,.24); --btn-ink: #f0ecfa; --btn-border: rgba(230,220,255,.4);
-  --shadow-md: 0 2px 6px rgba(15,8,40,.25), 0 16px 40px rgba(15,8,40,.4);
-  --halo: 0 0 0 1px rgba(230,220,255,.24), 0 14px 44px rgba(15,8,40,.5), 0 0 30px rgba(147,90,255,.28);
-  --topbar-bg: rgba(41,32,72,.6); --topbar-border: rgba(230,220,255,.16);
-  --badge-bg: rgba(230,220,255,.10); --badge-border: rgba(230,220,255,.28);
-  --past-ink: rgba(240,236,250,.4); --spot: rgba(200,180,255,.16);
-  --win-bar-grad: linear-gradient(90deg, #8b5cf6, #38bdf8);
-}
-body.day {
-  --bg-base: #ece7fb; --ink: #2b2340; --muted: #7d729c;
-  --bg-image:
-    radial-gradient(ellipse 55% 38% at 15% 10%, rgba(167,120,255,.5), transparent 62%),
-    radial-gradient(ellipse 45% 32% at 88% 15%, rgba(96,165,250,.42), transparent 60%),
-    radial-gradient(ellipse 50% 35% at 80% 90%, rgba(232,121,249,.38), transparent 62%),
-    radial-gradient(ellipse 40% 28% at 10% 85%, rgba(129,140,248,.35), transparent 60%),
-    linear-gradient(160deg, #f7f4ff 0%, #ebe5fa 100%);
-  --surface: rgba(255,253,255,.78); --surface-kpi: rgba(255,253,255,.7);
-  --card-border: rgba(255,255,255,.95); --border-strong: rgba(43,35,64,.28);
-  --inner-light: inset 0 1px 0 rgba(255,255,255,.9);
-  --btn-bg: rgba(255,255,255,.65); --btn-hover: #ffffff; --btn-ink: #2b2340; --btn-border: rgba(43,35,64,.22);
-  --shadow-md: 0 2px 6px rgba(70,50,140,.06), 0 16px 40px rgba(70,50,140,.14);
-  --halo: 0 0 0 1px rgba(255,255,255,.95), 0 14px 44px rgba(70,50,140,.18), 0 0 28px rgba(147,90,255,.2);
-  --topbar-bg: rgba(247,244,255,.68); --topbar-border: rgba(43,35,64,.1);
-  --badge-bg: rgba(124,58,237,.07); --badge-border: rgba(124,58,237,.22);
-  --past-ink: rgba(43,35,64,.38); --spot: rgba(147,90,255,.1);
-  --win-bar-grad: linear-gradient(90deg, #7c3aed, #38bdf8);
-}
-body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; overscroll-behavior-y: none;
-  color: var(--ink); background-color: var(--bg-base); background-image: var(--bg-image);
-  transition: background-color .45s ease, color .45s ease; }
-@media (hover: hover) and (pointer: fine) { body { background-attachment: fixed; } }
-.orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-.orbs i { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .55; }
-.orbs .o1 { width: 380px; height: 380px; left: -100px; top: 6%; background: var(--acc-soft); }
-.orbs .o2 { width: 300px; height: 300px; right: -80px; top: 36%; background: var(--spot); }
-.orbs .o3 { width: 340px; height: 340px; left: 28%; bottom: -100px; background: var(--acc-soft); }
-.topbar { position: sticky; top: 0; z-index: 20; background: var(--topbar-bg);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--topbar-border); }
-.topbar-inner { max-width: 980px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 18px; gap: 12px; flex-wrap: wrap; }
-.tb-brand { font-size: 1.05rem; letter-spacing: .3px; font-weight: 700; }
-.tb-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-.lang-btn { display: inline-flex; align-items: center; gap: 7px; padding: 7px 13px; border-radius: 999px;
-  border: 1px solid var(--btn-border); background: var(--btn-bg); color: var(--btn-ink); cursor: pointer;
-  font-family: inherit; font-size: .92rem; transition: background .18s, transform .18s, box-shadow .18s; }
-.lang-btn:hover { background: var(--btn-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
-.lang-btn.active { outline: 2px solid var(--acc-2); outline-offset: 1px; font-weight: 700; }
-.flag { width: 21px; height: 14px; border-radius: 2px; display: block; box-shadow: 0 0 0 1px rgba(0,0,0,.15); }
-.page { position: relative; z-index: 1; max-width: 980px; margin: 0 auto; padding: 22px 18px 10px; }
-.hero { background: var(--surface); border: 1px solid var(--card-border); border-radius: 20px;
-  box-shadow: var(--shadow-md), var(--inner-light);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  padding: 26px 26px 22px; margin-top: 18px; position: relative; overflow: hidden; }
-.hero::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
-  background: linear-gradient(90deg, var(--acc-2), var(--acc)); }
-.hero h1 { margin: 0 0 8px; font-size: 1.65rem; }
-.hero p { margin: 0; color: var(--muted); font-style: italic; }
-.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin: 18px 0; }
-.kpi { position: relative; overflow: hidden; background: var(--surface-kpi); border: 1px solid var(--card-border); border-radius: 18px;
-  box-shadow: var(--shadow-md), var(--inner-light); padding: 16px 18px; text-align: center;
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  transition: transform .18s, box-shadow .18s; }
-.kpi::after { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, var(--acc-2), var(--acc)); }
-.win::after { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, #7dd3fc, #38bdf8); }
-.kpi:hover { transform: translateY(-3px); box-shadow: var(--halo); }
-.kpi .label { font-size: .78rem; text-transform: uppercase; letter-spacing: 1.4px; color: var(--muted); font-weight: 600; }
-.kpi .value { font-size: 2rem; font-weight: 800; margin: 4px 0 2px;
-  background: linear-gradient(135deg, #a78bfa, #7c3aed, #38bdf8);
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-.kpi .sub { font-size: .85rem; color: var(--muted); }
-.section { margin: 26px 0; }
-.section-title { display: flex; align-items: center; gap: 10px; font-size: 1.2rem; margin: 0 0 14px; font-weight: 700; }
-.section-title::after { content: ""; flex: 1; height: 1px;
-  background: linear-gradient(90deg, var(--badge-border), transparent); }
-.rdv { display: flex; gap: 16px; background: var(--surface); border: 1px solid var(--card-border);
-  border-radius: 18px; box-shadow: var(--shadow-md), var(--inner-light); padding: 16px 18px; margin-bottom: 12px;
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  transition: transform .2s, box-shadow .2s; align-items: stretch; position: relative; overflow: hidden; }
-.rdv::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
-  background: linear-gradient(90deg, #f9a8d4, #ec4899); }
-.rdv:hover { transform: translateY(-3px) scale(1.005); box-shadow: var(--halo); }
-.rdv.past { opacity: .55; filter: saturate(.4); }
-.rdv-date { flex: 0 0 74px; background: var(--date-bg); color: var(--date-ink); border-radius: 14px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 4px;
-  box-shadow: var(--date-glow), inset 0 1px 0 rgba(255,255,255,.35); }
-.rdv-date .d { font-size: 1.75rem; font-weight: 800; line-height: 1; }
-.rdv-date .m { font-size: .74rem; text-transform: uppercase; letter-spacing: 1.6px; margin-top: 3px; font-weight: 600; }
-.rdv-body { flex: 1; min-width: 0; }
-.rdv-title { font-size: 1.06rem; font-weight: 700; margin-bottom: 3px; }
-.rdv.past .rdv-title, .rdv.past .rdv-where { color: var(--past-ink); }
-.rdv-where { color: var(--muted); font-size: .9rem; margin-bottom: 9px; }
-.rdv-meta { display: flex; flex-wrap: wrap; gap: 7px; }
-.badge { display: inline-flex; align-items: center; gap: 5px; font-size: .78rem; padding: 4px 11px; font-weight: 600;
-  border-radius: 999px; background: var(--badge-bg); border: 1px solid var(--badge-border);
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-.badge.soon { border-color: var(--acc-2); color: var(--acc-2); font-weight: 700;
-  box-shadow: 0 0 12px rgba(147,90,255,.25); }
-.badge.done { opacity: .8; }
-.bday-divider { display: flex; align-items: center; gap: 12px; margin: 18px 0 12px; color: var(--muted);
-  font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; }
-.bday-divider::before, .bday-divider::after { content: ""; flex: 1; height: 2px; border-radius: 1px;
-  background: linear-gradient(90deg, transparent, var(--acc-2), transparent); }
-.rdv-top { border-color: var(--acc-2); box-shadow: var(--shadow-md), var(--inner-light), 0 0 16px rgba(147,90,255,.18); }
-.rdv-rank { font-size: .72rem; font-weight: 800; padding: 2px 9px; border-radius: 999px; margin-right: 6px;
-  background: var(--date-bg); color: var(--date-ink); }
-.win { position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--card-border); border-radius: 18px;
-  box-shadow: var(--shadow-md), var(--inner-light); padding: 18px 20px; margin-bottom: 14px;
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  transition: transform .2s, box-shadow .2s; }
-.win:hover { transform: translateY(-3px); box-shadow: var(--halo); }
-.win-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; }
-.win-title { font-size: 1.06rem; font-weight: 700; }
-.win-sub { color: var(--muted); font-size: .9rem; margin: 6px 0 10px; }
-.win-bar { height: 9px; border-radius: 999px; background: var(--badge-bg); border: 1px solid var(--badge-border); overflow: hidden;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,.12); }
-.win-bar i { display: block; height: 100%; background: var(--win-bar-grad); border-radius: 999px;
-  box-shadow: 0 0 10px rgba(124,58,237,.4); }
-.botbar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 20; background: var(--topbar-bg);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-top: 1px solid var(--topbar-border); }
-.botbar-inner { max-width: 980px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 18px; gap: 12px; flex-wrap: wrap; font-size: .9rem; }
-.bb-link { color: var(--ink); text-decoration: none; padding: 5px 12px; border-radius: 999px; font-weight: 600;
-  border: 1px solid var(--btn-border); background: var(--btn-bg); transition: background .18s, transform .18s; }
-.bb-link:hover { background: var(--btn-hover); transform: translateY(-1px); }
-.bb-ver { color: var(--muted); }
-#progress { position: absolute; left: 0; bottom: -1px; height: 3px; width: 0%; background: var(--progress-grad);
-  border-radius: 999px; transition: width .18s linear; box-shadow: var(--progress-glow);
-  filter: saturate(1.3) brightness(1.12); will-change: width; }
-@media (max-width: 520px) { .rdv { flex-direction: column; } .rdv-date { flex-direction: row; gap: 8px; }
-  .hero h1 { font-size: 1.3rem; } }
-</style>
+  :root{--radius:16px;--radius-sm:12px}
+  body.day{--surface:rgba(255,255,255,.66);--ink:#2b2620;--muted:#7c6f5f;--accent:#0d7a68;--accent-ink:#0a5c4f;--accent-soft:rgba(13,122,104,.1);--gold:#b8860b;--gold-soft:rgba(184,134,11,.12);--border:#e6dbc8;--border-strong:#d8c9b0;--shadow-sm:0 1px 2px rgba(28,25,23,.05),0 4px 14px rgba(28,25,23,.06);--shadow-md:0 2px 6px rgba(28,25,23,.06),0 16px 40px rgba(28,25,23,.12);--topbar-bg:rgba(247,240,230,.8);--topbar-border:rgba(221,210,196,.6);--hero-bar:linear-gradient(90deg,#0d7a68,#b8860b);color:var(--ink);background:radial-gradient(900px 500px at 85% -5%,rgba(13,122,104,.1),transparent 60%),radial-gradient(700px 420px at 5% 15%,rgba(184,134,11,.09),transparent 62%),linear-gradient(180deg,#f7f2e8 0%,#f0e9da 100%)}
+  body.night{--surface:rgba(255,255,255,.09);--ink:#eef4f2;--muted:#9db8b0;--accent:#2dd4bf;--accent-ink:#7ce8da;--accent-soft:rgba(45,212,191,.14);--gold:#e8c565;--gold-soft:rgba(232,197,101,.13);--border:rgba(235,245,240,.16);--border-strong:rgba(235,245,240,.3);--shadow-sm:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.25);--shadow-md:0 2px 8px rgba(0,0,0,.35),0 18px 44px rgba(0,0,0,.4);--topbar-bg:rgba(9,16,20,.72);--topbar-border:rgba(120,180,170,.2);--hero-bar:linear-gradient(90deg,#2dd4bf,#e8c565);color:var(--ink);background:radial-gradient(900px 500px at 85% -5%,rgba(45,212,191,.09),transparent 60%),radial-gradient(700px 420px at 5% 15%,rgba(232,197,101,.07),transparent 62%),linear-gradient(180deg,#0a1216 0%,#0c1a1e 100%)}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.55;min-height:100svh}
+  h1,h2,.brand,.stat .val,.card .ttl{font-family:Sora,Inter,system-ui,sans-serif}
+  .wrap{max-width:880px;margin:0 auto;padding:0 18px 70px}
+  .topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:var(--topbar-bg);border-bottom:1px solid var(--topbar-border)}
+  .topbar-in{max-width:880px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .brand{font-weight:800;font-size:.95rem;display:flex;align-items:center;gap:8px}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--hero-bar);display:inline-block}
+  .grow{flex:1}
+  .btn{background:var(--surface);border:1px solid var(--border);color:var(--ink);border-radius:999px;padding:6px 13px;font-size:.8rem;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+  .btn:hover{border-color:var(--accent)}
+  .langbtns{display:flex;gap:0}
+  .langbtns .btn{border-radius:0;padding:6px 12px;font-size:.8rem}
+  .langbtns .btn:first-child{border-radius:999px 0 0 999px;border-right:none}
+  .langbtns .btn:last-child{border-radius:0 999px 999px 0}
+  .langbtns .btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+  body.night .langbtns .btn.active{color:#06231e}
+  .langbtns .flag{width:18px;height:12px;border-radius:2px;object-fit:cover;flex-shrink:0;box-shadow:0 0 0 1px rgba(0,0,0,.18)}
+  .hero{margin:34px 0 8px}
+  .hero h1{font-size:clamp(1.6rem,4.5vw,2.4rem);margin:.1em 0;background:var(--hero-bar);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:inline-block}
+  .hero-bar{height:4px;border-radius:99px;background:var(--hero-bar);max-width:340px;margin:16px 0 0}
+  .hero p{color:var(--muted);margin:.2em 0 0;max-width:640px}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:26px 0}
+  .stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow-sm);position:relative}
+  .stat::before{content:'';position:absolute;top:0;left:14px;right:14px;height:3px;background:var(--hero-bar);border-radius:0 0 6px 6px;opacity:.85}
+  .stat .lab{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
+  .stat .val{font-size:1.5rem;font-weight:800;margin-top:2px}
+  h2{font-size:1.15rem;margin:34px 0 4px;display:flex;align-items:center;gap:10px}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;min-width:27px;height:27px;border-radius:8px;background:var(--accent);color:#fff;font-size:.85rem}
+  body.night h2 .n{color:#06231e}
+  .sec-desc{color:var(--muted);font-size:.85rem;margin:0 0 14px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:15px 17px;box-shadow:var(--shadow-sm);margin:10px 0;position:relative;transition:opacity .3s}
+  .card::before{content:'';position:absolute;top:0;left:14px;right:14px;height:3px;background:var(--hero-bar);border-radius:0 0 6px 6px;opacity:.85}
+  .card .top{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}
+  .card .ic{flex-shrink:0;width:40px;height:40px;border-radius:11px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:1.25rem;border:1px solid var(--accent)}
+  .card .body{flex:1;min-width:200px}
+  .card .ttl{font-weight:800;font-size:1rem;margin:0}
+  .card .meta{color:var(--muted);font-size:.82rem;margin-top:3px}
+  .card .loc{font-size:.78rem;color:var(--muted);margin-top:2px}
+  .badge{font-size:.72rem;font-weight:800;padding:3px 11px;border-radius:999px;white-space:nowrap}
+  .badge.next{background:var(--accent);color:#fff}
+  body.night .badge.next{color:#06231e}
+  .badge.today{background:var(--gold);color:#fff}
+  body.night .badge.today{color:#3d2b00}
+  .badge.past{background:transparent;border:1px solid var(--border-strong);color:var(--muted)}
+  .card.past{opacity:.55}
+  .card.past .ttl{text-decoration:line-through;text-decoration-thickness:1.5px}
+  .night-ic{font-size:.72rem;color:var(--gold);font-weight:700}
+  .botbar{position:fixed;bottom:0;left:0;right:0;z-index:50;background:var(--topbar-bg);backdrop-filter:blur(14px);border-top:1px solid var(--topbar-border);font-size:.75rem;color:var(--muted)}
+  .botbar-in{max-width:880px;margin:0 auto;padding:8px 18px;display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap}
+  .botbar a{color:var(--muted);text-decoration:none;font-weight:600}
+  .botbar a:hover{color:var(--accent)}
+  .botbar .sep{opacity:.4}
+  @media(max-width:560px){.stat .val{font-size:1.2rem}.card{padding:13px 14px}}
+  </style>
 </head>
-<body class="night">
-<script>try{if(localStorage.getItem("rec-theme")==="day")document.body.className="day";}catch(e){}</script>
-<div class="orbs" aria-hidden="true"><i class="o1"></i><i class="o2"></i><i class="o3"></i></div>
-<header class="topbar"><div class="topbar-inner">
-<span class="tb-brand" data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<div class="tb-actions">
-<button class="lang-btn active" id="btn-fr" onclick="switchLang('fr')"><svg class="flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#0055A4"/><rect x="1" width="1" height="2" fill="#ffffff"/><rect x="2" width="1" height="2" fill="#EF4135"/></svg>FR</button>
-<button class="lang-btn" id="btn-en" onclick="switchLang('en')"><svg class="flag" viewBox="0 0 60 30" aria-hidden="true"><rect width="60" height="30" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#ffffff" stroke-width="6"/><path d="M30,0 V30 M0,15 H60" stroke="#ffffff" stroke-width="10"/><path d="M30,0 V30 M0,15 H60" stroke="#C8102E" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="3.5"/></svg>EN</button>
-<button class="lang-btn" id="btn-theme" onclick="toggleTheme()"><span id="btn-theme-ico">☀️</span> <span data-fr="Thème" data-en="Theme">Thème</span></button>
-</div></div><i id="progress" aria-hidden="true"></i></header>
-<main class="page">
-<div id="app"></div>
-</main>
-<footer class="botbar"><div class="botbar-inner">
-<span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v3.12 · 2026</span>
-<a class="bb-link" href="index.html" data-fr="🗓️ RDV importants" data-en="🗓️ Appointments">🗓️ RDV importants</a>
+<body class="day">
+
+<header class="topbar"><div class="topbar-in">
+  <div class="brand"><span class="dot"></span><span data-i18n="brand">RDV de Julien</span></div>
+  <div class="grow"></div>
+  <a class="btn" href="https://julien973.github.io/rgis-heures-paie/" target="_blank" rel="noopener" title="Heures RGIS & estimateur de paie">💶 <span data-i18n="footerRgis">Heures &amp; paie RGIS</span></a>
+  <div class="langbtns">
+    <button class="btn lang active" id="btnFR"><img class="flag" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 20'%3E%3Crect width='10' height='20' fill='%230055A4'/%3E%3Crect x='10' width='10' height='20' fill='%23fff'/%3E%3Crect x='20' width='10' height='20' fill='%23EF4135'/%3E%3C/svg%3E">FR</button>
+    <button class="btn lang" id="btnEN"><img class="flag" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3CclipPath id='c'%3E%3Cpath d='M0 0h60v30H0z'/%3E%3C/clipPath%3E%3Cg clip-path='url(%23c)'%3E%3Crect width='60' height='30' fill='%23002169'/%3E%3Cpath d='M0 0l60 30M60 0L0 30' stroke='%23fff' stroke-width='6'/%3E%3Cpath d='M0 0l60 30M60 0L0 30' stroke='%23C8102E' stroke-width='4'/%3E%3Cpath d='M30 0v30M0 15h60' stroke='%23fff' stroke-width='10'/%3E%3Cpath d='M30 0v30M0 15h60' stroke='%23C8102E' stroke-width='6'/%3E%3C/g%3E%3C/svg%3E">EN</button>
+  </div>
+  <button class="btn" id="btnTheme" title="Jour / Nuit">🌙</button>
+</div></header>
+<div class="wrap">
+  <div class="hero">
+    <h1 data-i18n="recTitle">Les récurrents</h1>
+    <div class="hero-bar"></div>
+    <p data-i18n="heroSub" style="display:none"></p>
+    <p class="hero-p" style="color:var(--muted);margin:.2em 0 0;max-width:640px">Anniversaires et fenêtres d’actualisation — les dates qui reviennent chaque année. Comptes à rebours vers la prochaine occurrence.</p>
+  </div>
+  <div id="list"></div>
+</div>
+
+<footer class="botbar"><div class="botbar-in">
+  <a href="index.html">📅 <span data-i18n="footerHome">Mes heures &amp; ma paie</span></a><span class="sep">·</span><a href="https://julien973.github.io/rgis-heures-paie/" target="_blank" rel="noopener">💶 <span data-i18n="footerRgis">Heures &amp; paie RGIS</span></a>
+  <span class="sep">·</span><span>v4.0</span><span>·</span><span>2026</span>
 </div></footer>
 <script>
-(function(){
-"use strict";
-var THEME_KEY = "rec-theme"; var LANG_KEY = "rec-lang";
-var lang = "fr"; try { lang = localStorage.getItem(LANG_KEY) || "fr"; } catch(e) {}
-window.switchLang = function(l){ lang = l; try { localStorage.setItem(LANG_KEY, l); } catch(e) {} syncLang(); render(); };
-function syncLang(){
-  document.getElementById("btn-fr").classList.toggle("active", lang === "fr");
-  document.getElementById("btn-en").classList.toggle("active", lang === "en");
-  document.documentElement.lang = lang;
-  document.querySelectorAll("[data-fr]").forEach(function(s){ s.textContent = lang === "fr" ? s.getAttribute("data-fr") : s.getAttribute("data-en"); });
-}
-window.setTheme = function(t){
-  document.body.classList.toggle("night", t === "night");
-  document.body.classList.toggle("day", t === "day");
-  document.getElementById("btn-theme-ico").textContent = t === "day" ? "🌙" : "☀️";
-  try { localStorage.setItem(THEME_KEY, t); } catch(e) {}
-};
-window.toggleTheme = function(){ setTheme(document.body.classList.contains("day") ? "night" : "day"); };
-window.addEventListener("scroll", function(){
-  var h = document.documentElement;
-  var p = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
-  document.getElementById("progress").style.width = p + "%";
-}, { passive: true });
-var TOP = ["Kiana", "Leeloo", "Toriko", "Kon"];
-var BIRTHDAYS = [
-  { name:"Kiana", month:11, day:12 },
-  { name:"Leeloo", month:12, day:16 },
-  { name:"Toriko", month:8, day:19 },
-  { name:"Sébastien", month:9, day:26 },
-  { name:"Niva", month:10, day:12 },
-  { name:"Kon", month:11, day:5 },
-  { name:"Nat & Mika", month:12, day:25 },
-  { name:"Nicre", month:1, day:23 },
-  { name:"Julien", month:2, day:23 }
-];
-var WINDOWS = [
-  { label:"septembre", labelEn:"September", open:"2026-09-28", close:"2026-10-15" },
-  { label:"octobre", labelEn:"October", open:"2026-10-28", close:"2026-11-15" },
-  { label:"novembre", labelEn:"November", open:"2026-11-28", close:"2026-12-15" },
-  { label:"décembre", labelEn:"December", open:"2026-12-28", close:"2027-01-15" }
-];
-var MOIS_FR = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
-var MONTHS_EN = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
-function dayDiff(d){ var t = new Date(); t.setHours(0,0,0,0); var x = new Date(d); x.setHours(0,0,0,0); return Math.round((x - t) / 86400000); }
-function fmt(d){ return d.getDate() + " " + (lang === "fr" ? MOIS_FR[d.getMonth()] : MONTHS_EN[d.getMonth()]) + " " + d.getFullYear(); }
-function render(){
-  var fr = lang === "fr";
-  var now = new Date();
-  var h = "";
-  h += '<div class="hero"><h1>🎂 ' + (fr ? "Ce qui revient chaque année" : "What comes back every year") + '</h1>';
-  h += '<p>' + (fr ? "Anniversaires et échéances récurrentes — pas des rendez-vous." : "Birthdays and recurring deadlines — not appointments.") + '</p></div>';
-  h += '<section class="section"><h2 class="section-title">🎂 ' + (fr ? "Anniversaires" : "Birthdays") + '</h2>';
-  var topList = TOP.map(function(n){ return BIRTHDAYS.filter(function(b){ return b.name === n; })[0]; });
-  var restList = BIRTHDAYS.filter(function(b){ return TOP.indexOf(b.name) < 0; })
-    .sort(function(a,b){
-      function nextD(x){ var d = new Date(now.getFullYear(), x.month - 1, x.day); if (dayDiff(d) < 0) d = new Date(now.getFullYear() + 1, x.month - 1, x.day); return d; }
-      return nextD(a) - nextD(b);
-    });
-  function renderB(b, rank){
 
-    var next = new Date(now.getFullYear(), b.month - 1, b.day);
-    if (dayDiff(next) < 0) next = new Date(now.getFullYear() + 1, b.month - 1, b.day);
-    var diff = dayDiff(next);
-    var count = "";
-    if (diff === 0) count = '<span class="badge soon">🎉 ' + (fr ? "Aujourd'hui !" : "Today!") + '</span>';
-    else if (diff === 1) count = '<span class="badge soon">⏳ ' + (fr ? "Demain" : "Tomorrow") + '</span>';
-    else count = '<span class="badge">⏳ ' + (fr ? "Dans " + diff + " jours" : "In " + diff + " days") + '</span>';
-    h += '<article class="rdv' + (rank ? ' rdv-top' : '') + '">';
-    h += '<div class="rdv-date"><div class="d">' + b.day + '</div><div class="m">' + (fr ? MOIS_FR[b.month - 1].slice(0, 4) : MONTHS_EN[b.month - 1].slice(0, 3)) + '</div></div>';
-    h += '<div class="rdv-body"><div class="rdv-title">' + (rank ? '<span class="rdv-rank">#' + rank + '</span>' : '') + '🎂 ' + esc(b.name) + '</div>';
-    h += '<div class="rdv-where">📅 ' + fmt(next) + '</div>';
-    h += '<div class="rdv-meta">' + count + '</div>';
-    h += '</div></article>';
-
+  const RDV = [{"cat":"sante","ic":"🩺","date":"2026-09-22T10:00","dur":15,"fr":{"t":"Appeler cabinet Dr Poulaliou","m":"Confirmer le lieu du RDV dermatologue"},"en":{"t":"Call Dr Poulaliou office","m":"Confirm dermatologist appointment location"}},{"cat":"travail","ic":"🌙","date":"2026-09-22T17:50","dur":310,"fr":{"t":"Mission inventaire — Carrefour Paimpol","m":"Départ : parking agence RGIS, Brest"},"en":{"t":"Inventory mission — Carrefour Paimpol","m":"Departure: RGIS agency parking, Brest"}},{"cat":"admin","ic":"🏛️","date":"2026-09-23T15:00","dur":60,"fr":{"t":"Entretien RSA — bilan de fin de CEU","m":"CDAS Bellevue, Brest"},"en":{"t":"RSA interview — end of CEU review","m":"CDAS Bellevue, Brest"}},{"cat":"travail","ic":"🌙","date":"2026-09-28T18:10","dur":410,"fr":{"t":"Mission inventaire — Leclerc Landerneau","m":"Départ : parking agence RGIS, Brest"},"en":{"t":"Inventory mission — Leclerc Landerneau","m":"Departure: RGIS agency parking, Brest"}},{"cat":"travail","ic":"🌙","date":"2026-10-01T18:10","dur":410,"fr":{"t":"Mission inventaire — Leclerc Quéven","m":"Départ : parking agence RGIS, Brest"},"en":{"t":"Inventory mission — Leclerc Quéven","m":"Departure: RGIS agency parking, Brest"}},{"cat":"travail","ic":"🌙","date":"2026-10-02T17:40","dur":440,"fr":{"t":"Mission inventaire — Carrefour Fouesnant","m":"Départ : parking agence RGIS, Brest"},"en":{"t":"Inventory mission — Carrefour Fouesnant","m":"Departure: RGIS agency parking, Brest"}},{"cat":"travail","ic":"🌙","date":"2026-10-06T18:00","dur":420,"fr":{"t":"Mission inventaire — Leclerc Pont-l’Abbé","m":"Départ 18:00 · parking agence RGIS, Brest · fin vers 01:00"},"en":{"t":"Inventory mission — Leclerc Pont-l’Abbé","m":"Departure 6 PM · RGIS agency parking, Brest · ends ~1 AM"}},{"cat":"travail","ic":"🌙","date":"2026-10-12T19:50","dur":310,"fr":{"t":"Mission inventaire — Carrefour Plouzané","m":"Départ 19:50 · parking agence RGIS, Brest · fin vers 01:00"},"en":{"t":"Inventory mission — Carrefour Plouzané","m":"Departure 7:50 PM · RGIS agency parking, Brest · ends ~1 AM"}},{"cat":"sante","ic":"🩺","date":"2026-10-13T14:30","dur":60,"fr":{"t":"Rendez-vous psychiatre — CMP","m":"1 Rue de Saint-Brieuc, Brest"},"en":{"t":"Psychiatrist appointment — CMP","m":"1 Rue de Saint-Brieuc, Brest"}},{"cat":"sante","ic":"🩺","date":"2026-11-02T11:00","dur":60,"fr":{"t":"Rendez-vous dermatologue — Dr Adèle Poulaliou","m":"Cabinet de Dermatologie, 22 Rue Jules Michelet, Brest"},"en":{"t":"Dermatologist appointment — Dr Adèle Poulaliou","m":"Dermatology office, 22 Rue Jules Michelet, Brest"}}];
+  const CATS = {
+    sante:{ic:'🩺',fr:'Santé',en:'Health'},
+    travail:{ic:'🧮',fr:'Travail — missions RGIS',en:'Work — RGIS missions'},
+    admin:{ic:'🏛️',fr:'Administratif',en:'Administrative'}
+  };
+  let LANG = localStorage.getItem('rdv-lang') || 'fr';
+  let LANG_APPLIED = false;
+  const T = k => (LANG==='fr'?FR[k]:EN[k]) || FR[k] || k;
+  const fmtD = (iso) => {
+    const d = new Date(iso); const dn = new Date(iso); dn.setMinutes(0);
+    return d.toLocaleDateString(LANG==='fr'?'fr-FR':'en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) + ' · ' + d.toLocaleTimeString(LANG==='fr'?'fr-FR':'en-GB',{hour:'2-digit',minute:'2-digit'});
+  };
+  const daysUntil = iso => Math.ceil((new Date(iso+'T23:59:59') - NOW)/86400000);
+  const cd = iso => {
+    const dd = daysUntil(iso);
+    if (LANG==='fr') return dd<=0 ? "Aujourd'hui !" : (dd===1 ? 'Demain' : 'Dans '+dd+' jours');
+    return dd<=0 ? 'Today!' : (dd===1 ? 'Tomorrow' : 'In '+dd+' days');
+  };
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  function applyLang(){
+    document.documentElement.lang = LANG;
+    document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.dataset.i18n; if(T(k)!==k) el.innerHTML = T(k); });
+    document.querySelectorAll('.flag-active').forEach(()=>{});
+    $('btnFR').classList.toggle('active', LANG==='fr');
+    $('btnEN').classList.toggle('active', LANG==='en');
+    if (typeof render === 'function') render();
   }
-  h += '<div class="bday-divider">' + (fr ? "⭐ Les plus importants" : "⭐ Most important") + '</div>';
-  topList.forEach(function(b, i){ renderB(b, i + 1); });
-  h += '<div class="bday-divider">' + (fr ? "Autres anniversaires" : "Other birthdays") + '</div>';
-  restList.forEach(function(b){ renderB(b, 0); });
-  h += '</section>';
-
-  h += '<section class="section"><h2 class="section-title">🔓 ' + (fr ? "Fenêtres d'actualisation" : "Renewal windows") + '</h2>';
-  WINDOWS.forEach(function(w){
-    var dOpen = new Date(w.open + "T00:00");
-    var dClose = new Date(w.close + "T00:00");
-    var dO = dayDiff(dOpen), dC = dayDiff(dClose);
-    var state, bar = 0;
-    if (dO > 0) { state = fr ? "Ouvre bientôt" : "Opens soon"; }
-    else if (dC >= 0) { state = fr ? "🔓 Ouverte" : "🔓 Open"; bar = 50; }
-    else { state = fr ? "✓ Terminée" : "✓ Done"; bar = 100; }
-    var openBadge = dO > 0 ? '<span class="badge">⏳ ' + (fr ? "ouvre dans " + dO + " jours" : "opens in " + dO + " days") + '</span>' : '<span class="badge">🔓 ' + fmt(dOpen) + '</span>';
-    var closeBadge = dC < 0 ? '<span class="badge done">✓ ' + (fr ? "Terminée" : "Done") + '</span>' : '<span class="badge">🔒 ' + fmt(dClose) + '</span>';
-    h += '<div class="win"><div class="win-head"><span class="win-title">📆 ' + esc(fr ? ("Actualisation de " + w.label) : (w.labelEn + " renewal")) + '</span><span class="badge">' + state + '</span></div>';
-    h += '<div class="win-sub">' + (fr ? "Démarches en ligne — pas un rendez-vous" : "Online procedure — not an appointment") + '</div>';
-    h += '<div class="win-bar"><i style="width:' + bar + '%"></i></div>';
-    h += '<div class="rdv-meta" style="margin-top:10px">' + openBadge + closeBadge + '</div></div>';
-  });
-  h += '</section>';
-  document.getElementById("app").innerHTML = h;
-}
-syncLang(); render();
-})();
+  function setLang(l){ LANG=l; localStorage.setItem('rdv-lang', l); applyLang(); }
+  function setTheme(t){ document.body.classList.toggle('night', t==='night'); document.body.classList.toggle('day', t!=='night'); localStorage.setItem('rdv-theme', t); $('btnTheme').textContent = t==='night'?'☀️':'🌙'; }
+  const $ = id => document.getElementById(id);
+  $('btnFR').onclick = ()=>setLang('fr');
+  $('btnEN').onclick = ()=>setLang('en');
+  $('btnTheme').onclick = ()=>setTheme(document.body.classList.contains('night')?'day':'night');
+  
+  const NOW = new Date();
+  const FR = {"brand":"RDV de Julien","heroTitle":"Mes rendez-vous importants","heroSub":"Les dates qui comptent : santé, missions RGIS, démarches. Chaque compte à rebours est recalculé à chaque affichage.","stUp":"À venir","stNext":"Prochain dans","stPast":"Passés","catSante":"Santé","catTravail":"Travail — missions RGIS","catAdmin":"Administratif","nightTag":"nuit","today":"Aujourd'hui !","tomorrow":"Demain","inDays":"Dans {n} jours","pastTag":"✓ Passé","empty":"Aucun rendez-vous à venir dans cette catégorie.","footerHome":"Mes heures & ma paie","footerRec":"Récurrents","footerRgis":"Heures & paie RGIS","recTitle":"Les récurrents","recLink":"Voir les anniversaires et fenêtres d’actualisation","validTag":"Valid","toOpen":"Ouvre le","toClose":"Fermeture le","stateOpen":"Ouverte","stateSoon":"À venir","stateDone":"Terminée"}; const EN = {"brand":"Julien's appointments","heroTitle":"My important appointments","heroSub":"The dates that matter: health, RGIS missions, paperwork. Every countdown is recalculated on each visit.","stUp":"Upcoming","stNext":"Next in","stPast":"Past","catSante":"Health","catTravail":"Work — RGIS missions","catAdmin":"Administrative","nightTag":"night","today":"Today!","tomorrow":"Tomorrow","inDays":"In {n} days","pastTag":"✓ Past","empty":"No upcoming appointment in this category.","footerHome":"My hours & pay","footerRec":"Recurring","footerRgis":"RGIS hours & pay","recTitle":"Recurring items","recLink":"See birthdays and renewal windows","validTag":"Valid","toOpen":"Opens on","toClose":"Closes on","stateOpen":"Open","stateSoon":"Upcoming","stateDone":"Done"};
+  const BD = [{"ic":"🎂","md":"10-12","fr":"Anniversaire de Niva","en":"Niva's birthday"},{"ic":"🎂","md":"11-05","fr":"Anniversaire de Kon","en":"Kon's birthday"},{"ic":"🎂","md":"11-12","fr":"Anniversaire de Kiana","en":"Kiana's birthday"},{"ic":"🎂","md":"12-16","fr":"Anniversaire de Leeloo","en":"Leeloo's birthday"},{"ic":"🎂","md":"12-25","fr":"Anniversaire de Nat & Mika","en":"Nat & Mika's birthday"},{"ic":"🎂","md":"01-23","fr":"Anniversaire de Nicre","en":"Nicre's birthday"},{"ic":"🎂","md":"02-23","fr":"Mon anniversaire (Julien)","en":"My birthday (Julien)"}];
+  const WIN = [{"fr":"Ouverture de l’actualisation — octobre 2026","en":"Renewal window opens — October 2026","date":"2026-10-28"},{"fr":"Fermeture de l’actualisation — octobre 2026","en":"Renewal window closes — October 2026","date":"2026-11-15"},{"fr":"Ouverture de l’actualisation — novembre 2026","en":"Renewal window opens — November 2026","date":"2026-11-28"},{"fr":"Fermeture de l’actualisation — novembre 2026","en":"Renewal window closes — November 2026","date":"2026-12-15"},{"fr":"Ouverture de l’actualisation — décembre 2026","en":"Renewal window opens — December 2026","date":"2026-12-28"},{"fr":"Fermeture de l’actualisation — décembre 2026","en":"Renewal window closes — December 2026","date":"2027-01-15"}];
+  function nextOcc(md){
+    let y = NOW.getFullYear();
+    let d = new Date(y+'-'+md+'T00:00:00');
+    if (d < NOW) d = new Date((y+1)+'-'+md+'T00:00:00');
+    return d;
+  }
+  function render(){
+    let h = '<h2><span class="n">🎂</span>'+ (LANG==='fr'?'Anniversaires':'Birthdays') +'</h2>';
+    for (const b of BD){
+      const d = nextOcc(b.md);
+      const dd = Math.ceil((d-NOW)/86400000);
+      const lab = LANG==='fr' ? (dd===0?"Aujourd'hui !":(dd===1?'Demain':'Dans '+dd+' jours')) : (dd===0?'Today!':(dd===1?'Tomorrow':'In '+dd+' days'));
+      h += '<div class="card"><div class="top"><div class="ic">'+b.ic+'</div><div class="body"><p class="ttl">'+esc(LANG==='fr'?b.fr:b.en)+'</p><p class="meta">'+d.toLocaleDateString(LANG==='fr'?'fr-FR':'en-GB',{day:'numeric',month:'long'})+'</p></div><span class="badge next">'+lab+'</span></div></div>';
+    }
+    h += '<h2><span class="n">📄</span>'+ (LANG==='fr'?'Fenêtres d’actualisation':'Renewal windows') +'</h2>';
+    h += '<p class="sec-desc">'+ (LANG==='fr'?'Pôle emploi — l’actualisation mensuelle s’effectue entre l’ouverture et la fermeture de chaque fenêtre.':'France Travail — the monthly update must be done between each window’s opening and closing dates.') +'</p>';
+    for (const w of WIN){
+      const d = new Date(w.date+'T00:00:00');
+      const dd = Math.ceil((d-NOW)/86400000);
+      const isOpen = dd<=0;
+      const isSoon = dd>0 && dd<=20;
+      const badge = isOpen ? '<span class="badge today">'+ (LANG==='fr'?'Ouverte':'Open') +'</span>' : (isSoon ? '<span class="badge next">'+ (LANG==='fr'?'Ouvre le ':'Opens ')+d.toLocaleDateString(LANG==='fr'?'fr-FR':'en-GB',{day:'numeric',month:'long'})+'</span>' : '<span class="badge past">'+ (LANG==='fr'?'À venir':'Upcoming') +'</span>');
+      h += '<div class="card"><div class="top"><div class="ic">📄</div><div class="body"><p class="ttl">'+esc(LANG==='fr'?w.fr:w.en)+'</p><p class="meta">'+d.toLocaleDateString(LANG==='fr'?'fr-FR':'en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+'</p></div>'+badge+'</div></div>';
+    }
+    $('list').innerHTML = h;
+  }
+  applyLang();
+  
 </script>
 </body>
 </html>
