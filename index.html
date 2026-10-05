@@ -157,6 +157,30 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
   filter: saturate(1.4) brightness(1.15); box-shadow: 0 0 16px rgba(244,63,94,.9), 0 0 42px rgba(244,63,94,.55); }
 .rdv.rdv-cat-sante:hover { box-shadow: var(--halo), 0 0 26px rgba(244,63,94,.4); }
 .rdv.past { opacity: .55; filter: saturate(.4); }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+.toc { background: var(--surface); border: 1px solid var(--card-border); border-radius: 20px;
+  box-shadow: var(--shadow-md), var(--inner-light); padding: 18px 20px 14px; margin: 18px 0;
+  position: relative; overflow: hidden; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.toc::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
+  background: linear-gradient(90deg, var(--acc-2), var(--acc)); }
+.toc-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;
+  cursor: pointer; user-select: none; }
+.toc-title { font-size: 1.18rem; font-weight: 800; }
+.toc-hint { font-size: .8rem; color: var(--muted); font-weight: 600; }
+.toc-hint .plan-chev { display: inline-block; transition: transform .2s; }
+.toc.open .toc-hint .plan-chev { transform: rotate(90deg); }
+.toc-list { display: none; margin-top: 12px; }
+.toc.open .toc-list { display: block; }
+.toc-a { display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  padding: 9px 12px; margin: 2px 0; border-radius: 10px; text-decoration: none; color: var(--ink);
+  border: 1px solid transparent; font-family: inherit; font-size: .95rem; font-weight: 600;
+  transition: background .15s, border-color .15s; }
+.toc-a:hover { background: var(--btn-bg); border-color: var(--btn-border); }
+.toc-a .n { font-size: .78rem; color: var(--muted); font-weight: 700; white-space: nowrap; }
+.toc-a .plan-chev { font-size: .7rem; color: var(--acc-2); }
+.rdv.cancelled { cursor: pointer; }
+.rdv.cancelled:not(.open) .rdv-desc, .rdv.cancelled:not(.open) .rdv-where, .rdv.cancelled:not(.open) .rdv-meta { display: none; }
+.canc-hint { font-size: .72rem; opacity: .7; font-weight: 500; }
 .rdv.cancelled { opacity: .75; filter: saturate(.35); position: relative; }
 .rdv.cancelled .rdv-title, .rdv.cancelled .rdv-desc, .rdv.cancelled .rdv-where { text-decoration: line-through; text-decoration-thickness: 1px; }
 .stamp { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) rotate(-22deg);
@@ -240,7 +264,7 @@ body.day .edge-badge { background: linear-gradient(145deg, #ffffff, #e9edff); }
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v4.6 · 2026</span>
+<span class="bb-ver">v4.8 · 2026</span>
 <a class="bb-link" href="https://raw.githack.com/julien973/rdv-importants/main/recurrents.html" data-repo="rdv-importants" data-live="https://julien973.github.io/rdv-importants/recurrents.html" data-hack="https://raw.githack.com/julien973/rdv-importants/main/recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
 </div></footer>
 <script>
@@ -308,10 +332,10 @@ var EVENTS = [
     fr:"Mission inventaire — Carrefour Market (Fouesnant)", en:"Inventory mission — Carrefour Market (Fouesnant)",
     whereFr:"RDV 17h40 — B2 Parking Agence, 11 Rue Alexis Clairaut, Brest · départ 19h10 pour le Carrefour Market de Fouesnant", whereEn:"Meet 5:40 PM — B2 Agency Parking, 11 Rue Alexis Clairaut, Brest · start 7:10 PM at the Fouesnant Carrefour Market",
     descFr:"Mission d’inventaire rémunérée de nuit (n°3021081145555, durée 4,5 h) au Carrefour Market — Maner Ker Elo, 29170 Fouesnant. Rendez-vous à 17h40 au point B2, parking agence (11 Rue Alexis Clairaut, Brest) ; Start Time 19h10 : prêt et rémunéré à partir de cette heure, dépôt des affaires possible 15 min avant. Contact : Alizée Le Duc.", descEn:"Paid overnight inventory mission (#3021081145555, 4.5 hrs) at the Carrefour Market — Maner Ker Elo, 29170 Fouesnant. Meet at 5:40 PM at point B2, agency parking (11 Rue Alexis Clairaut, Brest); Start Time 7:10 PM: be ready and paid from that time, belongings drop-off 15 min before. Contact: Alizée Le Duc." },
-  { cat:"travail", start:"2026-10-12T19:50", end:"2026-10-13T01:00",
+  { cat:"travail", start:"2026-10-12T19:50", end:"2026-10-13T01:00", cancelled:true,
     fr:"Mission inventaire — Carrefour Plouzané", en:"Inventory mission — Carrefour Plouzané",
     whereFr:"RDV 19h50 — B2 Parking Agence, 11 Rue Alexis Clairaut, Brest · départ 20h40 pour le Carrefour de Plouzané", whereEn:"Meet 7:50 PM — B2 Agency Parking, 11 Rue Alexis Clairaut, Brest · start 8:40 PM at the Plouzané Carrefour",
-    descFr:"Mission d’inventaire rémunérée de nuit (n°3020476125500, durée 4 h — déplacée du 09/10 au lundi 12/10) au Carrefour Hyper Franchise — 12 Rue des Myosotis, 29280 Plouzané. Rendez-vous à 19h50 au point B2, parking agence (11 Rue Alexis Clairaut, Brest) ; Start Time 20h40 : prêt et rémunéré à partir de cette heure, dépôt des affaires possible 15 min avant. Superviseur : Alizée Le Duc.", descEn:"Paid overnight inventory mission (#3020476125500, 4 hrs — moved from 09/10 to Monday 12/10) at the Carrefour Hyper Franchise — 12 Rue des Myosotis, 29280 Plouzané. Meet at 7:50 PM at point B2, agency parking (11 Rue Alexis Clairaut, Brest); Start Time 8:40 PM: be ready and paid from that time, belongings drop-off 15 min before. Supervisor: Alizée Le Duc." },
+    descFr:"⚠️ Mission annulée par l’agence. Mission d’inventaire rémunérée de nuit (n°3020476125500, durée 4 h — déplacée du 09/10 au lundi 12/10) au Carrefour Hyper Franchise — 12 Rue des Myosotis, 29280 Plouzané. Rendez-vous à 19h50 au point B2, parking agence (11 Rue Alexis Clairaut, Brest) ; Start Time 20h40 : prêt et rémunéré à partir de cette heure, dépôt des affaires possible 15 min avant. Superviseur : Alizée Le Duc.", descEn:"⚠️ Mission cancelled by the agency. Paid overnight inventory mission (#3020476125500, 4 hrs — moved from 09/10 to Monday 12/10) at the Carrefour Hyper Franchise — 12 Rue des Myosotis, 29280 Plouzané. Meet at 7:50 PM at point B2, agency parking (11 Rue Alexis Clairaut, Brest); Start Time 8:40 PM: be ready and paid from that time, belongings drop-off 15 min before. Supervisor: Alizée Le Duc." },
   { cat:"travail", start:"2026-10-01T18:10", end:"2026-10-02T01:00",
     fr:"Mission inventaire — Leclerc Infomil (Quéven)", en:"Inventory mission — Leclerc Infomil (Quéven)",
     whereFr:"RDV 18h10 — B2 Parking Agence, 11 Rue Alexis Clairaut, Brest · départ 20h10 pour le Hyper Queven", whereEn:"Meet 6:10 PM — B2 Agency Parking, 11 Rue Alexis Clairaut, Brest · start 8:10 PM at the Hyper Queven",
@@ -515,6 +539,18 @@ function render(){
   EVENTS.forEach(function(e){ if (e.cancelled) return; var d = dayDiff(e.start); if (d >= 0) { upcoming++; var dd = Math.ceil(d); if (next === null || dd < next) next = dd; } else past++; });
   var h = "";
   h += '<div class="hero"><h1>' + (fr ? "🗓️ Mon agenda des rendez-vous" : "🗓️ My appointment diary") + '</h1>';
+  var soonT = EVENTS.filter(function(e){ if (e.cancelled) return false; var d = dayDiff(e.start); return d >= 0 && d <= 3; });
+  h += '<div class="toc" id="toccard">';
+  h += '<div class="toc-head" onclick="document.getElementById(\'toccard\').classList.toggle(\'open\')"><div class="toc-title">🧭 ' + (fr ? "Sommaire — aller à la section" : "Summary — go to a section") + '</div>';
+  h += '<span class="toc-hint">' + (fr ? "cliquer pour déplier" : "click to expand") + ' <span class="plan-chev">▸</span></span></div>';
+  h += '<div class="toc-list">';
+  if (soonT.length) h += '<a class="toc-a" href="#sec-soon"><span>🔥 ' + (fr ? "Prochains rendez-vous" : "Upcoming appointments") + '</span><span class="n">' + soonT.length + ' <span class="plan-chev">▸</span></span></a>';
+  CATS.forEach(function(c){
+    var n = EVENTS.filter(function(e){ return e.cat === c.id && !e.cancelled; }).length;
+    if (n) h += '<a class="toc-a" href="#sec-' + c.id + '"><span>' + c.icon + ' ' + esc(fr ? c.fr : c.en) + '</span><span class="n">' + n + ' <span class="plan-chev">▸</span></span></a>';
+  });
+  h += '<a class="toc-a" href="#plancard"><span>🎓 ' + (fr ? "Graduate Développeur web full stack" : "Graduate Full Stack Web Developer") + '</span><span class="n">' + (fr ? "formation" : "training") + ' <span class="plan-chev">▸</span></span></a>';
+  h += '</div></div>';
   h += '<p>' + (fr ? "Les rendez-vous importants, rien d'autre." : "Important appointments, nothing else.") + '</p></div>';
   var totD = 0, tot = 0;
   TRACKS.forEach(function(t){ totD += t.mods.filter(function(m){ return m.done; }).length; tot += t.mods.length; });
@@ -571,10 +607,10 @@ function render(){
       else if (md === 0) count = '<span class="badge soon">🔥 ' + (fr ? "Aujourd'hui !" : "Today!") + '</span>';
       else if (md === 1) count = '<span class="badge soon">⏳ ' + (fr ? "Demain" : "Tomorrow") + '</span>';
       else count = '<span class="badge">⏳ ' + (fr ? "Dans " + Math.ceil(diff) + " jours" : "In " + Math.ceil(diff) + " days") + '</span>';
-      h += '<article class="rdv rdv-cat-' + e.cat + (isPast ? " past" : "") + (e.cancelled ? " cancelled" : "") + '"><span class="edge-badge">' + cat.icon + '</span>';;
+      h += '<article class="rdv rdv-cat-' + e.cat + (isPast ? " past" : "") + (e.cancelled ? " cancelled" : "") + '"' + (e.cancelled ? ' onclick="this.classList.toggle(\'open\')"' : '') + '><span class="edge-badge">' + cat.icon + '</span>';
       if (e.cancelled) h += '<div class="stamp">' + (fr ? "Annulé" : "Cancelled") + '</div>';
       h += '<div class="rdv-date"><div class="d">' + day + '</div><div class="m">' + month + '</div></div>';
-      h += '<div class="rdv-body"><div class="rdv-title">' + cat.icon + ' ' + esc(fr ? e.fr : e.en) + '</div>';
+      h += '<div class="rdv-body"><div class="rdv-title">' + cat.icon + ' ' + esc(fr ? e.fr : e.en) + (e.cancelled ? ' <span class="canc-hint">▸ ' + (fr ? "cliquer pour déplier" : "click to expand") + '</span>' : '') + '</div>';
       if (e.descFr) h += '<div class="rdv-desc">' + esc(fr ? e.descFr : e.descEn) + '</div>';
       h += '<div class="rdv-where">📍 ' + esc(fr ? e.whereFr : e.whereEn) + '</div>';
       h += '<div class="rdv-meta"><span class="badge cat">' + cat.icon + ' <b>' + esc(fr ? cat.fr : cat.en) + '</b></span><span class="badge">🕐 <b>' + t + '</b></span>' + count + '<span class="badge">📅 ' + fullDate + '</span></div>';
@@ -587,7 +623,7 @@ function render(){
   var soon = EVENTS.filter(function(e){ if (e.cancelled) return false; var d = dayDiff(e.start); return d >= 0 && d <= 3; })
                    .sort(function(a,b){ return parse(a.start) - parse(b.start); });
   if (soon.length) {
-    h += '<section class="section"><h2 class="section-title">🗓️ ' + (fr ? "Prochains rendez-vous" : "Upcoming appointments") + '</h2>';
+    h += '<section class="section" id="sec-soon"><h2 class="section-title">🗓️ ' + (fr ? "Prochains rendez-vous" : "Upcoming appointments") + '</h2>';
     soon.forEach(renderE);
     h += '</section>';
   }
@@ -604,7 +640,7 @@ function render(){
   }).sort(function(a,b){ var pa = a.cat.id === "sante" ? 0 : 1, pb = b.cat.id === "sante" ? 0 : 1; return (pa - pb) || (a.nearest - b.nearest); });
   catGroups.forEach(function(g){
     if (!g.up.length && !g.past.length) return;
-    h += '<section class="section"><h2 class="section-title">' + g.cat.icon + " " + esc(fr ? g.cat.fr : g.cat.en) + '</h2>';
+    h += '<section class="section" id="sec-' + g.cat.id + '"><h2 class="section-title">' + g.cat.icon + " " + esc(fr ? g.cat.fr : g.cat.en) + '</h2>';
     g.up.forEach(renderE);
     g.past.forEach(renderE);
     g.canc.forEach(renderE);
