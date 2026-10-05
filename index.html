@@ -1,8 +1,3 @@
----
-name: "rdv-recolor-preview"
-title: "Aperçu RDV — nouvelle palette RGIS (v4.1 recolorée)"
-type: "text/html"
----
 
 <!doctype html>
 <html lang="fr">
@@ -233,7 +228,7 @@ body.day .edge-badge { background: linear-gradient(145deg, #ffffff, #e9edff); }
 <header class="topbar"><div class="topbar-inner">
 <span class="tb-brand" data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
 <div class="tb-actions">
-<a class="lang-btn" href="https://raw.githack.com/julien973/rgis-heures-paie/main/index.html" target="_blank" rel="noopener" title="Mes heures RGIS &amp; mon estimateur de paie" style="text-decoration:none"><span data-fr="💶 Mes salaires" data-en="💶 My pay">💶 Mes salaires</span></a>
+<a class="lang-btn" href="https://raw.githack.com/julien973/rgis-heures-paie/main/index.html" data-repo="rgis-heures-paie" data-live="https://julien973.github.io/rgis-heures-paie/" data-hack="https://raw.githack.com/julien973/rgis-heures-paie/main/index.html" target="_blank" rel="noopener" title="Mes heures RGIS &amp; mon estimateur de paie" style="text-decoration:none"><span data-fr="💶 Mes salaires" data-en="💶 My pay">💶 Mes salaires</span></a>
 <button class="lang-btn active" id="btn-fr" onclick="switchLang('fr')"><svg class="flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#0055A4"/><rect x="1" width="1" height="2" fill="#ffffff"/><rect x="2" width="1" height="2" fill="#EF4135"/></svg>FR</button>
 <button class="lang-btn" id="btn-en" onclick="switchLang('en')"><svg class="flag" viewBox="0 0 60 30" aria-hidden="true"><rect width="60" height="30" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#ffffff" stroke-width="6"/><path d="M30,0 V30 M0,15 H60" stroke="#ffffff" stroke-width="10"/><path d="M30,0 V30 M0,15 H60" stroke="#C8102E" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="3.5"/></svg>EN</button>
 <button class="lang-btn" id="btn-theme" onclick="toggleTheme()"><span id="btn-theme-ico">☀️</span> <span data-fr="Thème" data-en="Theme">Thème</span></button>
@@ -243,8 +238,8 @@ body.day .edge-badge { background: linear-gradient(145deg, #ffffff, #e9edff); }
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v3.35 · 2026</span>
-<a class="bb-link" href="https://raw.githack.com/julien973/rdv-importants/main/recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
+<span class="bb-ver">v4.2 · 2026</span>
+<a class="bb-link" href="https://raw.githack.com/julien973/rdv-importants/main/recurrents.html" data-repo="rdv-importants" data-live="https://julien973.github.io/rdv-importants/recurrents.html" data-hack="https://raw.githack.com/julien973/rdv-importants/main/recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
 </div></footer>
 <script>
 (function(){
@@ -616,6 +611,27 @@ function render(){
   document.getElementById("app").innerHTML = h;
 }
 syncLang(); render();
+})();
+</script>
+
+<script>
+(function(){
+  function pick(el){
+    var repo = el.getAttribute('data-repo');
+    if(!repo) return;
+    fetch('https://api.github.com/repos/julien973/' + repo + '/commits/main', {cache:'no-store'})
+      .then(function(r){ return r.json(); })
+      .then(function(c){
+        return fetch('https://api.github.com/repos/julien973/' + repo + '/deployments?environment=github-pages&per_page=1', {cache:'no-store'})
+          .then(function(r){ return r.json(); })
+          .then(function(d){
+            var ok = Array.isArray(d) && d[0] && c && c.sha && d[0].sha === c.sha;
+            el.setAttribute('href', ok ? el.getAttribute('data-live') : el.getAttribute('data-hack'));
+          });
+      })
+      .catch(function(){ /* githack reste le lien par défaut */ });
+  }
+  document.querySelectorAll('[data-repo]').forEach(pick);
 })();
 </script>
 </body>
