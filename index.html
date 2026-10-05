@@ -144,7 +144,8 @@ body { margin: 0; padding: 0 0 64px; min-height: 100vh; min-height: 100svh; over
   border-radius: 18px; box-shadow: var(--shadow-md), var(--inner-light); padding: 16px 18px; margin-bottom: 12px;
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   transition: transform .2s, box-shadow .2s; align-items: stretch; position: relative; overflow: hidden; }
-.rdv::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; border-radius: 18px 18px 0 0;
+.rdv::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
+  clip-path: inset(0 0 0 0 round 18px 18px 0 0);
   background: linear-gradient(90deg, var(--acc-2), var(--acc)); }
 .rdv:hover { transform: translateY(-3px) scale(1.005); box-shadow: var(--halo); }
 .rdv-cat-sante { box-shadow: var(--shadow-md), var(--inner-light), 0 0 22px rgba(244,63,94,.28); }
@@ -237,7 +238,7 @@ body.day .edge-badge { background: linear-gradient(145deg, #ffffff, #e9edff); }
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v4.3 · 2026</span>
+<span class="bb-ver">v4.5 · 2026</span>
 <a class="bb-link" href="https://raw.githack.com/julien973/rdv-importants/main/recurrents.html" data-repo="rdv-importants" data-live="https://julien973.github.io/rdv-importants/recurrents.html" data-hack="https://raw.githack.com/julien973/rdv-importants/main/recurrents.html" data-fr="🔄 Récurrents" data-en="🔄 Recurring">🔄 Récurrents</a>
 </div></footer>
 <script>
