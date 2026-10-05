@@ -47,12 +47,12 @@
   .card .body{flex:1;min-width:200px}
   .card .ttl{font-weight:800;font-size:1rem;margin:0}
   .card .meta{color:var(--muted);font-size:.82rem;margin-top:3px}
-  .card .loc{font-size:.78rem;color:var(--muted);margin-top:2px}
   .badge{font-size:.72rem;font-weight:800;padding:3px 11px;border-radius:999px;white-space:nowrap}
   .badge.next{background:var(--accent);color:#fff}
   body.night .badge.next{color:#06231e}
   .badge.today{background:var(--gold);color:#fff}
   body.night .badge.today{color:#3d2b00}
+  .badge.soon{background:var(--accent-soft);color:var(--accent-ink);border:1px solid var(--accent)}
   .badge.past{background:transparent;border:1px solid var(--border-strong);color:var(--muted)}
   .card.past{opacity:.55}
   .card.past .ttl{text-decoration:line-through;text-decoration-thickness:1.5px}
@@ -70,7 +70,7 @@
 <header class="topbar"><div class="topbar-in">
   <div class="brand"><span class="dot"></span><span data-i18n="brand">RDV de Julien</span></div>
   <div class="grow"></div>
-  <a class="btn" href="https://julien973.github.io/rgis-heures-paie/" target="_blank" rel="noopener" title="Heures RGIS & estimateur de paie">💶 <span data-i18n="footerRgis">Heures &amp; paie RGIS</span></a>
+  <a class="btn" href="https://julien973.github.io/rgis-heures-paie/" target="_blank" rel="noopener" title="Heures RGIS &amp; estimateur de paie">💶 <span data-i18n="footerRgis">Heures &amp; paie RGIS</span></a>
   <div class="langbtns">
     <button class="btn lang active" id="btnFR"><img class="flag" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 20'%3E%3Crect width='10' height='20' fill='%230055A4'/%3E%3Crect x='10' width='10' height='20' fill='%23fff'/%3E%3Crect x='20' width='10' height='20' fill='%23EF4135'/%3E%3C/svg%3E">FR</button>
     <button class="btn lang" id="btnEN"><img class="flag" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3CclipPath id='c'%3E%3Cpath d='M0 0h60v30H0z'/%3E%3C/clipPath%3E%3Cg clip-path='url(%23c)'%3E%3Crect width='60' height='30' fill='%23002169'/%3E%3Cpath d='M0 0l60 30M60 0L0 30' stroke='%23fff' stroke-width='6'/%3E%3Cpath d='M0 0l60 30M60 0L0 30' stroke='%23C8102E' stroke-width='4'/%3E%3Cpath d='M30 0v30M0 15h60' stroke='%23fff' stroke-width='10'/%3E%3Cpath d='M30 0v30M0 15h60' stroke='%23C8102E' stroke-width='6'/%3E%3C/g%3E%3C/svg%3E">EN</button>
@@ -81,18 +81,18 @@
   <div class="hero">
     <h1 data-i18n="recTitle">Les récurrents</h1>
     <div class="hero-bar"></div>
-    <p data-i18n="heroSub" style="display:none"></p>
-    <p class="hero-p" style="color:var(--muted);margin:.2em 0 0;max-width:640px">Anniversaires et fenêtres d’actualisation — les dates qui reviennent chaque année. Comptes à rebours vers la prochaine occurrence.</p>
+    <p>Anniversaires et fenêtres d’actualisation — les dates qui reviennent. Comptes à rebours vers la prochaine occurrence.</p>
   </div>
   <div id="list"></div>
 </div>
 
 <footer class="botbar"><div class="botbar-in">
-  <a href="index.html">📅 <span data-i18n="footerHome">Mes heures &amp; ma paie</span></a><span class="sep">·</span><a href="https://julien973.github.io/rgis-heures-paie/" target="_blank" rel="noopener">💶 <span data-i18n="footerRgis">Heures &amp; paie RGIS</span></a>
-  <span class="sep">·</span><span>v4.0</span><span>·</span><span>2026</span>
+  <a href="index.html">📅 <span data-i18n="footerHome">Mes RDV</span></a><span class="sep">·</span><a href="https://julien973.github.io/rgis-heures-paie/" target="_blank" rel="noopener">💶 <span data-i18n="footerRgis">Heures &amp; paie RGIS</span></a>
+  <span class="sep">·</span><span>v4.0.1</span><span>·</span><span>2026</span>
 </div></footer>
 <script>
 
+  const $ = id => document.getElementById(id);
   const RDV = [{"cat":"sante","ic":"🩺","date":"2026-09-22T10:00","dur":15,"fr":{"t":"Appeler cabinet Dr Poulaliou","m":"Confirmer le lieu du RDV dermatologue"},"en":{"t":"Call Dr Poulaliou office","m":"Confirm dermatologist appointment location"}},{"cat":"travail","ic":"🌙","date":"2026-09-22T17:50","dur":310,"fr":{"t":"Mission inventaire — Carrefour Paimpol","m":"Départ : parking agence RGIS, Brest"},"en":{"t":"Inventory mission — Carrefour Paimpol","m":"Departure: RGIS agency parking, Brest"}},{"cat":"admin","ic":"🏛️","date":"2026-09-23T15:00","dur":60,"fr":{"t":"Entretien RSA — bilan de fin de CEU","m":"CDAS Bellevue, Brest"},"en":{"t":"RSA interview — end of CEU review","m":"CDAS Bellevue, Brest"}},{"cat":"travail","ic":"🌙","date":"2026-09-28T18:10","dur":410,"fr":{"t":"Mission inventaire — Leclerc Landerneau","m":"Départ : parking agence RGIS, Brest"},"en":{"t":"Inventory mission — Leclerc Landerneau","m":"Departure: RGIS agency parking, Brest"}},{"cat":"travail","ic":"🌙","date":"2026-10-01T18:10","dur":410,"fr":{"t":"Mission inventaire — Leclerc Quéven","m":"Départ : parking agence RGIS, Brest"},"en":{"t":"Inventory mission — Leclerc Quéven","m":"Departure: RGIS agency parking, Brest"}},{"cat":"travail","ic":"🌙","date":"2026-10-02T17:40","dur":440,"fr":{"t":"Mission inventaire — Carrefour Fouesnant","m":"Départ : parking agence RGIS, Brest"},"en":{"t":"Inventory mission — Carrefour Fouesnant","m":"Departure: RGIS agency parking, Brest"}},{"cat":"travail","ic":"🌙","date":"2026-10-06T18:00","dur":420,"fr":{"t":"Mission inventaire — Leclerc Pont-l’Abbé","m":"Départ 18:00 · parking agence RGIS, Brest · fin vers 01:00"},"en":{"t":"Inventory mission — Leclerc Pont-l’Abbé","m":"Departure 6 PM · RGIS agency parking, Brest · ends ~1 AM"}},{"cat":"travail","ic":"🌙","date":"2026-10-12T19:50","dur":310,"fr":{"t":"Mission inventaire — Carrefour Plouzané","m":"Départ 19:50 · parking agence RGIS, Brest · fin vers 01:00"},"en":{"t":"Inventory mission — Carrefour Plouzané","m":"Departure 7:50 PM · RGIS agency parking, Brest · ends ~1 AM"}},{"cat":"sante","ic":"🩺","date":"2026-10-13T14:30","dur":60,"fr":{"t":"Rendez-vous psychiatre — CMP","m":"1 Rue de Saint-Brieuc, Brest"},"en":{"t":"Psychiatrist appointment — CMP","m":"1 Rue de Saint-Brieuc, Brest"}},{"cat":"sante","ic":"🩺","date":"2026-11-02T11:00","dur":60,"fr":{"t":"Rendez-vous dermatologue — Dr Adèle Poulaliou","m":"Cabinet de Dermatologie, 22 Rue Jules Michelet, Brest"},"en":{"t":"Dermatologist appointment — Dr Adèle Poulaliou","m":"Dermatology office, 22 Rue Jules Michelet, Brest"}}];
   const CATS = {
     sante:{ic:'🩺',fr:'Santé',en:'Health'},
@@ -100,42 +100,37 @@
     admin:{ic:'🏛️',fr:'Administratif',en:'Administrative'}
   };
   let LANG = localStorage.getItem('rdv-lang') || 'fr';
-  let LANG_APPLIED = false;
+  const NOW = new Date();
+  const FR = {"brand":"RDV de Julien","heroTitle":"Mes rendez-vous importants","heroSub":"Les dates qui comptent : santé, missions RGIS, démarches. Chaque compte à rebours est recalculé à chaque affichage.","stUp":"À venir","stNext":"Prochain dans","stPast":"Passés","pastTag":"✓ Passé","today":"Aujourd'hui !","tomorrow":"Demain","inDays":"Dans {n} jours","nightTag":"nuit","recTitle":"Les récurrents","recLink":"Voir les anniversaires et fenêtres d’actualisation","footerRgis":"Heures &amp; paie RGIS","footerHome":"Mes RDV","footerRec":"Récurrents"}; const EN = {"brand":"Julien's appointments","heroTitle":"My important appointments","heroSub":"The dates that matter: health, RGIS missions, paperwork. Every countdown is recalculated on each visit.","stUp":"Upcoming","stNext":"Next in","stPast":"Past","pastTag":"✓ Past","today":"Today!","tomorrow":"Tomorrow","inDays":"In {n} days","nightTag":"night","recTitle":"Recurring items","recLink":"See birthdays and renewal windows","footerRgis":"RGIS hours &amp; pay","footerHome":"My appointments","footerRec":"Recurring"};
   const T = k => (LANG==='fr'?FR[k]:EN[k]) || FR[k] || k;
-  const fmtD = (iso) => {
-    const d = new Date(iso); const dn = new Date(iso); dn.setMinutes(0);
+  const fmtD = iso => {
+    const d = new Date(iso);
     return d.toLocaleDateString(LANG==='fr'?'fr-FR':'en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) + ' · ' + d.toLocaleTimeString(LANG==='fr'?'fr-FR':'en-GB',{hour:'2-digit',minute:'2-digit'});
   };
-  const daysUntil = iso => Math.ceil((new Date(iso+'T23:59:59') - NOW)/86400000);
   const cd = iso => {
-    const dd = daysUntil(iso);
+    const dd = Math.ceil((new Date(iso+'T23:59:59') - NOW)/86400000);
     if (LANG==='fr') return dd<=0 ? "Aujourd'hui !" : (dd===1 ? 'Demain' : 'Dans '+dd+' jours');
     return dd<=0 ? 'Today!' : (dd===1 ? 'Tomorrow' : 'In '+dd+' days');
   };
-  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
   function applyLang(){
     document.documentElement.lang = LANG;
-    document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.dataset.i18n; if(T(k)!==k) el.innerHTML = T(k); });
-    document.querySelectorAll('.flag-active').forEach(()=>{});
+    document.querySelectorAll('[data-i18n]').forEach(el=>{ const v=T(el.dataset.i18n); if(v!==el.dataset.i18n) el.innerHTML = v; });
     $('btnFR').classList.toggle('active', LANG==='fr');
     $('btnEN').classList.toggle('active', LANG==='en');
-    if (typeof render === 'function') render();
+    render();
   }
   function setLang(l){ LANG=l; localStorage.setItem('rdv-lang', l); applyLang(); }
   function setTheme(t){ document.body.classList.toggle('night', t==='night'); document.body.classList.toggle('day', t!=='night'); localStorage.setItem('rdv-theme', t); $('btnTheme').textContent = t==='night'?'☀️':'🌙'; }
-  const $ = id => document.getElementById(id);
   $('btnFR').onclick = ()=>setLang('fr');
   $('btnEN').onclick = ()=>setLang('en');
   $('btnTheme').onclick = ()=>setTheme(document.body.classList.contains('night')?'day':'night');
   
-  const NOW = new Date();
-  const FR = {"brand":"RDV de Julien","heroTitle":"Mes rendez-vous importants","heroSub":"Les dates qui comptent : santé, missions RGIS, démarches. Chaque compte à rebours est recalculé à chaque affichage.","stUp":"À venir","stNext":"Prochain dans","stPast":"Passés","catSante":"Santé","catTravail":"Travail — missions RGIS","catAdmin":"Administratif","nightTag":"nuit","today":"Aujourd'hui !","tomorrow":"Demain","inDays":"Dans {n} jours","pastTag":"✓ Passé","empty":"Aucun rendez-vous à venir dans cette catégorie.","footerHome":"Mes heures & ma paie","footerRec":"Récurrents","footerRgis":"Heures & paie RGIS","recTitle":"Les récurrents","recLink":"Voir les anniversaires et fenêtres d’actualisation","validTag":"Valid","toOpen":"Ouvre le","toClose":"Fermeture le","stateOpen":"Ouverte","stateSoon":"À venir","stateDone":"Terminée"}; const EN = {"brand":"Julien's appointments","heroTitle":"My important appointments","heroSub":"The dates that matter: health, RGIS missions, paperwork. Every countdown is recalculated on each visit.","stUp":"Upcoming","stNext":"Next in","stPast":"Past","catSante":"Health","catTravail":"Work — RGIS missions","catAdmin":"Administrative","nightTag":"night","today":"Today!","tomorrow":"Tomorrow","inDays":"In {n} days","pastTag":"✓ Past","empty":"No upcoming appointment in this category.","footerHome":"My hours & pay","footerRec":"Recurring","footerRgis":"RGIS hours & pay","recTitle":"Recurring items","recLink":"See birthdays and renewal windows","validTag":"Valid","toOpen":"Opens on","toClose":"Closes on","stateOpen":"Open","stateSoon":"Upcoming","stateDone":"Done"};
   const BD = [{"ic":"🎂","md":"10-12","fr":"Anniversaire de Niva","en":"Niva's birthday"},{"ic":"🎂","md":"11-05","fr":"Anniversaire de Kon","en":"Kon's birthday"},{"ic":"🎂","md":"11-12","fr":"Anniversaire de Kiana","en":"Kiana's birthday"},{"ic":"🎂","md":"12-16","fr":"Anniversaire de Leeloo","en":"Leeloo's birthday"},{"ic":"🎂","md":"12-25","fr":"Anniversaire de Nat & Mika","en":"Nat & Mika's birthday"},{"ic":"🎂","md":"01-23","fr":"Anniversaire de Nicre","en":"Nicre's birthday"},{"ic":"🎂","md":"02-23","fr":"Mon anniversaire (Julien)","en":"My birthday (Julien)"}];
   const WIN = [{"fr":"Ouverture de l’actualisation — octobre 2026","en":"Renewal window opens — October 2026","date":"2026-10-28"},{"fr":"Fermeture de l’actualisation — octobre 2026","en":"Renewal window closes — October 2026","date":"2026-11-15"},{"fr":"Ouverture de l’actualisation — novembre 2026","en":"Renewal window opens — November 2026","date":"2026-11-28"},{"fr":"Fermeture de l’actualisation — novembre 2026","en":"Renewal window closes — November 2026","date":"2026-12-15"},{"fr":"Ouverture de l’actualisation — décembre 2026","en":"Renewal window opens — December 2026","date":"2026-12-28"},{"fr":"Fermeture de l’actualisation — décembre 2026","en":"Renewal window closes — December 2026","date":"2027-01-15"}];
   function nextOcc(md){
-    let y = NOW.getFullYear();
-    let d = new Date(y+'-'+md+'T00:00:00');
-    if (d < NOW) d = new Date((y+1)+'-'+md+'T00:00:00');
+    let d = new Date(NOW.getFullYear()+'-'+md+'T00:00:00');
+    if (d < NOW) d = new Date((NOW.getFullYear()+1)+'-'+md+'T00:00:00');
     return d;
   }
   function render(){
@@ -147,7 +142,7 @@
       h += '<div class="card"><div class="top"><div class="ic">'+b.ic+'</div><div class="body"><p class="ttl">'+esc(LANG==='fr'?b.fr:b.en)+'</p><p class="meta">'+d.toLocaleDateString(LANG==='fr'?'fr-FR':'en-GB',{day:'numeric',month:'long'})+'</p></div><span class="badge next">'+lab+'</span></div></div>';
     }
     h += '<h2><span class="n">📄</span>'+ (LANG==='fr'?'Fenêtres d’actualisation':'Renewal windows') +'</h2>';
-    h += '<p class="sec-desc">'+ (LANG==='fr'?'Pôle emploi — l’actualisation mensuelle s’effectue entre l’ouverture et la fermeture de chaque fenêtre.':'France Travail — the monthly update must be done between each window’s opening and closing dates.') +'</p>';
+    h += '<p class="sec-desc">'+ (LANG==='fr'?'L’actualisation mensuelle s’effectue entre l’ouverture et la fermeture de chaque fenêtre.':'The monthly update must be done between each window’s opening and closing dates.') +'</p>';
     for (const w of WIN){
       const d = new Date(w.date+'T00:00:00');
       const dd = Math.ceil((d-NOW)/86400000);
