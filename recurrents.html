@@ -196,12 +196,12 @@ body.locked .page, body.locked .botbar { visibility: hidden; }
 <body class="night locked">
 <div class="gate" id="gate">
   <div class="gate-card">
-    <h1>🔒 Accès protégé</h1>
-    <p>Cette page contient des informations personnelles. Entrez le mot de passe pour continuer.</p>
+    <h1>🔒 <span data-fr="Accès protégé" data-en="Protected access">Accès protégé</span></h1>
+    <p><span data-fr="Cette page contient des informations personnelles. Entrez le mot de passe pour continuer." data-en="This page contains personal information. Enter the password to continue.">Cette page contient des informations personnelles. Entrez le mot de passe pour continuer.</span></p>
     <input type="password" class="gate-input" id="gate-input" autocomplete="off"
       placeholder="Mot de passe" aria-label="Mot de passe">
-    <button class="gate-btn" id="gate-btn">Déverrouiller</button>
-    <div class="gate-err" id="gate-err">❌ Mot de passe incorrect</div>
+    <button class="gate-btn" id="gate-btn"><span data-fr="Déverrouiller" data-en="Unlock">Déverrouiller</span></button>
+    <div class="gate-err" id="gate-err">❌ <span data-fr="Mot de passe incorrect" data-en="Wrong password">Mot de passe incorrect</span></div>
   </div>
 </div>
 <script>try{if(localStorage.getItem("rec-theme")==="day")document.body.className="day locked";}catch(e){}</script>
@@ -221,6 +221,9 @@ body.locked .page, body.locked .botbar { visibility: hidden; }
   var KEY = "rec-unlock";
   var gate = document.getElementById("gate"), input = document.getElementById("gate-input"),
       btn = document.getElementById("gate-btn"), err = document.getElementById("gate-err");
+  var lang = "fr"; try { lang = localStorage.getItem("rec-lang") || "fr"; } catch(e) {}
+  input.placeholder = lang === "en" ? "Password" : "Mot de passe";
+  input.setAttribute("aria-label", input.placeholder);
   function sha256hex(s){
     return crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)).then(function(buf){
       return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2,"0"); }).join("");
@@ -247,7 +250,7 @@ body.locked .page, body.locked .botbar { visibility: hidden; }
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v4.3 · 2026</span>
+<span class="bb-ver">v4.4 · 2026</span>
 <a class="bb-link" href="https://raw.githack.com/julien973/rdv-importants/main/index.html" data-repo="rdv-importants" data-live="https://julien973.github.io/rdv-importants/" data-hack="https://raw.githack.com/julien973/rdv-importants/main/index.html" data-fr="🗓️ RDV importants" data-en="🗓️ Appointments">🗓️ RDV importants</a>
 </div></footer>
 <script>
