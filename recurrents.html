@@ -204,7 +204,7 @@ body.locked .page, body.locked .botbar { visibility: hidden; }
     <div class="gate-err" id="gate-err">❌ <span data-fr="Mot de passe incorrect" data-en="Wrong password">Mot de passe incorrect</span></div>
   </div>
 </div>
-<script>try{if(localStorage.getItem("rec-theme")==="day")document.body.className="day locked";}catch(e){}</script>
+<script>try{if(localStorage.getItem("rdv-theme")==="day"||localStorage.getItem("rec-theme")==="day")document.body.className="day locked";}catch(e){}</script>
 <div class="orbs" aria-hidden="true"><i class="o1"></i><i class="o2"></i><i class="o3"></i></div>
 <header class="topbar"><div class="topbar-inner">
 <span class="tb-brand" data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
@@ -221,7 +221,7 @@ body.locked .page, body.locked .botbar { visibility: hidden; }
   var KEY = "rec-unlock";
   var gate = document.getElementById("gate"), input = document.getElementById("gate-input"),
       btn = document.getElementById("gate-btn"), err = document.getElementById("gate-err");
-  var lang = "fr"; try { lang = localStorage.getItem("rec-lang") || "fr"; } catch(e) {}
+  var lang = "fr"; try { lang = localStorage.getItem("rdv-lang")||localStorage.getItem("rec-lang") || "fr"; } catch(e) {}
   input.placeholder = lang === "en" ? "Password" : "Mot de passe";
   input.setAttribute("aria-label", input.placeholder);
   function sha256hex(s){
@@ -250,13 +250,13 @@ body.locked .page, body.locked .botbar { visibility: hidden; }
 </main>
 <footer class="botbar"><div class="botbar-inner">
 <span data-fr="🗓️ Mes RDV importants" data-en="🗓️ My Appointments">🗓️ Mes RDV importants</span>
-<span class="bb-ver">v4.4 · 2026</span>
+<span class="bb-ver">v4.5 · 2026</span>
 <a class="bb-link" href="https://raw.githack.com/julien973/rdv-importants/main/index.html" data-repo="rdv-importants" data-live="https://julien973.github.io/rdv-importants/" data-hack="https://raw.githack.com/julien973/rdv-importants/main/index.html" data-fr="🗓️ RDV importants" data-en="🗓️ Appointments">🗓️ RDV importants</a>
 </div></footer>
 <script>
 (function(){
 "use strict";
-var THEME_KEY = "rec-theme"; var LANG_KEY = "rec-lang";
+var THEME_KEY = "rdv-theme"; var LANG_KEY = "rdv-lang";
 var lang = "fr"; try { lang = localStorage.getItem(LANG_KEY) || "fr"; } catch(e) {}
 window.switchLang = function(l){ lang = l; try { localStorage.setItem(LANG_KEY, l); } catch(e) {} syncLang(); render(); };
 function syncLang(){
